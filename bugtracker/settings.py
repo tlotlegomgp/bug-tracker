@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'index',
     'account',
     'projects',
+    'tickets',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

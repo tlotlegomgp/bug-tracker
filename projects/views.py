@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Project, ProjectRole
-from index.models import Profile, Ticket
+from index.models import Profile
+from tickets.models import Ticket
 
 # Create your views here.
 
