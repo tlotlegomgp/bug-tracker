@@ -4,8 +4,8 @@ from account.models import Profile
 # Create your models here.
 
 class Project(models.Model):
-    name = models.CharField(max_length=15, unique=True)
-    description = models.CharField(max_length=100)
+    name = models.CharField(max_length=50, unique=True)
+    description = models.CharField(max_length=200)
     created_on = models.DateTimeField(verbose_name="date created", auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -32,8 +32,8 @@ class Ticket(models.Model):
         ('FEATURE', 'Feature_request')
     )
 
-    title = models.CharField(max_length=15)
-    description = models.CharField(max_length=40)
+    title = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
     assigned_to = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -47,7 +47,7 @@ class Ticket(models.Model):
 class ProjectRole(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    role = models.CharField(max_length=15)
+    role = models.CharField(max_length=25)
     created_on = models.DateTimeField(verbose_name="date added", auto_now_add=True)
 
 
@@ -56,18 +56,18 @@ class TicketComment(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="date created", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="date updated", auto_now=True)
-    body_message = models.CharField(max_length=50)
+    body_message = models.CharField(max_length=100)
 
 
 class TicketAttachment(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     submitted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
-    note = models.CharField(max_length=30)
+    note = models.CharField(max_length=70)
     attachment = models.FileField()
 
 
 class Todo(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
-    note = models.CharField(max_length=30)
+    note = models.CharField(max_length=50)

@@ -1,9 +1,15 @@
 {% extends "index/header.html" %} {% load static %} {% block title%}Teams{% endblock %} {% block content %}
-<h3 class="text-dark mb-4">Team</h3>
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+	<h3 class="text-dark mb-0">Team</h3>
+	<a
+		class="btn btn-primary btn-sm d-none d-sm-inline-block"
+		role="button"
+		href="#"
+		style="background: rgb(28, 40, 38)"
+		><em class="text-white-50"></em>Add New Member</a
+	>
+</div>
 <div class="card shadow">
-	<div class="card-header py-3">
-		<p class="text-primary m-0 font-weight-bold">Employee Info</p>
-	</div>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-md-6 text-nowrap">

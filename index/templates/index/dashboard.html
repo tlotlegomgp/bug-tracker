@@ -1,13 +1,6 @@
 {% extends "index/header.html" %} {% load static %} {% block title%}Dashboard{% endblock %} {% block content %}
 <div class="d-sm-flex justify-content-between align-items-center mb-4">
 	<h3 class="text-dark mb-0">Dashboard</h3>
-	<a
-		class="btn btn-primary btn-sm d-none d-sm-inline-block"
-		role="button"
-		href="#"
-		style="background: rgb(28, 40, 38)"
-		><em class="fas fa-download fa-sm text-white-50"></em>&nbsp;Generate Report</a
-	>
 </div>
 <div class="row">
 	<div class="col-md-6 col-xl-3 mb-4">
@@ -18,7 +11,7 @@
 						<div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
 							<span>Todo's</span>
 						</div>
-						<div class="text-dark font-weight-bold h5 mb-0"><span>8</span></div>
+						<div class="text-dark font-weight-bold h5 mb-0"><span>{{ user_todos.count }}</span></div>
 					</div>
 					<div class="col-auto"><em class="fas fa-calendar fa-2x text-gray-300"></em></div>
 				</div>
@@ -33,9 +26,9 @@
 						<div class="text-uppercase text-success font-weight-bold text-xs mb-1">
 							<span>Projects</span>
 						</div>
-						<div class="text-dark font-weight-bold h5 mb-0"><span>4</span></div>
+						<div class="text-dark font-weight-bold h5 mb-0"><span>{{ user_projects.count }}</span></div>
 					</div>
-					<div class="col-auto"><em class="fas fa-dollar-sign fa-2x text-gray-300"></em></div>
+					<div class="col-auto"><em class="fas fa-tasks fa-2x text-gray-300"></em></div>
 				</div>
 			</div>
 		</div>
@@ -48,24 +41,28 @@
 						<div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Tickets</span></div>
 						<div class="row no-gutters align-items-center">
 							<div class="col-auto">
-								<div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>12</span></div>
+								<div class="text-dark font-weight-bold h5 mb-0 mr-3">
+									<span>{{ user_tickets.count }}</span>
+								</div>
 							</div>
+							{% if tickets_percentage %}
 							<div class="col">
 								<div class="progress progress-sm">
 									<div
 										class="progress-bar bg-info"
-										aria-valuenow="50"
+										aria-valuenow="{{ tickets_percentage }}"
 										aria-valuemin="0"
 										aria-valuemax="100"
 										style="width: 50%"
 									>
-										<span class="sr-only">50%</span>
+										<span class="sr-only">{{ tickets_percentage }}%</span>
 									</div>
 								</div>
 							</div>
+							{% endif %}
 						</div>
 					</div>
-					<div class="col-auto"><em class="fas fa-clipboard-list fa-2x text-gray-300"></em></div>
+					<div class="col-auto"><em class="fas fa-bug fa-2x text-gray-300"></em></div>
 				</div>
 			</div>
 		</div>
@@ -87,24 +84,11 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-7 col-xl-8">
-		<div class="card shadow mb-4">
-			<div class="card-header d-flex justify-content-between align-items-center">
-				<h6 class="text-primary font-weight-bold m-0">Earnings Overview</h6>
-			</div>
-			<div class="card-body">
-				<div class="chart-area">
-					<canvas
-						data-bs-chart='{"type":"line","data":{"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],"datasets":[{"label":"Earnings","fill":true,"data":["0","10000","5000","15000","10000","20000","15000","25000"],"backgroundColor":"rgba(78, 115, 223, 0.05)","borderColor":"rgba(78, 115, 223, 1)"}]},"options":{"maintainAspectRatio":false,"legend":{"display":false},"title":{},"scales":{"xAxes":[{"gridLines":{"color":"rgb(234, 236, 244)","zeroLineColor":"rgb(234, 236, 244)","drawBorder":false,"drawTicks":false,"borderDash":["2"],"zeroLineBorderDash":["2"],"drawOnChartArea":false},"ticks":{"fontColor":"#858796","padding":20}}],"yAxes":[{"gridLines":{"color":"rgb(234, 236, 244)","zeroLineColor":"rgb(234, 236, 244)","drawBorder":false,"drawTicks":false,"borderDash":["2"],"zeroLineBorderDash":["2"]},"ticks":{"fontColor":"#858796","padding":20}}]}}}'
-					></canvas>
-				</div>
-			</div>
-		</div>
-	</div>
+	{% include "index/snippets/dash_projects_list.html" %}
 	<div class="col-lg-5 col-xl-4">
 		<div class="card shadow mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
-				<h6 class="text-primary font-weight-bold m-0">Revenue Sources</h6>
+				<h6 class="text-primary font-weight-bold m-0">Tickets Statuses</h6>
 			</div>
 			<div class="card-body">
 				<div class="chart-area">
@@ -113,190 +97,13 @@
 					></canvas>
 				</div>
 				<div class="text-center small mt-4">
-					<span class="mr-2"><em class="fas fa-circle text-primary"></em>&nbsp;Direct</span
-					><span class="mr-2"><em class="fas fa-circle text-success"></em>&nbsp;Social</span
-					><span class="mr-2"><em class="fas fa-circle text-info"></em>&nbsp;Refferal</span>
+					<span class="mr-2"><em class="fas fa-circle text-primary"></em>&nbsp;New</span
+					><span class="mr-2"><em class="fas fa-circle text-success"></em>&nbsp;In-progress</span
+					><span class="mr-2"><em class="fas fa-circle text-info"></em>&nbsp;Resolved</span>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-lg-6 mb-4">
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="text-primary font-weight-bold m-0">Projects</h6>
-			</div>
-			<div class="card-body">
-				<h4 class="small font-weight-bold">Server migration<span class="float-right">20%</span></h4>
-				<div class="progress mb-4">
-					<div
-						class="progress-bar bg-danger"
-						aria-valuenow="20"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						style="width: 20%"
-					>
-						<span class="sr-only">20%</span>
-					</div>
-				</div>
-				<h4 class="small font-weight-bold">Sales tracking<span class="float-right">40%</span></h4>
-				<div class="progress mb-4">
-					<div
-						class="progress-bar bg-warning"
-						aria-valuenow="40"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						style="width: 40%"
-					>
-						<span class="sr-only">40%</span>
-					</div>
-				</div>
-				<h4 class="small font-weight-bold">Customer Database<span class="float-right">60%</span></h4>
-				<div class="progress mb-4">
-					<div
-						class="progress-bar bg-primary"
-						aria-valuenow="60"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						style="width: 60%"
-					>
-						<span class="sr-only">60%</span>
-					</div>
-				</div>
-				<h4 class="small font-weight-bold">Payout Details<span class="float-right">80%</span></h4>
-				<div class="progress mb-4">
-					<div
-						class="progress-bar bg-info"
-						aria-valuenow="80"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						style="width: 80%"
-					>
-						<span class="sr-only">80%</span>
-					</div>
-				</div>
-				<h4 class="small font-weight-bold">Account setup<span class="float-right">Complete!</span></h4>
-				<div class="progress mb-4">
-					<div
-						class="progress-bar bg-success"
-						aria-valuenow="100"
-						aria-valuemin="0"
-						aria-valuemax="100"
-						style="width: 100%"
-					>
-						<span class="sr-only">100%</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="text-primary font-weight-bold m-0">Todo List</h6>
-			</div>
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item">
-					<div class="row align-items-center no-gutters">
-						<div class="col mr-2">
-							<h6 class="mb-0"><strong>Lunch meeting</strong></h6>
-							<span class="text-xs">10:30 AM</span>
-						</div>
-						<div class="col-auto">
-							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" id="formCheck-1" /><label
-									class="custom-control-label"
-									for="formCheck-1"
-								></label>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="row align-items-center no-gutters">
-						<div class="col mr-2">
-							<h6 class="mb-0"><strong>Lunch meeting</strong></h6>
-							<span class="text-xs">11:30 AM</span>
-						</div>
-						<div class="col-auto">
-							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" id="formCheck-2" /><label
-									class="custom-control-label"
-									for="formCheck-2"
-								></label>
-							</div>
-						</div>
-					</div>
-				</li>
-				<li class="list-group-item">
-					<div class="row align-items-center no-gutters">
-						<div class="col mr-2">
-							<h6 class="mb-0"><strong>Lunch meeting</strong></h6>
-							<span class="text-xs">12:30 AM</span>
-						</div>
-						<div class="col-auto">
-							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" id="formCheck-3" /><label
-									class="custom-control-label"
-									for="formCheck-3"
-								></label>
-							</div>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
-	<div class="col">
-		<div class="row">
-			<div class="col-lg-6 mb-4">
-				<div class="card text-white bg-primary shadow">
-					<div class="card-body">
-						<p class="m-0">Primary</p>
-						<p class="text-white-50 small m-0">#4e73df</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 mb-4">
-				<div class="card text-white bg-success shadow">
-					<div class="card-body">
-						<p class="m-0">Success</p>
-						<p class="text-white-50 small m-0">#1cc88a</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 mb-4">
-				<div class="card text-white bg-info shadow">
-					<div class="card-body">
-						<p class="m-0">Info</p>
-						<p class="text-white-50 small m-0">#36b9cc</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 mb-4">
-				<div class="card text-white bg-warning shadow">
-					<div class="card-body">
-						<p class="m-0">Warning</p>
-						<p class="text-white-50 small m-0">#f6c23e</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 mb-4">
-				<div class="card text-white bg-danger shadow">
-					<div class="card-body">
-						<p class="m-0">Danger</p>
-						<p class="text-white-50 small m-0">#e74a3b</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 mb-4">
-				<div class="card text-white bg-secondary shadow">
-					<div class="card-body">
-						<p class="m-0">Secondary</p>
-						<p class="text-white-50 small m-0">#858796</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<div class="row">{% include "index/snippets/todos_list.html" %}</div>
 {% endblock %}

@@ -23,13 +23,15 @@
 				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="table.html"><em class="fas fa-tasks"></em><span> Projects</span></a>
+				<a class="nav-link" href="{% url 'team_page' %}"
+					><em class="fas fa-tasks"></em><span> Projects</span></a
+				>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="login.html"><em class="fas fa-bug"></em><span> My Tickets</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="login.html"><em class="fas fa-users"></em><span> Teams</span></a>
+				<a class="nav-link" href="{% url 'team_page' %}"><em class="fas fa-users"></em><span> Team</span></a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'logout' %}"><em class="fas fa-times"></em><span> Logout</span></a>

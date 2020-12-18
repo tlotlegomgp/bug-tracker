@@ -1,0 +1,12 @@
+<h4 class="small font-weight-bold">{{ project.name }}<span class="float-right">{{ project_percentage }}%</span></h4>
+<div class="progress mb-4">
+	<div
+		class="progress-bar bg-danger"
+		aria-valuenow="{{project_percentage}}"
+		aria-valuemin="0"
+		aria-valuemax="100"
+		style="width: {{project_percentage}}%"
+	>
+		<span class="sr-only">{{project_percentage}}%</span>
+	</div>
+</div>
