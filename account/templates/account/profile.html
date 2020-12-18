@@ -1,0 +1,109 @@
+{% extends "index/header.html" %} {% load static %} {% block title%}{{user.username}}{% endblock %} {% block content %}
+<div class="container-fluid">
+	<h3 class="text-dark mb-4">Profile</h3>
+	<div class="row mb-3">
+		<div class="col-lg-4">
+			<div class="card mb-3">
+				<div class="card-body text-center shadow">
+					<img
+						class="rounded-circle mb-3 mt-4"
+						src="{{ user.profile.profile_image.url }}"
+						width="160"
+						height="160"
+						alt="user profile"
+					/>
+					<div class="mb-3">
+						<button class="btn btn-primary btn-sm" type="button" style="background: rgb(28, 40, 38)">
+							Change Photo
+						</button>
+					</div>
+				</div>
+			</div>
+			{% include "account/snippets/projects_list.html" %}
+		</div>
+		<div class="col-lg-8">
+			<div class="row">
+				<div class="col">
+					<form method="POST" action="{% url 'user_profile' %}" novalidate>
+						{% csrf_token %}
+						<div class="card shadow mb-3">
+							<div class="card-header py-3">
+								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+									User Settings
+								</p>
+							</div>
+							<div class="card-body">
+									<div class="form-row">
+										<div class="col">
+											<div class="form-group">
+												<label for="username"><strong>Username</strong></label
+												>{{ form.username }}
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="email"><strong>Website</strong></label
+												>{{ form.website }}
+											</div>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="col">
+											<div class="form-group">
+												<label for="first_name"><strong>First Name</strong></label
+												>{{ form.first_name }}
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="last_name"><strong>Last Name</strong></label
+												>{{ form.last_name }}
+											</div>
+										</div>
+									</div>
+								</div>
+						</div>
+						<div class="card shadow">
+							<div class="card-header py-3">
+								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+									Contact Settings
+								</p>
+							</div>
+							<div class="card-body">
+									<div class="form-group">
+										<label for="address"><strong>Address</strong></label
+										>{{ form.address }}
+									</div>
+									<div class="form-row">
+										<div class="col">
+											<div class="form-group">
+												<label for="city"><strong>City</strong></label
+												>{{ form.city }}
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="country"><strong>Country</strong></label
+												>{{ form.country }}
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<button
+											class="btn btn-primary btn-sm"
+											type="submit"
+											style="background: rgb(28, 40, 38)"
+										>
+											Save&nbsp;Settings
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

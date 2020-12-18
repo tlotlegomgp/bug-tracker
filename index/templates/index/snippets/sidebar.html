@@ -3,30 +3,36 @@
 	style="background: rgb(28, 40, 38)"
 >
 	<div class="container-fluid d-flex flex-column p-0">
-		<a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-			<div class="sidebar-brand-icon rotate-n-15">
-				<em class="fas fa-laugh-wink" style="color: rgb(238, 244, 212)"></em>
-			</div>
-			<div class="sidebar-brand-text mx-3" style="color: rgb(238, 244, 212)"><span>Buck Tracker</span></div>
+		<a
+			class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+			href="{% url 'index_page' %}"
+		>
+			<div class="sidebar-brand-icon rotate-n-15"><em class="fas fa-laugh-wink"></em></div>
+			<div class="sidebar-brand-text mx-3"><span>Liquid</span></div>
 		</a>
 		<hr class="sidebar-divider my-0" />
 		<ul class="nav navbar-nav text-light" id="accordionSidebar">
 			<li class="nav-item">
-				<a class="nav-link active" href="index.html"
-					><em class="fas fa-tachometer-alt"></em><span>Dashboard</span></a
+				<a class="nav-link active" href="{% url 'index_page' %}"
+					><em class="fas fa-tachometer-alt"></em><span> Dashboard</span></a
 				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="profile.html"><em class="fas fa-user"></em><span>Profile</span></a>
+				<a class="nav-link" href="{% url 'user_profile' %}"
+					><em class="fas fa-user"></em><span> Profile</span></a
+				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="table.html"><em class="fas fa-table"></em><span>Table</span></a>
+				<a class="nav-link" href="table.html"><em class="fas fa-tasks"></em><span> Projects</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="login.html"><em class="far fa-user-circle"></em><span>Login</span></a>
+				<a class="nav-link" href="login.html"><em class="fas fa-bug"></em><span> My Tickets</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="register.html"><em class="fas fa-user-circle"></em><span>Register</span></a>
+				<a class="nav-link" href="login.html"><em class="fas fa-users"></em><span> Teams</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{% url 'logout' %}"><em class="fas fa-times"></em><span> Logout</span></a>
 			</li>
 		</ul>
 		<div class="text-center d-none d-md-inline">

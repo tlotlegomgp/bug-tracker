@@ -1,4 +1,4 @@
-{% extends "index/header.html" %} {% load static %} {% block content %}
+{% extends "index/header.html" %} {% load static %} {% block title%}Teams{% endblock %} {% block content %}
 <h3 class="text-dark mb-4">Team</h3>
 <div class="card shadow">
 	<div class="card-header py-3">
@@ -31,15 +31,15 @@
 			</div>
 		</div>
 		<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-			<table class="table my-0" id="dataTable">
+			<table class="table my-0" id="dataTable" aria-describedby="team">
 				<thead>
 					<tr>
-						<th>Name</th>
-						<th>Position</th>
-						<th>Office</th>
-						<th>Age</th>
-						<th>Start date</th>
-						<th>Salary</th>
+						<th scope="col">Name</th>
+						<th scope="col">Position</th>
+						<th scope="col">Office</th>
+						<th scope="col">Age</th>
+						<th scope="col">Start date</th>
+						<th scope="col">Salary</th>
 					</tr>
 				</thead>
 				<tbody>
