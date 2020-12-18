@@ -1,0 +1,7 @@
+<tr>
+	<td>{{ project }}</td>
+	<td>{{ 4 }}</td>
+	<td>{{ project.tickets.all.count }}</td>
+	<td>{{ project.created_on }}</td>
+	<td>{% include "projects/snippets/project_action.html" %}</td>
+</tr>

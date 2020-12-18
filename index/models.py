@@ -29,22 +29,28 @@ class Ticket(models.Model):
 
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
-    assigned_to = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    assigned_to = models.ForeignKey(Profile, related_name="user_tickets", on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, related_name="tickets", on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created_on", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="date updated", auto_now=True)
     priority = models.CharField(max_length=12, choices=TICKET_PRIORITY, default='NONE')
     status = models.CharField(max_length=12, choices=TICKET_STATUS, default='NEW')
     class_type = models.CharField(max_length=12, choices=TICKET_TYPE, default='TASK')
 
+    def __str__(self):
+        return self.title
+
 
 class TicketComment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="date created", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="date updated", auto_now=True)
     body_message = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.body_message
 
 
 class TicketAttachment(models.Model):
@@ -54,15 +60,24 @@ class TicketAttachment(models.Model):
     note = models.CharField(max_length=70)
     attachment = models.FileField()
 
+    def __str__(self):
+        return self.note
+
 
 class Todo(models.Model):
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     note = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.note
+
 
 class DirectMessage(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Profile, related_name="direct_messages" , on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     body = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.author
