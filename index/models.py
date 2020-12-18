@@ -71,3 +71,10 @@ class Todo(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     note = models.CharField(max_length=50)
+
+
+class DirectMessage(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
+    body = models.CharField(max_length=200)
