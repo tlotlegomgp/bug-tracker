@@ -1,13 +1,8 @@
 from django.db import models
 from django.conf import settings
 from account.models import Profile
+from projects.models import Project, ProjectRole
 # Create your models here.
-
-class Project(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    description = models.CharField(max_length=200)
-    created_on = models.DateTimeField(verbose_name="date created", auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class Ticket(models.Model):
@@ -42,13 +37,6 @@ class Ticket(models.Model):
     priority = models.CharField(max_length=12, choices=TICKET_PRIORITY, default='NONE')
     status = models.CharField(max_length=12, choices=TICKET_STATUS, default='NEW')
     class_type = models.CharField(max_length=12, choices=TICKET_TYPE, default='TASK')
-
-
-class ProjectRole(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    role = models.CharField(max_length=25)
-    created_on = models.DateTimeField(verbose_name="date added", auto_now_add=True)
 
 
 class TicketComment(models.Model):

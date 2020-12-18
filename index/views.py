@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Ticket, TicketComment, TicketAttachment, Profile, Project, ProjectRole, Todo, DirectMessage
+from .models import Ticket, TicketComment, TicketAttachment, Profile, Todo, DirectMessage
+from projects.models import Project, ProjectRole
 
 # Create your views here.
 
@@ -29,7 +30,3 @@ def team_view(request):
     return render(request, "index/team.html", context)
 
 
-@login_required(login_url='login_page')
-def projects_view(request):
-    context = {}
-    return render(request, "index/projects.html", context)
