@@ -1,63 +1,65 @@
 {% extends "account/header.html" %} {% block title %}Registration{% endblock %} {% block content %}
-<div class="card shadow-lg o-hidden border-0 my-5">
-	<div class="card-body p-0">
-		<div class="row">
-			<div class="col-lg-5 d-none d-lg-flex" style="background: rgb(238, 244, 212)">
-				<div
-					class="flex-grow-1 bg-register-image"
-					style="background-image: url('assets/img/dogs/image2.jpeg')"
-				></div>
-			</div>
-			<div class="col-lg-7" style="background: rgb(238, 244, 212)">
-				<div class="p-5">
-					<div class="text-center">
-						<h4 class="text-dark mb-4">Create an Account!</h4>
-					</div>
-					<form class="user" method="POST" action="{% url 'registration_page' %}?next={{request.path}}">
-						{% csrf_token %}
-						<div class="form-group">
-							{% for message in messages %}
-							<div class="alert alert-danger">
-								<a class="close" href="#" data-dismiss="alert">×</a>
-								{{ message }}
+<div class="row justify-content-center" style="margin-top: 20px">
+	<div class="col-md-6 col-lg-10 col-xl-8">
+		<div class="card shadow-lg o-hidden border-0 my-5" style="background: rgb(238, 244, 212)">
+			<div class="card-body p-0">
+				<div class="row justify-content-center">
+					<div class="col-lg-10">
+						<div class="p-5">
+							<div class="text-center">
+								<h4 class="text-dark mb-4">Create an Account!</h4>
 							</div>
-							{% endfor %}
+							<form
+								class="user"
+								method="POST"
+								action="{% url 'registration_page' %}?next={{request.path}}"
+							>
+								{% csrf_token %}
+								<div class="form-group">
+									{% for message in messages %}
+									<div class="alert alert-danger">
+										<a class="close" href="#" data-dismiss="alert">×</a>
+										{{ message }}
+									</div>
+									{% endfor %}
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">{{ form.first_name }}</div>
+									<div class="col-sm-6">{{ form.last_name }}</div>
+								</div>
+								<div class="form-group">{{ form.email }}</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">{{ form.password }}</div>
+									<div class="col-sm-6">{{ form.password_confirm }}</div>
+								</div>
+								<button
+									class="btn btn-primary btn-block text-white btn-user"
+									type="submit"
+									style="background: rgb(28, 40, 38)"
+								>
+									Register Account
+								</button>
+								<hr />
+								<a class="btn btn-primary btn-block text-white btn-google btn-user" role="button"
+									><em class="fab fa-google"></em>&nbsp; Register with Google</a
+								>
+								<hr />
+							</form>
+							<div class="text-center">
+								<a class="small" href="{% url 'password_reset' %}" style="color: rgb(28, 40, 38)"
+									>Forgot Password?</a
+								>
+							</div>
+							<div class="text-center">
+								<a class="small" href="{% url 'login_page' %}" style="color: rgb(28, 40, 38)"
+									>Already have an account? Login!</a
+								>
+							</div>
 						</div>
-						<div class="form-group row">
-							<div class="col-sm-6 mb-3 mb-sm-0">{{ form.first_name }}</div>
-							<div class="col-sm-6">{{ form.last_name }}</div>
-						</div>
-						<div class="form-group">{{ form.email }}</div>
-						<div class="form-group row">
-							<div class="col-sm-6 mb-3 mb-sm-0">{{ form.password }}</div>
-							<div class="col-sm-6">{{ form.password_confirm }}</div>
-						</div>
-						<button
-							class="btn btn-primary btn-block text-white btn-user"
-							type="submit"
-							style="background: rgb(28, 40, 38)"
-						>
-							Register Account
-						</button>
-						<hr />
-						<a class="btn btn-primary btn-block text-white btn-google btn-user" role="button"
-							><em class="fab fa-google"></em>&nbsp; Register with Google</a
-						><a class="btn btn-primary btn-block text-white btn-facebook btn-user" role="button"
-							><em class="fab fa-facebook-f"></em>&nbsp; Register with Facebook</a
-						>
-						<hr />
-					</form>
-					<div class="text-center">
-						<a class="small" href="#" style="color: rgb(28, 40, 38)">Forgot Password?</a>
-					</div>
-					<div class="text-center">
-						<a class="small" href="{% url 'login_page' %}" style="color: rgb(28, 40, 38)"
-							>Already have an account? Login!</a
-						>
 					</div>
 				</div>
 			</div>
 		</div>
+		{% endblock %}
 	</div>
 </div>
-{% endblock %}

@@ -3,11 +3,7 @@
 	style="background: rgb(28, 40, 38)"
 >
 	<div class="container-fluid d-flex flex-column p-0">
-		<a
-			class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
-			href="{% url 'index_page' %}"
-		>
-			<div class="sidebar-brand-icon rotate-n-15"><em class="fas fa-laugh-wink"></em></div>
+		<a class="navbar-brand d-flex sidebar-brand m-0" href="{% url 'index_page' %}">
 			<div class="sidebar-brand-text mx-3"><span>Liquid</span></div>
 		</a>
 		<hr class="sidebar-divider my-0" />
@@ -36,7 +32,9 @@
 				<a class="nav-link" href="{% url 'team_page' %}"><em class="fas fa-users"></em><span> Team</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'logout' %}"><em class="fas fa-times"></em><span> Logout</span></a>
+				<a class="nav-link" href="{% url 'logout' %}"
+					>&nbsp<em class="fas fa-times"></em><span>&nbsp Logout</span></a
+				>
 			</li>
 		</ul>
 		<div class="text-center d-none d-md-inline">

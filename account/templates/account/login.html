@@ -1,16 +1,10 @@
 {% extends "account/header.html" %} {% block title %}Login{% endblock %} {% block content %}
 <div class="row justify-content-center" style="margin-top: 30px">
-	<div class="col-md-9 col-lg-12 col-xl-10">
-		<div class="card shadow-lg o-hidden border-0 my-5">
+	<div class="col-md-6 col-lg-10 col-xl-8">
+		<div class="card shadow-lg o-hidden border-0 my-5" style="background: rgb(238, 244, 212)">
 			<div class="card-body p-0">
-				<div class="row">
-					<div class="col-lg-6 d-none d-lg-flex" style="background: rgb(238, 244, 212)">
-						<div
-							class="flex-grow-1 bg-login-image"
-							style="background-image: url('assets/img/dogs/image3.jpeg')"
-						></div>
-					</div>
-					<div class="col-lg-6" style="background: rgb(238, 244, 212)">
+				<div class="row justify-content-center">
+					<div class="col-lg-10">
 						<div class="p-5">
 							<div class="text-center">
 								<h4 class="text-dark mb-4">Welcome Back!</h4>
@@ -36,13 +30,15 @@
 								<hr />
 								<a class="btn btn-primary btn-block text-white btn-google btn-user" role="button"
 									><em class="fab fa-google"></em>&nbsp; Login with Google</a
-								><a class="btn btn-primary btn-block text-white btn-facebook btn-user" role="button"
-									><em class="fab fa-facebook-f"></em>&nbsp; Login with Facebook</a
+								><a class="btn btn-primary btn-block text-white btn-user" role="button"
+									><em class="fa fa-user"></em>&nbsp; Login with Test Account</a
 								>
 								<hr />
 							</form>
 							<div class="text-center">
-								<a class="small" href="#" style="color: rgb(28, 40, 38)">Forgot Password?</a>
+								<a class="small" href="{% url 'password_reset' %}" style="color: rgb(28, 40, 38)"
+									>Forgot Password?</a
+								>
 							</div>
 							<div class="text-center">
 								<a class="small" href="{% url 'registration_page' %}" style="color: rgb(28, 40, 38)"
