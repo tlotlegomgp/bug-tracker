@@ -23,3 +23,8 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
     path('tickets/', include('tickets.urls')),
 ]
+
+handler403 = 'index.views.handler403'
+handler404 = 'index.views.handler404'
+handler400 = 'index.views.handler400'
+handler500 = 'index.views.handler500'
