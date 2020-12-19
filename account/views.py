@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Account, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import LoginForm, RegisterForm, UserSettingsForm
+from .forms import LoginForm, RegisterForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -71,7 +71,7 @@ def profile_view(request):
     user = request.user
     #If user has filled form and wants to post form
     if request.method == "POST":
-            form = UserSettingsForm(request.POST)
+            form = UserProfileForm(request.POST)
             if form.is_valid():
                 profile = get_object_or_404(Profile, user = user) 
 
@@ -92,14 +92,12 @@ def profile_view(request):
     #Else present empty form to user
     else:
         profile = get_object_or_404(Profile, user = user)
-        form = UserSettingsForm(initial={'username': user.username, 'website': profile.website, 'first_name': profile.first_name, 'last_name': profile.last_name, 'address': profile.address, 'city': profile.city, 'country': profile.country})
+        form = UserProfileForm(initial={'username': user.username, 'website': profile.website, 'first_name': profile.first_name, 'last_name': profile.last_name, 'address': profile.address, 'city': profile.city, 'country': profile.country})
         context['user'] = user
         
         if profile:
             context['profile'] = profile
             context['form'] = form
-
-        #context['projects'] = Project.objects.filter(user = user).order_by('-date')[0:5]
         
     
     return render(request, "account/profile.html", context)

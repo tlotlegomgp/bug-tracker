@@ -15,7 +15,7 @@ class RegisterForm(forms.Form):
     password_confirm = forms.CharField(max_length = 20, widget=forms.PasswordInput(attrs={'class':form_css_class, 'name':"password_confirm", 'required':"", 'placeholder':"Repeat Password"}))
 
 
-class UserSettingsForm(forms.Form):
+class UserProfileForm(forms.Form):
     username = forms.CharField(max_length = 30, widget=forms.TextInput(attrs={'class':profile_form, 'name':"username"}), required=False)
     first_name = forms.CharField(max_length = 30, widget=forms.TextInput(attrs={'class':profile_form, 'name':"first_name"}), required=False)
     last_name = forms.CharField(max_length = 30, widget=forms.TextInput(attrs={'class':profile_form, 'name':"last_name"}), required=False)
