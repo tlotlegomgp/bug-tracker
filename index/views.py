@@ -12,7 +12,7 @@ def index_view(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
     context['profile'] = user_profile
-    context['user_tickets'] = Ticket.objects.filter(created_by = user_profile)
+    context['user_tickets'] = Ticket.objects.filter(assigned_to = user_profile)
     context['complete_tickets'] = Ticket.objects.filter(created_by = user_profile).filter(status='RESOLVED')
 
     if context['user_tickets'].count() != 0:

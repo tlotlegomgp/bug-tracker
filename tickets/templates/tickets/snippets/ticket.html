@@ -1,7 +1,9 @@
 <tr>
-	<td>{{ project }}</td>
-	<td>{{ project.projectrole_set.all.count }}</td>
-	<td>{{ project.tickets.all.count }}</td>
-	<td>{{ project.created_on }}</td>
+	<td>{{ ticket }}</td>
+	<td>{{ ticket.project }}</td>
+	<td>{{ ticket.priority }}</td>
+	<td>{{ ticket.status }}</td>
+	<td>{{ ticket.class_type }}</td>
+	<td>{{ ticket.created_on }}</td>
 	<td>{% include "projects/snippets/project_action.html" %}</td>
 </tr>
