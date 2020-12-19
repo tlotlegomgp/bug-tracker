@@ -1,3 +1,4 @@
+{% extends "index/header.html" %} {% block title %}403{% endblock %} {% block content %}
 <div class="container-fluid">
 	<div class="text-center mt-5">
 		<div class="error mx-auto" data-text="403">
@@ -8,3 +9,4 @@
 		<a href="{% url 'index_page' %}">← Back to Dashboard</a>
 	</div>
 </div>
+{% endblock %}
