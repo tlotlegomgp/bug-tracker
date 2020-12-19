@@ -22,3 +22,12 @@ class DirectMessage(models.Model):
 
     def __str__(self):
         return self.author
+
+
+class Alert(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
+    note = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.note

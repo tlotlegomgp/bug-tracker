@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Todo, DirectMessage
+from .models import Todo, DirectMessage, Alert
 
 # Register your models here.
 
@@ -12,5 +12,10 @@ class DirectMessageAdmin(admin.ModelAdmin):
     search_fields = ('author', 'receiver')
 
 
+class AlertAdmin(admin.ModelAdmin):
+    list_display = ('user', 'note', 'created_on')
+
+
 admin.site.register(Todo, TodoAdmin)
 admin.site.register(DirectMessage, DirectMessageAdmin)
+admin.site.register(Alert, AlertAdmin)
