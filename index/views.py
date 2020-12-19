@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import  Profile, Todo, DirectMessage
+from .models import  Profile, Todo, DirectMessage, Alert
 from tickets.models import Ticket, TicketComment, TicketAttachment
 from projects.models import Project, ProjectRole
 
@@ -21,7 +21,8 @@ def index_view(request):
     context['user_projects'] = Project.objects.filter(created_by = user_profile)
     context['latest_projects'] = Project.objects.filter(created_by = user_profile).order_by('-created_on')[:5]
     context['user_todos'] = Todo.objects.filter(created_by = user_profile).order_by('-created_on')
-    context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')
+    context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
+    context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
     return render(request, "index/dashboard.html", context)
 
 

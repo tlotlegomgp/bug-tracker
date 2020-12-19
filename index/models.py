@@ -27,7 +27,7 @@ class DirectMessage(models.Model):
 class Alert(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
-    note = models.CharField(max_length=100)
+    note = models.CharField(max_length=150)
 
     def __str__(self):
         return self.note
