@@ -22,6 +22,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('projects/', include('projects.urls')),
     path('tickets/', include('tickets.urls')),
+    path('teams/', include('teams.urls')),
 ]
 
 handler403 = 'index.views.handler403'

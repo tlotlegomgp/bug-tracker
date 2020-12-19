@@ -1,0 +1,16 @@
+<tr>
+	<td>
+		<img
+			class="rounded-circle mr-2"
+			width="30"
+			height="30"
+			src="assets/img/avatars/avatar1.jpeg"
+			alt="user image"
+		/>{% if profile.first_name %}{{profile.first_name}} {{profile.last_name}} {%else%} {{profile.user.username}}
+		{%endif%}
+	</td>
+	<td>{{profile.user.email}}</td>
+	<td>{{profile.projectrole_set.all.count}}</td>
+	<td>{{profile.user_tickets.count}}</td>
+	<td>{% include 'projects/snippets/project_action.html' %}</td>
+</tr>
