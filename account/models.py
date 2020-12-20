@@ -64,7 +64,7 @@ class Account(AbstractBaseUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique = True)
-    profile_picture = models.ImageField(default='default.png', upload_to='profile_images', blank = True)
+    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_images', blank = True)
     website = models.URLField(blank= True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)

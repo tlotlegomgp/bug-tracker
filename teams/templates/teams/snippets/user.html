@@ -4,7 +4,7 @@
 			class="rounded-circle mr-2"
 			width="30"
 			height="30"
-			src="assets/img/avatars/avatar1.jpeg"
+			src="{{profile.profile_picture.url}}"
 			alt="user image"
 		/>{% if profile.first_name %}{{profile.first_name}} {{profile.last_name}} {%else%} {{profile.user.username}}
 		{%endif%}

@@ -1,4 +1,4 @@
-{% extends "index/header.html" %} {% block title %}Dashboard{% endblock %} {% block content %}
+{% extends "index/header.html" %} {% load static %} {% block title %}Dashboard{% endblock %} {% block content %}
 <div class="d-sm-flex justify-content-between align-items-center mb-4">
 	<h3 class="text-dark mb-0">Dashboard</h3>
 </div>
@@ -73,7 +73,7 @@
 	<div class="col-lg-5 col-xl-4">
 		<div class="card shadow mb-4">
 			<div class="card-header d-flex justify-content-between align-items-center">
-				<h6 class="text-primary font-weight-bold m-0">Tickets Statuses</h6>
+				<h6 class="text-primary font-weight-bold m-0">Tickets Status</h6>
 			</div>
 			<div class="card-body">
 				<div class="chart-area">

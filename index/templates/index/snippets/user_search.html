@@ -8,9 +8,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			{%for user in users%}
+			{% for user in users %}
 			<tr>
-				<td>{{user.first_name}} {{user.last_name}}</td>
+				<td>
+					<img
+						class="rounded-circle mr-2"
+						width="30"
+						height="30"
+						src="{{user.profile_picture.url}}"
+						alt="user image"
+					/>{{user.first_name}} {{user.last_name}}
+				</td>
 				<td>{{ user.user.email }}</td>
 				<td><a href="">More Details</a></td>
 			</tr>
