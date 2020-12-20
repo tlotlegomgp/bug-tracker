@@ -45,21 +45,6 @@
 									<span>{{ user_tickets.count }}</span>
 								</div>
 							</div>
-							{% if tickets_percentage %}
-							<div class="col">
-								<div class="progress progress-sm">
-									<div
-										class="progress-bar bg-info"
-										aria-valuenow="{{ tickets_percentage }}"
-										aria-valuemin="0"
-										aria-valuemax="100"
-										style="width: 50%"
-									>
-										<span class="sr-only">{{ tickets_percentage }}%</span>
-									</div>
-								</div>
-							</div>
-							{% endif %}
 						</div>
 					</div>
 					<div class="col-auto"><em class="fas fa-bug fa-2x text-gray-300"></em></div>
@@ -93,7 +78,7 @@
 			<div class="card-body">
 				<div class="chart-area">
 					<canvas
-						data-bs-chart='{"type":"doughnut","data":{"labels":["Direct","Social","Referral"],"datasets":[{"label":"","backgroundColor":["#4e73df","#1cc88a","#36b9cc"],"borderColor":["#ffffff","#ffffff","#ffffff"],"data":["50","30","15"]}]},"options":{"maintainAspectRatio":false,"legend":{"display":false},"title":{}}}'
+						data-bs-chart='{"type":"doughnut","data":{"labels":["New","In-Progress","Resolved"],"datasets":[{"label":"","backgroundColor":["#4e73df","#1cc88a","#36b9cc"],"borderColor":["#ffffff","#ffffff","#ffffff"],"data":["{{new_tickets}}","{{in_progress_tickets}}","{{resolved_tickets}}"]}]},"options":{"maintainAspectRatio":false,"legend":{"display":false},"title":{}}}'
 					></canvas>
 				</div>
 				<div class="text-center small mt-4">

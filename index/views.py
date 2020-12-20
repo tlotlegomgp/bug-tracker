@@ -4,7 +4,7 @@ from account.models import Profile
 from .models import Todo, DirectMessage, Alert
 from tickets.models import Ticket, TicketComment, TicketAttachment
 from projects.models import Project, ProjectRole
-from django.db.models import Q, Count
+from django.db.models import Q
 from operator import attrgetter 
 
 #Search for projects from search bar
@@ -65,14 +65,24 @@ def index_view(request):
         return render(request, "index/search_results.html", context)
     
     else:
-        context['user_tickets'] = Ticket.objects.filter(assigned_to = user_profile)
-        context['complete_tickets'] = Ticket.objects.filter(created_by = user_profile).filter(status='RESOLVED')
+        user_tickets = Ticket.objects.filter(assigned_to = user_profile)
+        context['user_tickets'] = user_tickets
+        resolved_tickets = Ticket.objects.filter(created_by = user_profile).filter(status='RESOLVED').count()
+        new_tickets = Ticket.objects.filter(created_by = user_profile).filter(status='NEW').count()
+        in_progress_tickets = Ticket.objects.filter(created_by = user_profile).filter(status='IN_PROGRESS').count()
 
-        if context['user_tickets'].count() != 0:
-            context['tickets_percentage'] = round(context['complete_tickets'].count()*100 / context['user_tickets'].count())
+        if user_tickets.count() != 0:
+            context['resolved_tickets'] = round(resolved_tickets*100 / user_tickets.count())
+            context['new_tickets'] = round(new_tickets*100 / user_tickets.count())
+            context['in_progress_tickets'] = round(in_progress_tickets*100 / user_tickets.count())
+
+        else:
+            default_value = round(100/3)
+            context['resolved_tickets'] = default_value
+            context['new_tickets'] = default_value
+            context['in_progress_tickets'] = default_value
 
         context['user_projects'] = Project.objects.filter(created_by = user_profile)
-        context['latest_projects'] = Project.objects.filter(created_by = user_profile).order_by('-created_on')[:5]
         context['user_todos'] = Todo.objects.filter(created_by = user_profile).order_by('-created_on')
         context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
         context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
