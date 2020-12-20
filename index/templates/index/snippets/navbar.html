@@ -3,9 +3,21 @@
 	style="background: rgb(238, 244, 212)"
 >
 	<div class="container-fluid">
-		<form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+		<form
+			method="GET"
+			action="{% url 'index_page' %}"
+			target="_self"
+			class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+		>
+			{% csrf_token %}
 			<div class="input-group">
-				<input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..." />
+				<input
+					class="bg-light form-control border-0 small"
+					type="search"
+					placeholder="Search for ..."
+					value="{{query}}"
+					name="q"
+				/>
 				<div class="input-group-append">
 					<button class="btn btn-primary py-0" type="button" style="background: rgb(28, 40, 38)">
 						<em class="fas fa-search"></em>
@@ -19,12 +31,20 @@
 					><em class="fas fa-search"></em
 				></a>
 				<div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" aria-labelledby="searchDropdown">
-					<form class="form-inline mr-auto navbar-search w-100">
+					<form
+						method="GET"
+						action="{% url 'index_page' %}"
+						target="_self"
+						class="form-inline mr-auto navbar-search w-100"
+					>
+						{% csrf_token %}
 						<div class="input-group">
 							<input
 								class="bg-light form-control border-0 small"
-								type="text"
+								type="search"
 								placeholder="Search for ..."
+								value="{{query}}"
+								name="q"
 							/>
 							<div class="input-group-append">
 								<button class="btn btn-primary py-0" type="button">
@@ -85,8 +105,8 @@
 					<div class="dropdown-menu shadow dropdown-menu-right animated--grow-in">
 						<a class="dropdown-item" href="{% url 'user_profile' %}"
 							><em class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></em>&nbsp;Profile</a
-						><a class="dropdown-item" href="#"
-							><em class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></em>&nbsp;Activity log</a
+						><a class="dropdown-item" href="{% url 'password_change' %}"
+							><em class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></em>&nbsp;Change Password</a
 						>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="{% url 'logout' %}"

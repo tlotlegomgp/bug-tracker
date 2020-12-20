@@ -4,27 +4,79 @@ from account.models import Profile
 from .models import Todo, DirectMessage, Alert
 from tickets.models import Ticket, TicketComment, TicketAttachment
 from projects.models import Project, ProjectRole
+from django.db.models import Q, Count
+from operator import attrgetter 
+
+#Search for projects from search bar
+def search_projects(query=None):
+	qs = []
+	queries = query.split(" ")
+	for q in queries:
+		projects = Project.objects.filter(Q(name__icontains=q)).distinct()
+
+		for project in projects:
+			qs.append(project)
+
+	return list(set(qs))
+
+#Search for tickets from search bar
+def search_tickets(query=None):
+	qs = []
+	queries = query.split(" ")
+	for q in queries:
+		tickets = Ticket.objects.filter(Q(title__icontains=q)).distinct()
+
+		for ticket in tickets:
+			qs.append(ticket)
+
+	return list(set(qs))
+
+
+def search_users(query=None):
+	qs = []
+	queries = query.split(" ")
+	for q in queries:
+		users = Profile.objects.filter(Q(first_name__icontains=q) | Q(last_name__icontains=q)).distinct()
+
+		for user in users:
+			qs.append(user)
+
+	return list(set(qs))
 
 # Create your views here.
 
 @login_required(login_url='login_page')
 def index_view(request):
+    query = ""
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
     context['profile'] = user_profile
-    context['user_tickets'] = Ticket.objects.filter(assigned_to = user_profile)
-    context['complete_tickets'] = Ticket.objects.filter(created_by = user_profile).filter(status='RESOLVED')
 
-    if context['user_tickets'].count() != 0:
-        context['tickets_percentage'] = round(context['complete_tickets'].count()*100 / context['user_tickets'].count())
+    if request.GET:
+        query = request.GET['q']
+        context['query'] = str(query)
+        projects_query = sorted(search_projects(query), key=attrgetter('created_on'), reverse = True)
+        tickets_query = sorted(search_tickets(query), key=attrgetter('created_on'), reverse = True)
+        users_query = sorted(search_users(query), key=attrgetter('first_name'), reverse = True)
+        context['projects'] = projects_query
+        context['tickets'] = tickets_query
+        context['users'] = users_query
+        return render(request, "index/search_results.html", context)
+    
+    else:
+        context['user_tickets'] = Ticket.objects.filter(assigned_to = user_profile)
+        context['complete_tickets'] = Ticket.objects.filter(created_by = user_profile).filter(status='RESOLVED')
 
-    context['user_projects'] = Project.objects.filter(created_by = user_profile)
-    context['latest_projects'] = Project.objects.filter(created_by = user_profile).order_by('-created_on')[:5]
-    context['user_todos'] = Todo.objects.filter(created_by = user_profile).order_by('-created_on')
-    context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
-    context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
-    return render(request, "index/dashboard.html", context)
+        if context['user_tickets'].count() != 0:
+            context['tickets_percentage'] = round(context['complete_tickets'].count()*100 / context['user_tickets'].count())
+
+        context['user_projects'] = Project.objects.filter(created_by = user_profile)
+        context['latest_projects'] = Project.objects.filter(created_by = user_profile).order_by('-created_on')[:5]
+        context['user_todos'] = Todo.objects.filter(created_by = user_profile).order_by('-created_on')
+        context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
+        context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
+        return render(request, "index/dashboard.html", context)
 
 
 
