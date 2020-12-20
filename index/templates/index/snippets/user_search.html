@@ -1,0 +1,20 @@
+<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+	<table class="table my-0" id="dataTable" aria-describedby="users">
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Email</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{%for user in users%}
+			<tr>
+				<td>{{user.first_name}} {{user.last_name}}</td>
+				<td>{{ user.user.email }}</td>
+				<td><a href="">More Details</a></td>
+			</tr>
+			{%endfor%}
+		</tbody>
+	</table>
+</div>
