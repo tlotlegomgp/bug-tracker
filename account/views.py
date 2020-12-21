@@ -75,10 +75,10 @@ def profile_view(request):
             if form.is_valid():
                 profile = get_object_or_404(Profile, user = user) 
 
-                if request.FILES['profile_picture']:
+                if request.FILES.get('profile_picture', None) is not None:
                     image = request.FILES['profile_picture']
                     profile.profile_picture = image
-
+                
                 profile.first_name = form.cleaned_data["first_name"]
                 profile.last_name = form.cleaned_data["last_name"]
                 profile.website = form.cleaned_data["website"]

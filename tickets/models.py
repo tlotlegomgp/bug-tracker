@@ -7,7 +7,6 @@ from projects.models import Project
 class Ticket(models.Model):
 
     TICKET_PRIORITY = (
-        ('NONE', 'None'),
         ('LOW', 'Low'),
         ('MEDIUM', 'Medium'),
         ('HIGH', 'High'),
@@ -15,7 +14,7 @@ class Ticket(models.Model):
 
     TICKET_STATUS = (
         ('NEW', 'New'),
-        ('IN_PROGRESS', 'In_Progress'),
+        ('IN_PROGRESS', 'In Progress'),
         ('RESOLVED', 'Resolved'),
     )
 
@@ -23,7 +22,7 @@ class Ticket(models.Model):
         ('TASK', 'Task'),
         ('BUG', 'Bug'),
         ('CHANGE', 'Change'),
-        ('FEATURE', 'Feature_request')
+        ('FEATURE', 'Feature request')
     )
 
     title = models.CharField(max_length=50)
@@ -33,7 +32,7 @@ class Ticket(models.Model):
     project = models.ForeignKey(Project, related_name="tickets", on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created_on", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="date updated", auto_now=True)
-    priority = models.CharField(max_length=12, choices=TICKET_PRIORITY, default='NONE')
+    priority = models.CharField(max_length=12, choices=TICKET_PRIORITY, default='LOW')
     status = models.CharField(max_length=12, choices=TICKET_STATUS, default='NEW')
     class_type = models.CharField(max_length=12, choices=TICKET_TYPE, default='TASK')
 
