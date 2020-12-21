@@ -33,6 +33,17 @@ def login_view(request):
     return render(request, 'account/login.html', context)
 
 
+
+def demo_view(request):
+    #Log user in with demo account
+    demo_user_password = "demo-password"
+    demo_user_email = "demo-user@email.com"
+    user = authenticate(request, email=demo_user_email, password=demo_user_password)
+    login(request, user)
+    return redirect('index_page')
+
+
+
 def register_view(request):
     context = {}
     #If user has filled form and wants to post form
@@ -62,6 +73,7 @@ def register_view(request):
         context['form'] = RegisterForm()
     
     return render(request, "account/register.html", context)
+
 
 
 @login_required(login_url='login_page')
@@ -105,6 +117,7 @@ def profile_view(request):
         
     
     return render(request, "account/profile.html", context)
+
 
 
 @login_required(login_url='login_page')
