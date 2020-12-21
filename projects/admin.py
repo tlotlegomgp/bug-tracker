@@ -8,7 +8,7 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('name', 'created_by')
 
 class ProjectRoleAdmin(admin.ModelAdmin):
-    list_display = ('user', 'project', 'role', 'created_on')
+    list_display = ('user', 'project', 'user_role', 'created_on')
     search_fields = ('user', 'project')
 
 
