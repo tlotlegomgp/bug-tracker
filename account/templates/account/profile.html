@@ -1,7 +1,7 @@
 {% extends "index/header.html" %} {% block title%} {{profile.first_name}} {{profile.last_name}} {% endblock %} {% block content %}
 <div class="container-fluid">
 	<h3 class="text-dark mb-4">Profile</h3>
-	<form method="POST" action="{% url 'user_profile' %}" enctype="multipart/form-data" novalidate>
+	<form method="POST" action="{% url 'user_profile' %}" enctype="multipart/form-data">
 		{% csrf_token %}
 		<div class="row mb-3">
 			<div class="col-lg-4">
@@ -23,48 +23,47 @@
 			<div class="col-lg-8">
 				<div class="row">
 					<div class="col">
-						
-							<div class="card shadow mb-3">
-								<div class="card-header py-3">
-									<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-										User Settings
-									</p>
-								</div>
-								<div class="card-body">
-										<div class="form-row">
-											<div class="col">
-												<div class="form-group">
-													<label for="username"><strong>Username</strong></label
-													>{{ form.username }}
-												</div>
-											</div>
-											<div class="col">
-												<div class="form-group">
-													<label for="email"><strong>Website</strong></label
-													>{{ form.website }}
-												</div>
+						<div class="card shadow mb-3">
+							<div class="card-header py-3">
+								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+									User Information
+								</p>
+							</div>
+							<div class="card-body">
+									<div class="form-row">
+										<div class="col">
+											<div class="form-group">
+												<label for="username"><strong>Username</strong></label
+												>{{ form.username }}
 											</div>
 										</div>
-										<div class="form-row">
-											<div class="col">
-												<div class="form-group">
-													<label for="first_name"><strong>First Name</strong></label
-													>{{ form.first_name }}
-												</div>
-											</div>
-											<div class="col">
-												<div class="form-group">
-													<label for="last_name"><strong>Last Name</strong></label
-													>{{ form.last_name }}
-												</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="email"><strong>Website</strong></label
+												>{{ form.website }}
 											</div>
 										</div>
 									</div>
+									<div class="form-row">
+										<div class="col">
+											<div class="form-group">
+												<label for="first_name"><strong>First Name</strong></label
+												>{{ form.first_name }}
+											</div>
+										</div>
+										<div class="col">
+											<div class="form-group">
+												<label for="last_name"><strong>Last Name</strong></label
+												>{{ form.last_name }}
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="card shadow">
 								<div class="card-header py-3">
 									<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-										Contact Settings
+										Contact Information
 									</p>
 								</div>
 								<div class="card-body">
@@ -92,7 +91,7 @@
 											type="submit"
 											style="background: rgb(28, 40, 38)"
 										>
-											Save&nbsp;Settings
+											Update&nbsp;Details
 										</button>
 									</div>
 								</div>
