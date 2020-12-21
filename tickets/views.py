@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from account.models import Profile
 from projects.models import Project, ProjectRole
-from .models import Ticket, TicketComment, TicketAttachment
+from .models import Ticket, TicketComment, TicketAttachment, TicketAssignee
 from .forms import TicketForm
 from index.models import DirectMessage, Alert
 from django.contrib.auth.decorators import login_required
@@ -22,27 +22,31 @@ def tickets_view(request):
 
 
 @login_required(login_url='login_page')
-def add_ticket_view(request):
+def add_ticket_view(request, slug):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
 
     if request.method == "POST":
         form = TicketForm(request.POST)
-        """ if form.is_valid():
-            name = form.cleaned_data["name"]
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            status = forms.POST['status']
+            class_type = forms.POST['class_type']
+            priority = forms.POST['priority']
             description = form.cleaned_data["description"]
-            project = Project.objects.create(name = name, description = description, created_by = user_profile)
-            project.save()
+            project = get_object_or_404(Project, slug = slug)
+            ticket = Ticket.objects.create(title = title, description = description, created_by = user, status = status, priority = priority, class_type = class_type, project = project)
+            ticket.save()
 
-            members = request.POST.getlist('members')
-            for member_email in members:
+            assignees = request.POST.getlist('assignees')
+            for member_email in assignees:
                 member_account = get_object_or_404(Account, email = member_email)
                 member_profile = get_object_or_404(Profile, user = member_account)
-                project_role = ProjectRole.objects.create(user = member_profile, project = project)
-                project_role.save()
+                ticket_assignee = TicketAssignee.objects.create(ticket = ticket, user = member_profile)
+                ticket_assignee.save()
 
-            return redirect('projects_page') """
+            return redirect('projects_page')
     #Present empty form to user
     else:
         context['profile'] = user_profile

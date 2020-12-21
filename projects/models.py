@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from index.models import Profile
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -22,3 +24,14 @@ class ProjectRole(models.Model):
 
     def __str__(self):
         return self.role
+
+
+def rand_slug():
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+    
+
+def pre_save_project_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name + "-" + rand_slug())
+    
+pre_save.connect(pre_save_project_receiver, sender = Project)

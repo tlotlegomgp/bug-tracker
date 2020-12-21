@@ -62,6 +62,7 @@ class Account(AbstractBaseUser):
         return True
 
 
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique = True)
     profile_picture = models.ImageField(default='default.jpg', upload_to='profile_images', blank = True)
@@ -76,9 +77,14 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+
+def rand_slug():
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+
+
 def pre_save_profile_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
-        instance.slug = slugify(instance.user)
+        instance.slug = slugify(instance.user + "-" + rand_slug())
     
 pre_save.connect(pre_save_profile_receiver, sender = Profile)
 
