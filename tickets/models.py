@@ -2,7 +2,9 @@ from django.db import models
 from account.models import Profile
 from projects.models import Project
 from django.db.models.signals import post_delete, pre_save
+from django.utils.text import slugify
 from django.dispatch import receiver
+import random, string
 
 # Create your models here.
 
@@ -36,6 +38,7 @@ class Ticket(models.Model):
     priority = models.CharField(max_length=12, choices=TICKET_PRIORITY, default='LOW')
     status = models.CharField(max_length=12, choices=TICKET_STATUS, default='NEW')
     class_type = models.CharField(max_length=12, choices=TICKET_TYPE, default='TASK')
+    slug = models.SlugField(unique=True, blank=True)
 
     def __str__(self):
         return self.title

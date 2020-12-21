@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from account.models import Profile
 from .models import Todo, DirectMessage, Alert
-from tickets.models import Ticket, TicketComment, TicketAttachment
+from tickets.models import Ticket, TicketComment, TicketAttachment, TicketAssignee
 from projects.models import Project, ProjectRole
 from django.db.models import Q
 from operator import attrgetter 
@@ -65,11 +65,11 @@ def index_view(request):
         return render(request, "index/search_results.html", context)
     
     else:
-        user_tickets = Ticket.objects.filter(assigned_to = user_profile)
+        user_tickets = TicketAssignee.objects.filter(user = user_profile)
         context['user_tickets'] = user_tickets
-        resolved_tickets = Ticket.objects.filter(created_by = user_profile).filter(status='RESOLVED').count()
-        new_tickets = Ticket.objects.filter(created_by = user_profile).filter(status='NEW').count()
-        in_progress_tickets = Ticket.objects.filter(created_by = user_profile).filter(status='IN_PROGRESS').count()
+        resolved_tickets = TicketAssignee.objects.filter(user = user_profile).filter(ticket__status='RESOLVED').count()
+        new_tickets = TicketAssignee.objects.filter(user = user_profile).filter(ticket__status='NEW').count()
+        in_progress_tickets = TicketAssignee.objects.filter(user = user_profile).filter(ticket__status='IN_PROGRESS').count()
 
         if user_tickets.count() != 0:
             context['resolved_tickets'] = round(resolved_tickets*100 / user_tickets.count())

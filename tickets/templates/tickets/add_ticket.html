@@ -1,7 +1,7 @@
 {% extends "index/header.html" %} {% load static %} {% block title %}Add Ticket{% endblock %} {% block content %}
 <div class="container-fluid">
 	<h3 class="text-dark mb-4">Add Ticket</h3>
-	<form method="POST" action="{% url 'add_project' %}">
+	<form method="POST" action="{% url 'add_ticket' project.slug %}">
 		{% csrf_token %}
 		<div class="row mb-3">
 			<div class="col-lg-7">

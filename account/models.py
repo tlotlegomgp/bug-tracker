@@ -4,6 +4,7 @@ from django.utils.text import slugify
 from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 from django.conf import settings
+import random, string
 
 # Create your models here.
 
@@ -84,7 +85,7 @@ def rand_slug():
 
 def pre_save_profile_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
-        instance.slug = slugify(instance.user + "-" + rand_slug())
+        instance.slug = slugify(instance.user.email + "-" + rand_slug())
     
 pre_save.connect(pre_save_profile_receiver, sender = Profile)
 

@@ -13,7 +13,7 @@ def tickets_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
-    context['user_tickets'] = Ticket.objects.filter(assigned_to = user_profile).order_by('-created_on')
+    context['user_tickets'] = TicketAssignee.objects.filter(user = user_profile).order_by('-created_on')
     context['profile'] = user_profile
     context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
     context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
