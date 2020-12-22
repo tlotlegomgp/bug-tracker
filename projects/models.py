@@ -34,7 +34,7 @@ class ProjectRole(models.Model):
     created_on = models.DateTimeField(verbose_name="date added", auto_now_add=True)
 
     def __str__(self):
-        return self.role
+        return self.user_role
 
 
 def rand_slug():

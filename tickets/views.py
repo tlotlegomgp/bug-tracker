@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from account.models import Profile
+from django.shortcuts import render, get_object_or_404, redirect
+from account.models import Profile, Account
 from projects.models import Project, ProjectRole
 from .models import Ticket, TicketComment, TicketAttachment, TicketAssignee
 from .forms import TicketForm
@@ -26,17 +26,19 @@ def add_ticket_view(request, slug):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
+    project = get_object_or_404(Project, slug = slug)
+    context['project'] = project
 
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
             title = form.cleaned_data["title"]
-            status = forms.POST['status']
-            class_type = forms.POST['class_type']
-            priority = forms.POST['priority']
+            status = form.cleaned_data['status']
+            class_type = form.cleaned_data['class_type']
+            priority = form.cleaned_data['priority']
             description = form.cleaned_data["description"]
-            project = get_object_or_404(Project, slug = slug)
-            ticket = Ticket.objects.create(title = title, description = description, created_by = user, status = status, priority = priority, class_type = class_type, project = project)
+            
+            ticket = Ticket.objects.create(title = title, description = description, created_by = user_profile, status = status, priority = priority, class_type = class_type, project = project)
             ticket.save()
 
             assignees = request.POST.getlist('assignees')
@@ -46,7 +48,7 @@ def add_ticket_view(request, slug):
                 ticket_assignee = TicketAssignee.objects.create(ticket = ticket, user = member_profile)
                 ticket_assignee.save()
 
-            return redirect('projects_page')
+            return redirect('view_project', slug=slug)
     #Present empty form to user
     else:
         context['profile'] = user_profile

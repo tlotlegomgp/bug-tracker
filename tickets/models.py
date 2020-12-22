@@ -51,7 +51,7 @@ class TicketAssignee(models.Model):
     updated = models.DateTimeField(verbose_name="date updated", auto_now=True)
 
     def __str__(self):
-        return self.user + " " + self.ticket
+        return self.user.user.email + " " + self.ticket.title
 
 class TicketComment(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)

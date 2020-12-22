@@ -1,5 +1,5 @@
-<tr>
-	<td><a href="#">{{ project }}</a></td>
+<tr style="white-space: nowrap">
+	<td><a href="{% url 'view_project' project.slug %}">{{ project | truncatechars:40 }}</a></td>
 	<td>{{ project.projectrole_set.all.count }}</td>
 	<td>{{ project.tickets.all.count }}</td>
 	<td>{{ project.created_on }}</td>

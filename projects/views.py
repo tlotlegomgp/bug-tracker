@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Project, ProjectRole
 from account.models import Profile, Account
 from index.models import DirectMessage, Alert
-from tickets.models import Ticket
+from tickets.models import Ticket, TicketAssignee
 from .forms import ProjectForm
 
 # Create your views here.
@@ -53,3 +53,19 @@ def add_project_view(request):
         context['form'] = ProjectForm()
 
     return render(request, "projects/add_project.html", context)
+
+
+def project_detail_view(request, slug):
+    context = {}
+    user = request.user
+    user_profile = get_object_or_404(Profile, user = user)
+    project = get_object_or_404(Project, slug=slug)
+    context['user_roles'] = ProjectRole.objects.filter(project = project)
+    context['tickets'] = Ticket.objects.filter(project = project).order_by('-created_on')
+    context['project'] = project
+    context['profile'] = user_profile
+    
+    context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
+    context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
+
+    return render(request, "projects/project_detail.html", context)
