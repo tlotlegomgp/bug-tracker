@@ -3,7 +3,6 @@ from account.models import Profile, Account
 from projects.models import Project, ProjectRole
 from .models import Ticket, TicketComment, TicketAttachment, TicketAssignee
 from .forms import TicketForm
-from index.models import DirectMessage, Alert
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -14,9 +13,6 @@ def tickets_view(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
     context['user_tickets'] = TicketAssignee.objects.filter(user = user_profile).order_by('-created_on')
-    context['profile'] = user_profile
-    context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
-    context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
     return render(request, "tickets/tickets.html", context)
 
 
@@ -51,9 +47,6 @@ def add_ticket_view(request, slug):
             return redirect('view_project', slug=slug)
     #Present empty form to user
     else:
-        context['profile'] = user_profile
-        context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
-        context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
         context['users'] = Profile.objects.all()
         context['form'] = TicketForm()
 

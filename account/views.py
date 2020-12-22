@@ -112,7 +112,6 @@ def profile_view(request):
         context['user'] = user
         
         if profile:
-            context['profile'] = profile
             context['form'] = form
         
     

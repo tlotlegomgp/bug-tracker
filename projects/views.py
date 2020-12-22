@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Project, ProjectRole
 from account.models import Profile, Account
-from index.models import DirectMessage, Alert
 from tickets.models import Ticket, TicketAssignee
 from .forms import ProjectForm
 
@@ -14,9 +13,6 @@ def projects_view(request):
     user = request.user
     profile = get_object_or_404(Profile, user = user)
     context['user_projects'] = Project.objects.filter(created_by = profile).order_by('-created_on')
-    context['profile'] = profile
-    context['direct_messages'] = DirectMessage.objects.filter(receiver = profile).order_by('-created_on')[:5]
-    context['alerts'] = Alert.objects.filter(user = profile).order_by('-created_on')[:5]
 
     return render(request, "projects/projects.html", context)
 
@@ -46,9 +42,6 @@ def add_project_view(request):
             return redirect('projects_page')
     #Present empty form to user
     else:
-        context['profile'] = user_profile
-        context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
-        context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
         context['users'] = Profile.objects.all()
         context['form'] = ProjectForm()
 
@@ -57,15 +50,9 @@ def add_project_view(request):
 
 def project_detail_view(request, slug):
     context = {}
-    user = request.user
-    user_profile = get_object_or_404(Profile, user = user)
     project = get_object_or_404(Project, slug=slug)
     context['user_roles'] = ProjectRole.objects.filter(project = project)
     context['tickets'] = Ticket.objects.filter(project = project).order_by('-created_on')
     context['project'] = project
-    context['profile'] = user_profile
-    
-    context['direct_messages'] = DirectMessage.objects.filter(receiver = user_profile).order_by('-created_on')[:5]
-    context['alerts'] = Alert.objects.filter(user = user_profile).order_by('-created_on')[:5]
 
     return render(request, "projects/project_detail.html", context)
