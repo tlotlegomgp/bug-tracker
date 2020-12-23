@@ -9,7 +9,7 @@
             role="button"
             href="#"
             style="background: rgb(28, 40, 38)"
-            ><em class="fas fa-plus fa-sm text-white-50"></em>&nbsp;Send Message</a
+            ><em class="fas fa-comment fa-sm text-white-50"></em>&nbsp;Send Message</a
         >
 	</div>
     <div class="row mb-3">
@@ -46,7 +46,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="email"><strong>Website</strong></label>
-                                            <p class="mb-4">{{ user_profile.website }}</p>
+                                            <p class="mb-4">{{ user_profile.website|urlize }}</p>
                                         </div>
                                     </div>
                                 </div>

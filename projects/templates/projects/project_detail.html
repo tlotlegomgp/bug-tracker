@@ -112,6 +112,7 @@
 										<th scope="col">Satus</th>
 										<th scope="col">Priority</th>
 										<th scope="col">Created</th>
+										<th scope="col">Updated</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
@@ -123,7 +124,8 @@
 										<td>{{ ticket.status|title }}</td>
 										<td>{{ ticket.priority|title }}</td>
 										<td>{{ ticket.created_on|timesince }} ago</td>
-										<td><a href="">More Details</a></td>
+										<td>{{ ticket.updated|timesince }} ago</td>
+										<td>{% include "tickets/snippets/ticket_action.html" %}</td>
 									</tr>
 									{%endfor%}
 								</tbody>

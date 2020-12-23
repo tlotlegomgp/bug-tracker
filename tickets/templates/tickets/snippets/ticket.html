@@ -1,8 +1,9 @@
 <tr style="white-space: nowrap">
-	<td><a href="#">{{ ticket.ticket.title | truncatechars:40 }}</a></td>
-	<td>{{ ticket.ticket.priority|title }}</td>
-	<td>{{ ticket.ticket.status|title }}</td>
-	<td>{{ ticket.ticket.class_type|title }}</td>
+	<td><a href="{% url 'edit_ticket' ticket.slug %}">{{ ticket.title | truncatechars:40 }}</a></td>
+	<td>{{ ticket.priority|title }}</td>
+	<td>{{ ticket.status|title }}</td>
+	<td>{{ ticket.class_type|title }}</td>
 	<td>{{ ticket.created_on|timesince }} ago</td>
+	<td>{{ ticket.updated|timesince }} ago</td>
 	<td>{% include "tickets/snippets/ticket_action.html" %}</td>
 </tr>

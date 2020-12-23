@@ -11,16 +11,19 @@
 			{% for user in users %}
 			<tr>
 				<td>
-					<img
-						class="rounded-circle mr-2"
-						width="30"
-						height="30"
-						src="{{user.profile_picture.url}}"
-						alt="user image"
-					/>{{user.first_name}} {{user.last_name}}
+					<a href="{% url 'view_profile' user.slug %}"
+						><img
+							class="rounded-circle mr-2"
+							width="30"
+							height="30"
+							src="{{user.profile_picture.url}}"
+							alt="user image"
+						/>{% if user.first_name %}{{user.first_name}} {{user.last_name}} {%else%} {{user.user.username}}
+						{%endif%}
+					</a>
 				</td>
 				<td>{{ user.user.email }}</td>
-				<td><a href="">More Details</a></td>
+				<td><a href="{% url 'view_profile' user.slug %}">More Details</a></td>
 			</tr>
 			{%endfor%}
 		</tbody>

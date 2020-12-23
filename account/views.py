@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Account, Profile
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from .forms import LoginForm, RegisterForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Account, Profile
+from .forms import LoginForm, RegisterForm, UserProfileForm
+
 
 # Create your views here.
 
