@@ -109,7 +109,7 @@
 									<tr>
 										<th scope="col">Title</th>
 										<th scope="col">Type</th>
-										<th scope="col">Satus</th>
+										<th scope="col">Status</th>
 										<th scope="col">Priority</th>
 										<th scope="col">Created</th>
 										<th scope="col">Updated</th>
@@ -117,17 +117,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{%for ticket in tickets %}
-									<tr style="white-space: nowrap">
-										<td>{{ ticket | truncatechars:40 }}</td>
-										<td>{{ ticket.class_type|title }}</td>
-										<td>{{ ticket.status|title }}</td>
-										<td>{{ ticket.priority|title }}</td>
-										<td>{{ ticket.created_on|timesince }} ago</td>
-										<td>{{ ticket.updated|timesince }} ago</td>
-										<td>{% include "tickets/snippets/ticket_action.html" %}</td>
-									</tr>
-									{%endfor%}
+									{%for ticket in tickets %} {% include "tickets/snippets/ticket.html" %} {%endfor%}
 								</tbody>
 							</table>
 						</div>

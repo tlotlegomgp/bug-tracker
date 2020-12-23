@@ -15,7 +15,7 @@ def tickets_view(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
     user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
-    context['user_tickets'] = [o.ticket for o in user_tickets_assignments]
+    context['user_tickets'] = [assignment.ticket for assignment in user_tickets_assignments]
     return render(request, "tickets/tickets.html", context)
 
 
@@ -64,7 +64,7 @@ def edit_ticket_view(request, slug):
     ticket = get_object_or_404(Ticket, slug=slug)
     project = ticket.project
     ticket_assignees = TicketAssignee.objects.filter(ticket=ticket)
-    assigned_users = [o.user for o in ticket_assignees]
+    assigned_users = [assignment.user for assignment in ticket_assignees]
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
