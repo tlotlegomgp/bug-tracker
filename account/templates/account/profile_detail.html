@@ -1,0 +1,102 @@
+{% extends "index/header.html" %}
+{% block title%} {{user_profile.first_name}} {{user_profile.last_name}} {% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+		<h3 class="text-dark mb-4">{{user_profile.first_name}} {{user_profile.last_name}}</h3>
+        <a
+            class="btn btn-primary btn-sm d-none d-sm-inline-block"
+            role="button"
+            href="#"
+            style="background: rgb(28, 40, 38)"
+            ><em class="fas fa-plus fa-sm text-white-50"></em>&nbsp;Send Message</a
+        >
+	</div>
+    <div class="row mb-3">
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body text-center shadow">
+                    <img
+                        class="rounded-circle mb-3 mt-4"
+                        src="{{user_profile.profile_picture.url}}"
+                        width="160"
+                        height="160"
+                        alt="user profile"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow mb-3">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+                                User Information
+                            </p>
+                        </div>
+                        <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="username"><strong>Username</strong></label>
+                                            <p class="mb-4">{{ user_profile.user.username }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="email"><strong>Website</strong></label>
+                                            <p class="mb-4">{{ user_profile.website }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="first_name"><strong>First Name</strong></label>
+                                            <p class="mb-4">{{ user_profile.first_name }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="last_name"><strong>Last Name</strong></label>
+                                            <p class="mb-4">{{ user_profile.last_name }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow">
+                            <div class="card-header py-3">
+                                <p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+                                    Contact Information
+                                </p>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="address"><strong>Address</strong></label>
+                                    <p class="mb-4">{{ user_profile.address }}</p>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="city"><strong>City</strong></label>
+                                            <p class="mb-4">{{ user_profile.city }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="country"><strong>Country</strong></label>
+                                            <p class="mb-4">{{ user_profile.country }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

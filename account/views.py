@@ -120,6 +120,13 @@ def profile_view(request):
 
 
 @login_required(login_url='login_page')
+def profile_detail_view(request, slug):
+    context = {}
+    context['user_profile'] = get_object_or_404(Profile, slug=slug)
+    return render(request, "account/profile_detail.html", context)
+
+
+@login_required(login_url='login_page')
 def logout_view(request):
     logout(request)
     return redirect("login_page")
