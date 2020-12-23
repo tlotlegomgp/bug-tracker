@@ -1,79 +1,95 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from operator import attrgetter
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
-from projects.models import Project, ProjectRole
+from projects.models import Project
 from .models import Todo
-from django.db.models import Q
-from operator import attrgetter 
 
-#Search for projects from search bar
+
+# Search for projects from search bar
+
+
 def search_projects(query=None):
-	qs = []
-	queries = query.split(" ")
-	for q in queries:
-		projects = Project.objects.filter(Q(name__icontains=q)).distinct()
+    qs = []
+    queries = query.split(" ")
+    for q in queries:
+        projects = Project.objects.filter(Q(name__icontains=q)).distinct()
 
-		for project in projects:
-			qs.append(project)
+        for project in projects:
+            qs.append(project)
 
-	return list(set(qs))
+    return list(set(qs))
 
-#Search for tickets from search bar
+# Search for tickets from search bar
+
+
 def search_tickets(query=None):
-	qs = []
-	queries = query.split(" ")
-	for q in queries:
-		tickets = Ticket.objects.filter(Q(title__icontains=q)).distinct()
+    qs = []
+    queries = query.split(" ")
+    for q in queries:
+        tickets = Ticket.objects.filter(Q(title__icontains=q)).distinct()
 
-		for ticket in tickets:
-			qs.append(ticket)
+        for ticket in tickets:
+            qs.append(ticket)
 
-	return list(set(qs))
+    return list(set(qs))
 
 
 def search_users(query=None):
-	qs = []
-	queries = query.split(" ")
-	for q in queries:
-		users = Profile.objects.filter(Q(first_name__icontains=q) | Q(last_name__icontains=q)).distinct()
+    qs = []
+    queries = query.split(" ")
+    for q in queries:
+        users = Profile.objects.filter(
+            Q(first_name__icontains=q) | Q(last_name__icontains=q)).distinct()
 
-		for user in users:
-			qs.append(user)
+        for user in users:
+            qs.append(user)
 
-	return list(set(qs))
+    return list(set(qs))
 
 # Create your views here.
+
 
 @login_required(login_url='login_page')
 def index_view(request):
     query = ""
     context = {}
     user = request.user
-    user_profile = get_object_or_404(Profile, user = user)
+    user_profile = get_object_or_404(Profile, user=user)
 
     if request.GET:
         query = request.GET['q']
         context['query'] = str(query)
-        projects_query = sorted(search_projects(query), key=attrgetter('created_on'), reverse = True)
-        tickets_query = sorted(search_tickets(query), key=attrgetter('created_on'), reverse = True)
-        users_query = sorted(search_users(query), key=attrgetter('first_name'), reverse = True)
+        projects_query = sorted(search_projects(
+            query), key=attrgetter('created_on'), reverse=True)
+        tickets_query = sorted(search_tickets(
+            query), key=attrgetter('created_on'), reverse=True)
+        users_query = sorted(search_users(
+            query), key=attrgetter('first_name'), reverse=True)
         context['projects'] = projects_query
         context['tickets'] = tickets_query
         context['users'] = users_query
         return render(request, "index/search_results.html", context)
-    
+
     else:
-        user_tickets = TicketAssignee.objects.filter(user = user_profile)
+        user_tickets = TicketAssignee.objects.filter(user=user_profile)
         context['user_tickets'] = user_tickets
-        resolved_tickets = TicketAssignee.objects.filter(user = user_profile).filter(ticket__status='RESOLVED').count()
-        new_tickets = TicketAssignee.objects.filter(user = user_profile).filter(ticket__status='NEW').count()
-        in_progress_tickets = TicketAssignee.objects.filter(user = user_profile).filter(ticket__status='IN_PROGRESS').count()
+        resolved_tickets = TicketAssignee.objects.filter(
+            user=user_profile).filter(ticket__status='RESOLVED').count()
+        new_tickets = TicketAssignee.objects.filter(
+            user=user_profile).filter(ticket__status='NEW').count()
+        in_progress_tickets = TicketAssignee.objects.filter(
+            user=user_profile).filter(ticket__status='IN_PROGRESS').count()
 
         if user_tickets.count() != 0:
-            context['resolved_tickets'] = round(resolved_tickets*100 / user_tickets.count())
-            context['new_tickets'] = round(new_tickets*100 / user_tickets.count())
-            context['in_progress_tickets'] = round(in_progress_tickets*100 / user_tickets.count())
+            context['resolved_tickets'] = round(
+                resolved_tickets*100 / user_tickets.count())
+            context['new_tickets'] = round(
+                new_tickets*100 / user_tickets.count())
+            context['in_progress_tickets'] = round(
+                in_progress_tickets*100 / user_tickets.count())
 
         else:
             default_value = round(100/3)
@@ -81,30 +97,28 @@ def index_view(request):
             context['new_tickets'] = default_value
             context['in_progress_tickets'] = default_value
 
-        context['user_projects'] = Project.objects.filter(created_by = user_profile)
-        context['user_todos'] = Todo.objects.filter(created_by = user_profile).order_by('-created_on')
+        context['user_projects'] = Project.objects.filter(
+            created_by=user_profile)
+        context['user_todos'] = Todo.objects.filter(
+            created_by=user_profile).order_by('-created_on')
         return render(request, "index/dashboard.html", context)
-
 
 
 @login_required(login_url='login_page')
 def handler404(request, exception=None):
-    return render(request, 'index/404.html', context, status=404)
+    return render(request, 'index/404.html', status=404)
 
 
 @login_required(login_url='login_page')
 def handler403(request, exception=None):
-    return render(request, 'index/403.html', context, status=403)
+    return render(request, 'index/403.html', status=403)
 
 
 @login_required(login_url='login_page')
 def handler400(request, exception=None):
-    return render(request, 'index/400.html', context, status=400)
+    return render(request, 'index/400.html', status=400)
 
 
 @login_required(login_url='login_page')
 def handler500(request):
-    return render(request, 'index/500.html', context, status=500)
-
-
-
+    return render(request, 'index/500.html', status=500)

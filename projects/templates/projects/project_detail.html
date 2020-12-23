@@ -79,7 +79,7 @@
 									<tr style="white-space: nowrap">
 										<td>{{user.user.first_name}} {{user.user.last_name}}</td>
 										<td>{{ user.user }}</td>
-										<td>{{ user.role }}</td>
+										<td>{{ user.user_role|title }}</td>
 									</tr>
 									{%endfor%}
 								</tbody>

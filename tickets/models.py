@@ -1,12 +1,15 @@
+import random
+import string
 from django.db import models
 from account.models import Profile
 from projects.models import Project
-from django.db.models.signals import post_delete, pre_save
+from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.dispatch import receiver
-import random, string
+
 
 # Create your models here.
+
 
 class Ticket(models.Model):
 
@@ -53,6 +56,7 @@ class TicketAssignee(models.Model):
     def __str__(self):
         return self.user.user.email + " " + self.ticket.title
 
+
 class TicketComment(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
@@ -75,7 +79,6 @@ class TicketAttachment(models.Model):
         return self.note
 
 
-
 def rand_slug():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
 
@@ -83,5 +86,6 @@ def rand_slug():
 def pre_save_ticket_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.title + "-" + rand_slug())
-    
-pre_save.connect(pre_save_ticket_receiver, sender = Ticket)
+
+
+pre_save.connect(pre_save_ticket_receiver, sender=Ticket)

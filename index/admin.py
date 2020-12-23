@@ -3,6 +3,7 @@ from .models import Todo, DirectMessage, Alert
 
 # Register your models here.
 
+
 class TodoAdmin(admin.ModelAdmin):
     list_display = ('created_by', 'created_on', 'note')
 
