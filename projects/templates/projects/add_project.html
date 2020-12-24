@@ -29,8 +29,9 @@
 												>{{ form.description }}
 											</div>
 										</div>
-                                    </div>
+									</div>
                                     <div class="form-group">
+										<br>
 										<button
 											class="btn btn-primary btn-sm"
 											type="submit"
@@ -51,28 +52,16 @@
 						<div class="card shadow mb-3">
 							<div class="card-header py-3">
 								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Project Members
+									Project Manager
 								</p>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                {% for user in users %}
-                                <li class="list-group-item">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col mr-2">
-                                            <h6 class="mb-0"><strong>{{ user.first_name }} {{ user.last_name }}</strong></h6>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="formCheck-{{forloop.counter}}" name="members" value="{{user}}" /><label
-                                                    class="custom-control-label"
-                                                    for="formCheck-{{forloop.counter}}"
-                                                ></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                            <div class="form-row" style="margin: 10px; margin-top: 20px;">
+								<div class="col">
+									<div class="form-group">
+										{{form.manager}}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
