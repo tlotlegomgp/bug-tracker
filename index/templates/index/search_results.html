@@ -1,27 +1,27 @@
 {% extends "index/header.html" %} {% block title %}Search{% endblock %} {% block content %}
 <div class="card shadow">
-	{%if projects%}
+	{%if users or tickets or projects %} {%if projects%}
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="text-primary font-weight-bold m-0">Projects</h6>
 		</div>
 		{% include 'index/snippets/project_search.html' %}
 	</div>
-	{%elif users%}
+	{%endif%} {% if users %}
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="text-primary font-weight-bold m-0">Users</h6>
 		</div>
 		{% include 'index/snippets/user_search.html' %}
 	</div>
-	{%elif tickets%}
+	{%endif%} {%if tickets%}
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="text-primary font-weight-bold m-0">Tickets</h6>
 		</div>
 		{% include 'index/snippets/ticket_search.html' %}
 	</div>
-	{%else%}
+	{%endif%} {%else%}
 	<div class="media">
 		<div class="media-body">
 			<h3 class="card-title text-center" style="padding: 10px">No Results</h3>

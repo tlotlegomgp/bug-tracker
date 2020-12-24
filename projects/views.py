@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from account.models import Profile, Account
+from account.models import Profile
 from tickets.models import Ticket
 from .models import Project, ProjectRole
 from .forms import ProjectForm
@@ -44,8 +44,7 @@ def add_project_view(request):
     # Present empty form to user
     else:
         context['users'] = Profile.objects.all()
-        context['form'] = ProjectForm(initial={'manager': (0, 'Select Project Manager')})
-
+        context['form'] = ProjectForm()
     return render(request, "projects/add_project.html", context)
 
 

@@ -52,7 +52,7 @@ def add_ticket_view(request, slug):
             return redirect('view_project', slug=slug)
     # Present empty form to user
     else:
-        context['users'] = project.projectrole_set.all()
+        context['users'] = Profile.objects.all()
         context['form'] = TicketForm()
 
     return render(request, "tickets/add_ticket.html", context)
@@ -108,8 +108,15 @@ def edit_ticket_view(request, slug):
     else:
         context['assigned_users'] = assigned_users
         context['ticket'] = ticket
-        context['users'] = project.projectrole_set.all()
+        context['users'] = Profile.objects.all()
         context['form'] = TicketForm(initial={'title': ticket.title, 'description': ticket.description,
                                               'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority})
 
     return render(request, "tickets/edit_ticket.html", context)
+
+
+@login_required(login_url='login_page')
+def delete_ticket_view(request, slug):
+    ticket = get_object_or_404(Ticket, slug=slug)
+    ticket.delete()
+    return redirect('tickets_page')

@@ -12,7 +12,7 @@
 			<tr>
 				<td>{{ project }}</td>
 				<td>{{ project.created_on }}</td>
-				<td><a href="">More Details</a></td>
+				<td><a href="{% url 'view_project' project.slug %}">More Details</a></td>
 			</tr>
 			{%endfor%}
 		</tbody>
