@@ -1,4 +1,6 @@
-<a role="button" href="#" style="color: rgb(28, 40, 38)" title="Edit"><em class="far fa-edit fa-sm">&nbsp</em></a>
+<a role="button" href="{% url 'edit_project' project.slug %}" style="color: rgb(28, 40, 38)" title="Edit"
+	><em class="far fa-edit fa-sm">&nbsp</em></a
+>
 
 |&nbsp&nbsp
 <a role="button" href="{% url 'view_project' project.slug %}" style="color: rgb(28, 40, 38)" title="More information"

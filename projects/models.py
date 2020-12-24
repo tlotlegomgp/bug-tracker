@@ -32,7 +32,7 @@ class ProjectRole(models.Model):
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user_role = models.CharField(max_length=20, choices=ROLE, default='ADMIN')
+    user_role = models.CharField(max_length=20, choices=ROLE, default='DEV')
     created_on = models.DateTimeField(verbose_name="date added", auto_now_add=True)
 
     def __str__(self):
