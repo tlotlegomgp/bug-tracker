@@ -49,6 +49,7 @@ def add_project_view(request):
     return render(request, "projects/add_project.html", context)
 
 
+@login_required(login_url='login_page')
 def project_detail_view(request, slug):
     context = {}
     project = get_object_or_404(Project, slug=slug)
@@ -58,3 +59,10 @@ def project_detail_view(request, slug):
     context['project'] = project
 
     return render(request, "projects/project_detail.html", context)
+
+
+@login_required(login_url='login_page')
+def delete_project_view(request, slug):
+    project = get_object_or_404(Project, slug=slug)
+    project.delete()
+    return redirect('projects_page')
