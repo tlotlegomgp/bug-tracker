@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from account.models import Profile, Account
-from projects.models import Project, ProjectRole
+from account.models import Profile
+from projects.models import Project
 from django.contrib.auth.decorators import login_required
 from .models import Ticket, TicketAssignee
 from .forms import TicketForm, TicketCommentForm
