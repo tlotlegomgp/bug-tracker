@@ -14,7 +14,7 @@
 				<td>{{ ticket }}</td>
 				<td>{{ ticket.project }}</td>
 				<td>{{ ticket.created_on }}</td>
-				<td><a href="">More Details</a></td>
+				<td><a href="{% url 'view_ticket' ticket.slug %}">More Details</a></td>
 			</tr>
 			{%endfor%}
 		</tbody>

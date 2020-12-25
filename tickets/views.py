@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Profile
 from projects.models import Project
 from django.contrib.auth.decorators import login_required
-from .models import Ticket, TicketAssignee
+from .models import Ticket, TicketAssignee, TicketComment
 from .forms import TicketForm, TicketCommentForm
 
 
@@ -108,6 +108,23 @@ def delete_ticket_view(request, slug):
 @login_required(login_url='login_page')
 def ticket_detail_view(request, slug):
     context = {}
-    context['ticket'] = get_object_or_404(Ticket, slug=slug)
-    context['form'] = TicketCommentForm()
+    ticket = get_object_or_404(Ticket, slug=slug)
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+
+    if request.method == "POST":
+        form = TicketCommentForm(request.POST)
+        if form.is_valid():
+            comment_body = form.cleaned_data['comment']
+
+            ticket_comment = TicketComment.objects.create(user=user_profile, body_message=comment_body, ticket=ticket)
+            ticket_comment.save()
+
+            return redirect('view_ticket', slug=slug)
+
+    else:
+        context['ticket'] = ticket
+        context['ticket_comments'] = TicketComment.objects.filter(ticket=ticket)
+        context['form'] = TicketCommentForm()
+
     return render(request, "tickets/ticket_detail.html", context)

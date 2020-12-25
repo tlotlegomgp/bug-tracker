@@ -115,7 +115,7 @@
 									<tr style="white-space: nowrap">
 										<td>{{comment.user.first_name}} {{comment.user.last_name}}</td>
 										<td>{{ comment }}</td>
-										<td>{{ comment.created_on}}</td>
+										<td>{{ comment.created_on|timesince }} ago</td>
 									</tr>
 									{%endfor%}
 								</tbody>
@@ -128,7 +128,10 @@
 						{% endif %}
 						<div class="form-row">
 							<div class="col">
-								<div class="form-group" style="margin: 20px">
+								<div
+									class="form-group"
+									style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px"
+								>
 									<label for="username"><strong>Add a Comment?</strong></label>
 									<div>
 										<form method="POST" action="{% url 'view_ticket' ticket.slug %}">
