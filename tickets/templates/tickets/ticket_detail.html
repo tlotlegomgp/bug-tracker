@@ -95,6 +95,7 @@
 								Ticket Comments
 							</p>
 						</div>
+						{% if ticket_comments %}
 						<div
 							class="table-responsive table mt-0"
 							id="dataTable"
@@ -120,17 +121,23 @@
 								</tbody>
 							</table>
 						</div>
+						{% else %}
+						<div style="padding-top: 20px" class="text-center">
+							<p><strong>Ticket Has No Comments.</strong></p>
+						</div>
+						{% endif %}
 						<div class="form-row">
 							<div class="col">
-								<div class="form-group">
+								<div class="form-group" style="margin: 20px">
 									<label for="username"><strong>Add a Comment?</strong></label>
 									<div>
 										<form method="POST" action="{% url 'view_ticket' ticket.slug %}">
-											{% csrf_token %} {{ form.comment }}
+											{% csrf_token %}
+											<div style="float: left; width: 88%">{{ form.comment }}</div>
 											<button
 												class="btn btn-primary btn-sm"
 												type="submit"
-												style="background: rgb(28, 40, 38)"
+												style="background: rgb(28, 40, 38); margin: 3px"
 											>
 												Add
 											</button>

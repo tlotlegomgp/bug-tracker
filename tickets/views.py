@@ -40,14 +40,11 @@ def add_ticket_view(request, slug):
                                            status=status, priority=priority, class_type=class_type, project=project)
             ticket.save()
 
-            assignees = request.POST.getlist('assignees')
-            for member_email in assignees:
-                member_account = get_object_or_404(Account, email=member_email)
-                member_profile = get_object_or_404(
-                    Profile, user=member_account)
-                ticket_assignee = TicketAssignee.objects.create(
-                    ticket=ticket, user=member_profile)
-                ticket_assignee.save()
+            assignee_id = form.cleaned_data['assignee']
+            user_role = form.cleaned_data['user_role']
+            assigned_user = get_object_or_404(Profile, id=assignee_id)
+            ticket_assignee = TicketAssignee.objects.create(ticket=ticket, user=assigned_user, user_role=user_role)
+            ticket_assignee.save()
 
             return redirect('view_project', slug=slug)
     # Present empty form to user
@@ -62,8 +59,7 @@ def add_ticket_view(request, slug):
 def edit_ticket_view(request, slug):
     context = {}
     ticket = get_object_or_404(Ticket, slug=slug)
-    ticket_assignees = TicketAssignee.objects.filter(ticket=ticket)
-    assigned_users = [assignment.user for assignment in ticket_assignees]
+    ticket_assignee = get_object_or_404(TicketAssignee, ticket=ticket)
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
@@ -80,36 +76,24 @@ def edit_ticket_view(request, slug):
             ticket.priority = priority
             ticket.save()
 
-            assignees = request.POST.getlist('assignees')
-            if not assignees:
-                for assignee in ticket_assignees:
-                    assignee.delete()
+            assignee_id = form.cleaned_data["assignee"]
+            user_role = form.cleaned_data["user_role"]
+            assigned_user = get_object_or_404(Profile, id=assignee_id)
+            ticket_assignee = TicketAssignee.objects.filter(user=assigned_user).filter(ticket=ticket).filter(user_role=user_role)
 
-            for member_email in assignees:
-                member_account = get_object_or_404(Account, email=member_email)
-                member_profile = get_object_or_404(
-                    Profile, user=member_account)
-                ticket_assignee = TicketAssignee.objects.filter(user=member_profile).filter(ticket=ticket)
+            if not ticket_assignee:
+                ticket_assignee.delete()
 
-                # If user already assigned to ticket
-                if ticket_assignee:
-                    # If previously assigned user is no longer selected as assgined
-                    if ticket_assignee.first() not in ticket_assignees:
-                        ticket_assignee.delete()
-
-                # Assign selected user to ticket
-                else:
-                    new_ticket_assignee = TicketAssignee.objects.create(ticket=ticket, user=member_profile)
-                    new_ticket_assignee.save()
+                new_ticket_assignee = TicketAssignee.objects.create(user=assigned_user, ticket=ticket, user_role=user_role)
+                new_ticket_assignee.save()
 
             return redirect('tickets_page')
     # Present empty form to user
     else:
-        context['assigned_users'] = assigned_users
         context['ticket'] = ticket
         context['users'] = Profile.objects.all()
         context['form'] = TicketForm(initial={'title': ticket.title, 'description': ticket.description,
-                                              'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority})
+                                              'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority, 'assignee': ticket_assignee.user, 'user_role': ticket_assignee.user_role})
 
     return render(request, "tickets/edit_ticket.html", context)
 

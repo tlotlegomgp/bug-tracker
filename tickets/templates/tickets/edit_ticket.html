@@ -74,28 +74,25 @@
 						<div class="card shadow mb-3">
 							<div class="card-header py-3">
 								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Ticket Assignees
+									Ticket Assignee
 								</p>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                {% for projectuser in users %}
-                                <li class="list-group-item">
-                                    <div class="row align-items-center no-gutters">
-                                        <div class="col mr-2">
-                                            <h6 class="mb-0"><strong>{{ projectuser.user.first_name }} {{ projectuser.user.last_name }}</strong></h6>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" {%if projectuser.user in assigned_users%}checked{%endif%} id="formCheck-{{forloop.counter}}" name="assignees" value="{{projectuser.user}}"/><label
-                                                    class="custom-control-label"
-                                                    for="formCheck-{{forloop.counter}}"
-                                                ></label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endfor %}
-                            </ul>
+                            <div class="form-row" style="margin: 10px; margin-top: 20px;">
+								<div class="col">
+									<div class="form-group">
+										<label for="first_name"><strong>Assignee</strong></label>
+										{{form.assignee}}
+									</div>
+								</div>
+							</div>
+							<div class="form-row" style="margin: 10px;">
+								<div class="col">
+									<div class="form-group">
+										<label for="first_name"><strong>Role</strong></label>
+										{{form.user_role}}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
