@@ -9,27 +9,33 @@
 		<hr class="sidebar-divider my-0" />
 		<ul class="nav navbar-nav text-light" id="accordionSidebar">
 			<li class="nav-item">
-				<a class="nav-link active" href="{% url 'index_page' %}"
+				<a class="nav-link {% if request.path == '/' %}active{%endif%}" href="{% url 'index_page' %}"
 					><em class="fas fa-tachometer-alt"></em><span> Dashboard</span></a
 				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'user_profile' %}"
+				<a
+					class="nav-link {% if request.path == '/account/profile/' %}active{%endif%}"
+					href="{% url 'user_profile' %}"
 					><em class="fas fa-user"></em><span> Profile</span></a
 				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'projects_page' %}"
+				<a
+					class="nav-link {% if request.path == '/projects/' %}active{%endif%}"
+					href="{% url 'projects_page' %}"
 					><em class="fas fa-tasks"></em><span> Projects</span></a
 				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'tickets_page' %}"
+				<a class="nav-link {% if request.path == '/tickets/' %}active{%endif%}" href="{% url 'tickets_page' %}"
 					><em class="fas fa-bug"></em><span> My Tickets</span></a
 				>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{% url 'team_page' %}"><em class="fas fa-users"></em><span> Team</span></a>
+				<a class="nav-link {% if request.path == '/teams/' %}active{%endif%}" href="{% url 'team_page' %}"
+					><em class="fas fa-users"></em><span> Team</span></a
+				>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'logout' %}"

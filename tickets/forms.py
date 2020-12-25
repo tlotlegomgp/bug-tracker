@@ -18,4 +18,4 @@ class TicketForm(forms.Form):
 
 
 class TicketCommentForm(forms.Form):
-    comment = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'name': "comment"}), required=False)
+    comment = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'name': "comment"}))
