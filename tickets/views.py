@@ -3,7 +3,7 @@ from account.models import Profile, Account
 from projects.models import Project, ProjectRole
 from django.contrib.auth.decorators import login_required
 from .models import Ticket, TicketAssignee
-from .forms import TicketForm
+from .forms import TicketForm, TicketCommentForm
 
 
 # Create your views here.
@@ -62,7 +62,6 @@ def add_ticket_view(request, slug):
 def edit_ticket_view(request, slug):
     context = {}
     ticket = get_object_or_404(Ticket, slug=slug)
-    project = ticket.project
     ticket_assignees = TicketAssignee.objects.filter(ticket=ticket)
     assigned_users = [assignment.user for assignment in ticket_assignees]
     if request.method == "POST":
@@ -120,3 +119,11 @@ def delete_ticket_view(request, slug):
     ticket = get_object_or_404(Ticket, slug=slug)
     ticket.delete()
     return redirect('tickets_page')
+
+
+@login_required(login_url='login_page')
+def ticket_detail_view(request, slug):
+    context = {}
+    context['ticket'] = get_object_or_404(Ticket, slug=slug)
+    context['form'] = TicketCommentForm()
+    return render(request, "tickets/ticket_detail.html", context)
