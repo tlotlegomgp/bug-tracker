@@ -77,7 +77,7 @@ class TicketComment(models.Model):
 
 class TicketAttachment(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    submitted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     note = models.CharField(max_length=70)
     attachment = models.FileField(upload_to='ticket_attachments')

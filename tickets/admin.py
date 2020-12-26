@@ -20,7 +20,7 @@ class TicketCommentAdmin(admin.ModelAdmin):
 
 
 class TicketAttachmentrAdmin(admin.ModelAdmin):
-    list_display = ('ticket', 'note', 'submitted_by', 'created_on', 'attachment')
+    list_display = ('ticket', 'note', 'user', 'created_on', 'attachment')
     search_fields = ('ticket', 'submitted_by')
 
 
