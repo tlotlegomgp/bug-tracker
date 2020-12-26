@@ -14,6 +14,7 @@ def login_view(request):
     context = {}
     if request.method == "POST":
         form = LoginForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
@@ -50,6 +51,7 @@ def register_view(request):
     # If user has filled form and wants to post form
     if request.method == "POST":
         form = RegisterForm(request.POST)
+        context['form'] = form
         if form.is_valid():
             username = form.cleaned_data["username"]
             email = form.cleaned_data["email"]
