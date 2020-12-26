@@ -80,7 +80,7 @@ class TicketAttachment(models.Model):
     submitted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     note = models.CharField(max_length=70)
-    attachment = models.FileField()
+    attachment = models.FileField(upload_to='ticket_attachments')
 
     def __str__(self):
         return self.note

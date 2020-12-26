@@ -10,36 +10,36 @@
 		<ul class="nav navbar-nav text-light" id="accordionSidebar">
 			<li class="nav-item">
 				<a class="nav-link {% if request.path == '/' %}active{%endif%}" href="{% url 'index_page' %}"
-					><em class="fas fa-tachometer-alt"></em><span> Dashboard</span></a
+					><em class="fas fa-tachometer-alt"></em><span>&nbsp;Dashboard</span></a
 				>
 			</li>
 			<li class="nav-item">
 				<a
 					class="nav-link {% if request.path == '/account/profile/' %}active{%endif%}"
 					href="{% url 'user_profile' %}"
-					><em class="fas fa-user"></em><span> Profile</span></a
+					><em class="fas fa-user"></em><span>&nbsp;Profile</span></a
 				>
 			</li>
 			<li class="nav-item">
 				<a
 					class="nav-link {% if request.path == '/projects/' %}active{%endif%}"
 					href="{% url 'projects_page' %}"
-					><em class="fas fa-tasks"></em><span> Projects</span></a
+					><em class="fas fa-tasks"></em><span>&nbsp;Projects</span></a
 				>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link {% if request.path == '/tickets/' %}active{%endif%}" href="{% url 'tickets_page' %}"
-					><em class="fas fa-bug"></em><span> My Tickets</span></a
+					><em class="fas fa-bug"></em><span>&nbsp;My Tickets</span></a
 				>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link {% if request.path == '/teams/' %}active{%endif%}" href="{% url 'team_page' %}"
-					><em class="fas fa-users"></em><span> Team</span></a
+					><em class="fas fa-users"></em><span>&nbsp;Team</span></a
 				>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'logout' %}"
-					><em class="fas fa-sign-out-alt"></em><span>&nbsp Logout</span></a
+					><em class="fas fa-sign-out-alt"></em><span>&nbsp;&nbsp;Logout</span></a
 				>
 			</li>
 		</ul>
