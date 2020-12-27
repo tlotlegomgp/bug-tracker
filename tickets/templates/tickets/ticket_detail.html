@@ -68,7 +68,7 @@
 								<div class="col-lg-6">
 									<div class="form-group">
 										<label for="first_name"><strong>Updated</strong></label>
-										<p class="mb-4">{{ ticket.updated|timesince }}</p>
+										<p class="mb-4">{{ ticket.updated|timesince }} ago</p>
 									</div>
 								</div>
 							</div>
@@ -218,9 +218,9 @@
 									{% for attachment in ticket_attachments %}
 									<tr style="white-space: nowrap">
 										<td>{{attachment.user.first_name}} {{attachment.user.last_name}}</td>
-										<td>{{ attachment.created_on }}</td>
+										<td>{{ attachment.created_on|date:"SHORT_DATETIME_FORMAT" }}</td>
 										<td>{{ attachment.note|truncatechars:30 }}</td>
-										<td>{{ attachment.attachment|truncatechars:30 }}</td>
+										<td>{{ attachment.filename|truncatechars:30 }}</td>
 										<td>{{ attachment.attachment.size|filesizeformat }}</td>
 										<td>{% include 'tickets/snippets/ticket_attachement_action.html' %}</td>
 									</tr>

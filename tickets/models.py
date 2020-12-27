@@ -1,5 +1,6 @@
 import random
 import string
+import os
 from django.db import models
 from account.models import Profile
 from projects.models import Project
@@ -84,6 +85,9 @@ class TicketAttachment(models.Model):
 
     def __str__(self):
         return self.note
+
+    def filename(self):
+        return os.path.basename(self.attachment.name)
 
 
 def rand_slug():
