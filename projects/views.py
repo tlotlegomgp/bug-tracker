@@ -24,27 +24,32 @@ def add_project_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
+    form = ProjectForm(request.POST or None)
+    context['form'] = form
 
     if request.method == "POST":
-        form = ProjectForm(request.POST)
+        form = ProjectForm(request.POST or None)
         if form.is_valid():
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
             project = Project.objects.create(
                 name=name, description=description, created_by=user_profile)
-            project.save()
 
             selected_user_id = form.cleaned_data['manager']
-            print(selected_user_id)
             selected_user_profile = get_object_or_404(Profile, id=selected_user_id)
             project_role = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='MAN')
-            project_role.save()
+
+            members = form.cleaned_data.get("members")
+            for member_id in members:
+                member = get_object_or_404(Profile, id=member_id)
+
+                if selected_user_profile != member:
+                    project_role = ProjectRole.objects.create(user=member, project=project, user_role='MEM')
 
             return redirect('projects_page')
     # Present empty form to user
     else:
         context['users'] = Profile.objects.all()
-        context['form'] = ProjectForm()
     return render(request, "projects/add_project.html", context)
 
 

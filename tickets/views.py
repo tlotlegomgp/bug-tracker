@@ -124,8 +124,8 @@ def ticket_detail_view(request, slug):
 
     else:
         context['ticket'] = ticket
-        context['ticket_attachments'] = TicketAttachment.objects.filter(ticket=ticket)
-        context['ticket_comments'] = TicketComment.objects.filter(ticket=ticket)
+        context['ticket_attachments'] = TicketAttachment.objects.filter(ticket=ticket).order_by('-created_on')
+        context['ticket_comments'] = TicketComment.objects.filter(ticket=ticket).order_by('-created_on')
         context['form'] = TicketCommentForm()
         context['attachment_form'] = TicketAttachmentForm()
 
@@ -146,6 +146,4 @@ def ticket_attachment_view(request, slug):
 
             new_attachment = TicketAttachment.objects.create(user=user_profile, ticket=ticket, note=note, attachment=attachment)
 
-            if new_attachment:
-                print('HELLLLLLLLLOOOOOOOO')
     return redirect('view_ticket', slug=slug)

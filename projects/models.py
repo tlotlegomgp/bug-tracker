@@ -24,13 +24,14 @@ class Project(models.Model):
 class ProjectRole(models.Model):
 
     ROLE = (
-        ('ADMIN', 'Admin'),
-        ('MAN', 'Project Manager'),
+        ('Admin', 'Admin'),
+        ('Project Manager', 'Project Manager'),
+        ('Member', 'Member'),
     )
 
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user_role = models.CharField(max_length=20, choices=ROLE, default='MAN')
+    user_role = models.CharField(max_length=20, choices=ROLE, default='MEM')
     created_on = models.DateTimeField(verbose_name="date added", auto_now_add=True)
 
     def __str__(self):

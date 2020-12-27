@@ -115,7 +115,7 @@
 									<tr style="white-space: nowrap">
 										<td>{{comment.user.first_name}} {{comment.user.last_name}}</td>
 										<td>{{ comment }}</td>
-										<td>{{ comment.created_on|timesince }} ago</td>
+										<td>{{ comment.created_on|timesince}} ago</td>
 									</tr>
 									{%endfor%}
 								</tbody>
@@ -218,9 +218,9 @@
 									{% for attachment in ticket_attachments %}
 									<tr style="white-space: nowrap">
 										<td>{{attachment.user.first_name}} {{attachment.user.last_name}}</td>
-										<td>{{ attachment.created_on|date:"SHORT_DATETIME_FORMAT" }}</td>
-										<td>{{ attachment.note|truncatechars:30 }}</td>
-										<td>{{ attachment.filename|truncatechars:30 }}</td>
+										<td>{{ attachment.created_on|date:"SHORT_DATE_FORMAT" }}</td>
+										<td>{{ attachment.note|truncatechars:40 }}</td>
+										<td>{{ attachment.filename|truncatechars:20 }}</td>
 										<td>{{ attachment.attachment.size|filesizeformat }}</td>
 										<td>{% include 'tickets/snippets/ticket_attachement_action.html' %}</td>
 									</tr>
