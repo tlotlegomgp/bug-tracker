@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Profile
 from projects.models import Project
 from django.contrib.auth.decorators import login_required
-from .models import Ticket, TicketAssignee, TicketComment
-from .forms import TicketForm, TicketCommentForm
+from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
+from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 
 
 # Create your views here.
@@ -124,7 +124,28 @@ def ticket_detail_view(request, slug):
 
     else:
         context['ticket'] = ticket
+        context['ticket_attachments'] = TicketAttachment.objects.filter(ticket=ticket)
         context['ticket_comments'] = TicketComment.objects.filter(ticket=ticket)
         context['form'] = TicketCommentForm()
+        context['attachment_form'] = TicketAttachmentForm()
 
     return render(request, "tickets/ticket_detail.html", context)
+
+
+@login_required(login_url='login_page')
+def ticket_attachment_view(request, slug):
+    if request.method == "POST":
+        form = TicketAttachmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = request.user
+            user_profile = get_object_or_404(Profile, user=user)
+            ticket = get_object_or_404(Ticket, slug=slug)
+
+            note = form.cleaned_data['note']
+            attachment = request.FILES['attachment']
+
+            new_attachment = TicketAttachment.objects.create(user=user_profile, ticket=ticket, note=note, attachment=attachment)
+
+            if new_attachment:
+                print('HELLLLLLLLLOOOOOOOO')
+    return redirect('view_ticket', slug=slug)

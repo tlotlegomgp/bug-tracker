@@ -19,3 +19,8 @@ class TicketForm(forms.Form):
 
 class TicketCommentForm(forms.Form):
     comment = forms.CharField(max_length=150, widget=forms.TextInput(attrs={'class': 'form-control', 'name': "comment"}))
+
+
+class TicketAttachmentForm(forms.Form):
+    attachment = forms.FileField(widget=forms.FileInput(attrs={'style': "border-color: rgb(28, 40, 38)"}))
+    note = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'name': "address"}), required=False)

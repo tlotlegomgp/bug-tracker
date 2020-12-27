@@ -164,6 +164,38 @@
 								Ticket Attachments
 							</p>
 						</div>
+						<div class="form-group" style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px">
+							<div>
+								<form
+									method="POST"
+									action="{% url 'add_attachment' ticket.slug %}"
+									enctype="multipart/form-data"
+								>
+									{% csrf_token %}
+									<div class="form-row" style="margin-top: 20px">
+										<div class="col-lg-4">
+											<div>
+												<label for="username"><strong>Add Attachment?</strong></label>
+											</div>
+											<div>{{ attachment_form.attachment }}</div>
+										</div>
+										<div class="col-lg-7">
+											<label for="username"><strong>Description</strong></label>
+											{{attachment_form.note}}
+										</div>
+										<div class="col-lg-1" style="margin-top: 30px">
+											<button
+												class="btn btn-primary btn-sm"
+												type="submit"
+												style="background: rgb(28, 40, 38); margin: 3px"
+											>
+												Add
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
 						{% if ticket_attachments %}
 						<div
 							class="table-responsive table mt-0"
@@ -183,14 +215,14 @@
 									</tr>
 								</thead>
 								<tbody>
-									{% for attachment in ticket_attachment %}
+									{% for attachment in ticket_attachments %}
 									<tr style="white-space: nowrap">
 										<td>{{attachment.user.first_name}} {{attachment.user.last_name}}</td>
 										<td>{{ attachment.created_on }}</td>
-										<td>{{ attachment.note }}</td>
-										<td>{{ attachment.attachment }}</td>
-										<td>{{ attachment.attachment|filesizeformat }}</td>
-										<td>{% include 'tickets/snippets/ticket_attachment_action.html' %} ago</td>
+										<td>{{ attachment.note|truncatechars:30 }}</td>
+										<td>{{ attachment.attachment|truncatechars:30 }}</td>
+										<td>{{ attachment.attachment.size|filesizeformat }}</td>
+										<td>{% include 'tickets/snippets/ticket_attachement_action.html' %}</td>
 									</tr>
 									{%endfor%}
 								</tbody>
