@@ -1,8 +1,13 @@
-<a role="button" href="#" style="color: rgb(28, 40, 38)" title="Open/Download"
+<a
+	role="button"
+	href="{{ attachment.attachment.url }}"
+	target="_blank"
+	style="color: rgb(28, 40, 38)"
+	title="Open/Download"
 	><em class="fas fa-download fa-sm">&nbsp</em></a
 >
 
 |&nbsp&nbsp
-<a role="button" href="#" style="color: rgb(28, 40, 38)" title="Delete"
+<a role="button" href="{% url 'delete_attachment' attachment.id %}" style="color: rgb(28, 40, 38)" title="Delete"
 	><em class="far fa-trash-alt fa-sm">&nbsp</em></a
 >

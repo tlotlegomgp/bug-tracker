@@ -98,6 +98,7 @@
 						<div class="card-header py-3">
 							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">Tickets</p>
 						</div>
+						{% if tickets %}
 						<div
 							class="table-responsive table mt-0"
 							id="dataTable"
@@ -121,6 +122,11 @@
 								</tbody>
 							</table>
 						</div>
+						{% else %}
+						<div style="padding-top: 20px" class="text-center">
+							<p><strong>Project Has No Tickets.</strong></p>
+						</div>
+						{% endif %}
 					</div>
 				</div>
 			</div>

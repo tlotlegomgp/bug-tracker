@@ -147,3 +147,11 @@ def ticket_attachment_view(request, slug):
             new_attachment = TicketAttachment.objects.create(user=user_profile, ticket=ticket, note=note, attachment=attachment)
 
     return redirect('view_ticket', slug=slug)
+
+
+@login_required(login_url='login_page')
+def delete_attachment_view(request, attachment_id):
+    attachment = get_object_or_404(TicketAttachment, id=attachment_id)
+    ticket_slug = attachment.ticket.slug
+    attachment.delete()
+    return redirect('view_ticket', slug=ticket_slug)

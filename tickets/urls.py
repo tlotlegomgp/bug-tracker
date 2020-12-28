@@ -9,5 +9,6 @@ urlpatterns = [
     path('delete/<slug:slug>/', views.delete_ticket_view, name="delete_ticket"),
     path('<slug:slug>/', views.ticket_detail_view, name="view_ticket"),
     path('add-attachment/<slug:slug>/', views.ticket_attachment_view, name="add_attachment"),
+    path('delete-attachment/<int:attachment_id>/', views.delete_attachment_view, name="delete_attachment"),
 
 ]
