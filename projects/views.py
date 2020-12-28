@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from tickets.models import Ticket
 from .models import Project, ProjectRole
@@ -7,14 +8,28 @@ from .forms import ProjectForm
 
 # Create your views here.
 
+BLOG_POSTS_PER_PAGE = 10
+
 
 @login_required(login_url='login_page')
 def projects_view(request):
     context = {}
     user = request.user
     profile = get_object_or_404(Profile, user=user)
-    context['user_projects'] = Project.objects.filter(
-        created_by=profile).order_by('-created_on')
+    project_roles = ProjectRole.objects.filter(user=profile).order_by('-created_on')
+    projects = [role.project for role in project_roles]
+
+    page = request.GET.get('page', 1)
+    projects_paginator = Paginator(projects, BLOG_POSTS_PER_PAGE)
+
+    try:
+        projects = projects_paginator.page(page)
+    except PageNotAnInteger:
+        projects = projects_paginator.page(BLOG_POSTS_PER_PAGE)
+    except EmptyPage:
+        projects = projects_paginator.page(projects_paginator.num_pages)
+
+    context['user_projects'] = projects
 
     return render(request, "projects/projects.html", context)
 

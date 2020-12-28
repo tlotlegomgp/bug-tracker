@@ -30,7 +30,7 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include "projects/snippets/pagination.html" %}
+		{% include "tickets/snippets/pagination.html" with tickets=user_tickets %}
 	</div>
 </div>
 {% endblock %}

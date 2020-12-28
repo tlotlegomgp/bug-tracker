@@ -1,29 +1,29 @@
 <div class="row">
 	<div class="col-md-6 align-self-center">
 		<p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">
-			Showing 1 to {{projects.paginator.num_pages}} of {{projects.paginator.count}}
+			Showing 1 to {{users.paginator.num_pages}} of {{users.paginator.count}}
 		</p>
 	</div>
 	<div class="col-md-6">
 		<nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
 			<ul class="pagination">
-				{% if projects.has_previous %}
+				{% if users.has_previous %}
 				<li class="page-item">
 					<a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page=1" aria-label="Previous"
 						><span aria-hidden="true">«</span></a
 					>
 				</li>
-				{% endif %} {% for i in projects.paginator.page_range %} {% if projects.number == i %}
+				{% endif %} {% for i in users.paginator.page_range %} {% if users.number == i %}
 				<li class="page-item active"><a class="page-link">{{i}}</a></li>
 				{% else %}
 				<li class="page-item">
 					<a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{i}}">{{i}}</a>
 				</li>
-				{% endif %} {% endfor %} {% if projects.has_next %}
+				{% endif %} {% endfor %} {% if users.has_next %}
 				<li class="page-item">
 					<a
 						class="page-link"
-						href="?{% if query %}q={{query}}&{% endif %}page={{projects.paginator.num_pages}}"
+						href="?{% if query %}q={{query}}&{% endif %}page={{users.paginator.num_pages}}"
 						aria-label="Next"
 						><span aria-hidden="true">»</span></a
 					>

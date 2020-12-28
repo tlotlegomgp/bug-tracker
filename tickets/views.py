@@ -2,10 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Profile
 from projects.models import Project
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
 from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 
 
+BLOG_POSTS_PER_PAGE = 10
 # Create your views here.
 
 
@@ -15,7 +17,18 @@ def tickets_view(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
     user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
-    context['user_tickets'] = [assignment.ticket for assignment in user_tickets_assignments]
+    tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+    page = request.GET.get('page', 1)
+    tickets_paginator = Paginator(tickets, BLOG_POSTS_PER_PAGE)
+
+    try:
+        tickets = tickets_paginator.page(page)
+    except PageNotAnInteger:
+        tickets = tickets_paginator.page(BLOG_POSTS_PER_PAGE)
+    except EmptyPage:
+        tickets = tickets_paginator.page(tickets.num_pages)
+    context['user_tickets'] = tickets
     return render(request, "tickets/tickets.html", context)
 
 
