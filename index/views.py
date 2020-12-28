@@ -100,7 +100,7 @@ def index_view(request):
         context['user_projects'] = Project.objects.filter(
             created_by=user_profile)
         context['user_todos'] = Todo.objects.filter(
-            created_by=user_profile).order_by('-created_on')
+            created_by=user_profile).order_by('-created_on')[:10]
         return render(request, "index/dashboard.html", context)
 
 

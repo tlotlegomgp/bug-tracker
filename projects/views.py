@@ -37,14 +37,14 @@ def add_project_view(request):
 
             selected_user_id = form.cleaned_data['manager']
             selected_user_profile = get_object_or_404(Profile, id=selected_user_id)
-            project_role = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='MAN')
+            project_role = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='Project Manager')
 
             members = form.cleaned_data.get("members")
             for member_id in members:
                 member = get_object_or_404(Profile, id=member_id)
 
                 if selected_user_profile != member:
-                    project_role = ProjectRole.objects.create(user=member, project=project, user_role='MEM')
+                    project_role = ProjectRole.objects.create(user=member, project=project, user_role='Member')
 
             return redirect('projects_page')
     # Present empty form to user
@@ -76,7 +76,9 @@ def delete_project_view(request, slug):
 def edit_project_view(request, slug):
     context = {}
     project = get_object_or_404(Project, slug=slug)
-    current_project_manager = ProjectRole.objects.filter(project=project).filter(user_role='MAN').first()
+    current_project_manager = ProjectRole.objects.filter(project=project).filter(user_role='Project Manager').first()
+    current_user_roles = ProjectRole.objects.filter(project=project)
+    user_ids = [user.user.id for user in current_user_roles]
 
     if request.method == "POST":
         form = ProjectForm(request.POST)
@@ -90,12 +92,27 @@ def edit_project_view(request, slug):
 
             selected_user_id = form.cleaned_data['manager']
             selected_user_profile = get_object_or_404(Profile, id=selected_user_id)
-            selected_user_role = ProjectRole.objects.filter(project=project).filter(user_role='MAN').filter(user=selected_user_profile).first()
+            selected_user_role = ProjectRole.objects.filter(project=project).filter(
+                user_role='Project Manager').filter(user=selected_user_profile).first()
 
             if not selected_user_role:
                 current_project_manager.delete()
-                new_project_manager = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='MAN')
+                new_project_manager = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='Project Manager')
                 new_project_manager.save()
+                print('PROJECT MANAGER CHANGED')
+
+            members = form.cleaned_data.get("members")
+
+            for member_id in members:
+                member_profile = get_object_or_404(Profile, id=member_id)
+                member_role = ProjectRole.objects.filter(user=member_profile, project=project).first()
+                if not member_role:
+                    print('USER SELECTED DOES NOT HAVE A ROLE. CREATE ROLE.')
+                    project_role = ProjectRole.objects.create(user=member_profile, project=project, user_role='Member')
+
+            for user_role in current_user_roles:
+                if str(user_role.user.id) not in members and user_role.user.id != current_project_manager.user.id:
+                    user_role.delete()
 
             return redirect('projects_page')
     # Present empty form to user
@@ -103,6 +120,6 @@ def edit_project_view(request, slug):
         context['users'] = Profile.objects.all()
         context['project'] = project
         context['form'] = ProjectForm(initial={'name': project.name, 'description': project.description,
-                                               'manager': current_project_manager.user.id})
+                                               'manager': current_project_manager.user.id, 'members': user_ids})
 
     return render(request, "projects/edit_project.html", context)
