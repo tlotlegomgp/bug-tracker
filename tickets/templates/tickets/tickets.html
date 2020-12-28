@@ -17,6 +17,7 @@
 				</div>
 			</div>
 		</div>
+		{% if user_tickets %}
 		<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
 			<table class="table my-0" id="dataTable" aria-describedby="projects">
 				<thead>
@@ -30,7 +31,11 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include "tickets/snippets/pagination.html" with tickets=user_tickets %}
+		{% include "tickets/snippets/pagination.html" with tickets=user_tickets %} {% else %}
+		<div style="padding-top: 20px" class="text-center">
+			<p><strong>You have no tickets.</strong></p>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

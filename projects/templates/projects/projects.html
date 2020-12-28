@@ -24,6 +24,7 @@
 				</div>
 			</div>
 		</div>
+		{% if user_projects %}
 		<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
 			<table class="table my-0" id="dataTable" aria-describedby="projects">
 				<thead>
@@ -37,7 +38,11 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include "projects/snippets/pagination.html" with projects=user_projects %}
+		{% include "projects/snippets/pagination.html" with projects=user_projects %} {% else %}
+		<div style="padding-top: 20px" class="text-center">
+			<p><strong>You have no projects.</strong></p>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

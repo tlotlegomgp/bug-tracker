@@ -7,7 +7,8 @@ from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
 from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 
 
-BLOG_POSTS_PER_PAGE = 10
+TICKETS_PER_PAGE = 10
+COMMENTS_PER_PAGE = 8
 # Create your views here.
 
 
@@ -20,12 +21,12 @@ def tickets_view(request):
     tickets = [assignment.ticket for assignment in user_tickets_assignments]
 
     page = request.GET.get('page', 1)
-    tickets_paginator = Paginator(tickets, BLOG_POSTS_PER_PAGE)
+    tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)
 
     try:
         tickets = tickets_paginator.page(page)
     except PageNotAnInteger:
-        tickets = tickets_paginator.page(BLOG_POSTS_PER_PAGE)
+        tickets = tickets_paginator.page(TICKETS_PER_PAGE)
     except EmptyPage:
         tickets = tickets_paginator.page(tickets.num_pages)
     context['user_tickets'] = tickets
@@ -138,7 +139,20 @@ def ticket_detail_view(request, slug):
     else:
         context['ticket'] = ticket
         context['ticket_attachments'] = TicketAttachment.objects.filter(ticket=ticket).order_by('-created_on')
-        context['ticket_comments'] = TicketComment.objects.filter(ticket=ticket).order_by('-created_on')
+
+        comments = TicketComment.objects.filter(ticket=ticket).order_by('-created_on')
+
+        page = request.GET.get('page', 1)
+        comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
+
+        try:
+            comments = comments_paginator.page(page)
+        except PageNotAnInteger:
+            comments = comments_paginator.page(COMMENTS_PER_PAGE)
+        except EmptyPage:
+            comments = comments_paginator.page(comments_paginator.num_pages)
+
+        context['ticket_comments'] = comments
         context['form'] = TicketCommentForm()
         context['attachment_form'] = TicketAttachmentForm()
 

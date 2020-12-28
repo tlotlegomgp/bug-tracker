@@ -2,13 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
-from tickets.models import Ticket
+from tickets.models import TicketAssignee
 from .models import Project, ProjectRole
 from .forms import ProjectForm
 
 # Create your views here.
 
-BLOG_POSTS_PER_PAGE = 10
+PROJECTS_PER_PAGE = 10
+USERS_PER_PAGE = 5
 
 
 @login_required(login_url='login_page')
@@ -20,12 +21,12 @@ def projects_view(request):
     projects = [role.project for role in project_roles]
 
     page = request.GET.get('page', 1)
-    projects_paginator = Paginator(projects, BLOG_POSTS_PER_PAGE)
+    projects_paginator = Paginator(projects, PROJECTS_PER_PAGE)
 
     try:
         projects = projects_paginator.page(page)
     except PageNotAnInteger:
-        projects = projects_paginator.page(BLOG_POSTS_PER_PAGE)
+        projects = projects_paginator.page(PROJECTS_PER_PAGE)
     except EmptyPage:
         projects = projects_paginator.page(projects_paginator.num_pages)
 
@@ -72,10 +73,26 @@ def add_project_view(request):
 def project_detail_view(request, slug):
     context = {}
     project = get_object_or_404(Project, slug=slug)
-    context['user_roles'] = ProjectRole.objects.filter(project=project)
-    context['tickets'] = Ticket.objects.filter(
-        project=project).order_by('-created_on')
     context['project'] = project
+
+    users = ProjectRole.objects.filter(project=project).order_by('-created_on')
+    page = request.GET.get('page', 1)
+    users_paginator = Paginator(users, USERS_PER_PAGE)
+
+    try:
+        users = users_paginator.page(page)
+    except PageNotAnInteger:
+        users = users_paginator.page(USERS_PER_PAGE)
+    except EmptyPage:
+        users = users_paginator.page(users_paginator.num_pages)
+
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+    user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
+    tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+    context['tickets'] = tickets
+    context['user_roles'] = users
 
     return render(request, "projects/project_detail.html", context)
 
@@ -114,7 +131,6 @@ def edit_project_view(request, slug):
                 current_project_manager.delete()
                 new_project_manager = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='Project Manager')
                 new_project_manager.save()
-                print('PROJECT MANAGER CHANGED')
 
             members = form.cleaned_data.get("members")
 
@@ -122,7 +138,6 @@ def edit_project_view(request, slug):
                 member_profile = get_object_or_404(Profile, id=member_id)
                 member_role = ProjectRole.objects.filter(user=member_profile, project=project).first()
                 if not member_role:
-                    print('USER SELECTED DOES NOT HAVE A ROLE. CREATE ROLE.')
                     project_role = ProjectRole.objects.create(user=member_profile, project=project, user_role='Member')
 
             for user_role in current_user_roles:
