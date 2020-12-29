@@ -125,7 +125,6 @@ def edit_project_view(request, slug):
             if not selected_user_role:
                 current_project_manager.delete()
                 new_project_manager = ProjectRole.objects.create(user=selected_user_profile, project=project, user_role='Project Manager')
-                new_project_manager.save()
 
             members = form.cleaned_data.get("members")
 
