@@ -72,7 +72,19 @@
 							class="dropdown-menu dropdown-menu-right dropdown-list dropdown-menu-right animated--grow-in"
 						>
 							<h6 class="dropdown-header">alerts center</h6>
-							{% for alert in alerts %} {% endfor %}
+							{% for alert in alerts %}
+							<a class="d-flex align-items-center dropdown-item" href="#">
+								<div class="mr-3">
+									<div class="bg-primary icon-circle">
+										<em class="fas fa-file-alt text-white"></em>
+									</div>
+								</div>
+								<div>
+									<span class="small text-gray-500">{{ alert.created_on|timesince }} ago</span>
+									<p>{{ alert.note }}</p>
+								</div>
+							</a>
+							{% endfor %}
 							<a class="text-center dropdown-item small text-gray-500" href="#">Show All Alerts</a>
 						</div>
 					</div>

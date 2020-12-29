@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
-from projects.models import Project
+from projects.models import Project, ProjectRole
 from .models import Todo
 
 
@@ -97,8 +97,8 @@ def index_view(request):
             context['new_tickets'] = default_value
             context['in_progress_tickets'] = default_value
 
-        context['user_projects'] = Project.objects.filter(
-            created_by=user_profile)
+        project_roles = ProjectRole.objects.filter(user=user_profile).order_by('-created_on')
+        context['user_projects'] = project_roles
         context['user_todos'] = Todo.objects.filter(
             created_by=user_profile).order_by('-created_on')[:10]
         return render(request, "index/dashboard.html", context)

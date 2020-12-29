@@ -57,7 +57,6 @@ def add_ticket_view(request, slug):
             user_role = form.cleaned_data['user_role']
             assigned_user = get_object_or_404(Profile, id=assignee_id)
             ticket_assignee = TicketAssignee.objects.create(ticket=ticket, user=assigned_user, user_role=user_role)
-            ticket_assignee.save()
 
             return redirect('view_project', slug=slug)
     # Present empty form to user
@@ -65,7 +64,6 @@ def add_ticket_view(request, slug):
         project_roles = ProjectRole.objects.filter(project=project).order_by('-created_on')
         users = [user.user for user in project_roles]
         form = TicketForm()
-        form.fields['assignee'].choices = ((u.id, u.first_name + " " + u.last_name) for u in users)
         context['form'] = form
         context['project'] = project
 
@@ -135,7 +133,6 @@ def ticket_detail_view(request, slug):
             comment_body = form.cleaned_data['comment']
 
             ticket_comment = TicketComment.objects.create(user=user_profile, body_message=comment_body, ticket=ticket)
-            ticket_comment.save()
 
             return redirect('view_ticket', slug=slug)
 
