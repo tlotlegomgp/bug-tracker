@@ -113,23 +113,23 @@ def ticket_post_save_receiver(sender, instance, *args, **kwargs):
 
 def ticket_comment_post_save_receiver(sender, instance, *args, **kwargs):
     ticket_assignment = get_object_or_404(TicketAssignee, ticket=instance.ticket)
-    action_user = ticket_assignment.user.first_name + " " + ticket_assignment.user.last_name
-    alert_user = instance.user
+    action_user = instance.user.first_name + " " + instance.user.last_name
+    alert_user = ticket_assignment.user
     ticket_name = instance.ticket.title
-    alert_message = action_user + " added a comment to ticket, " + ticket_name + "."
+    alert_message = action_user + " left a comment to ticket, " + ticket_name + "."
 
-    if instance.ticket.created_by != instance.user:
+    if ticket_assignment.user != instance.user:
         alert = Alert.objects.create(user=alert_user, note=alert_message)
 
 
 def ticket_attachment_post_save_receiver(sender, instance, *args, **kwargs):
     ticket_assignment = get_object_or_404(TicketAssignee, ticket=instance.ticket)
-    action_user = ticket_assignment.user.first_name + " " + ticket_assignment.user.last_name
-    alert_user = instance.user
+    action_user = instance.user.first_name + " " + instance.user.last_name
+    alert_user = ticket_assignment.user
     ticket_name = instance.ticket.title
-    alert_message = action_user + " added a attachment to ticket, " + ticket_name + "."
+    alert_message = action_user + " added an attachment to ticket, " + ticket_name + "."
 
-    if instance.ticket.created_by != instance.user:
+    if ticket_assignment.user != instance.user:
         alert = Alert.objects.create(user=alert_user, note=alert_message)
 
 
