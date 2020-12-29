@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
-from tickets.models import TicketAssignee
 from .models import Project, ProjectRole
 from .forms import ProjectForm
 
@@ -40,8 +39,6 @@ def add_project_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
-    form = ProjectForm(request.POST or None)
-    context['form'] = form
 
     if request.method == "POST":
         form = ProjectForm(request.POST or None)
@@ -65,7 +62,8 @@ def add_project_view(request):
             return redirect('projects_page')
     # Present empty form to user
     else:
-        context['users'] = Profile.objects.all()
+        form = ProjectForm(request.POST or None)
+        context['form'] = form
     return render(request, "projects/add_project.html", context)
 
 
@@ -86,10 +84,7 @@ def project_detail_view(request, slug):
     except EmptyPage:
         users = users_paginator.page(users_paginator.num_pages)
 
-    user = request.user
-    user_profile = get_object_or_404(Profile, user=user)
-    user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
-    tickets = [assignment.ticket for assignment in user_tickets_assignments]
+    tickets = project.tickets.all().order_by('-created_on')
 
     context['tickets'] = tickets
     context['user_roles'] = users
@@ -147,7 +142,6 @@ def edit_project_view(request, slug):
             return redirect('projects_page')
     # Present empty form to user
     else:
-        context['users'] = Profile.objects.all()
         context['project'] = project
         context['form'] = ProjectForm(initial={'name': project.name, 'description': project.description,
                                                'manager': current_project_manager.user.id, 'members': user_ids})

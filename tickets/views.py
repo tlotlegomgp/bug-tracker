@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Profile
-from projects.models import Project
+from projects.models import Project, ProjectRole
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
@@ -39,7 +39,6 @@ def add_ticket_view(request, slug):
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
     project = get_object_or_404(Project, slug=slug)
-    context['project'] = project
 
     if request.method == "POST":
         form = TicketForm(request.POST)
@@ -63,8 +62,12 @@ def add_ticket_view(request, slug):
             return redirect('view_project', slug=slug)
     # Present empty form to user
     else:
-        context['users'] = Profile.objects.all()
-        context['form'] = TicketForm()
+        project_roles = ProjectRole.objects.filter(project=project).order_by('-created_on')
+        users = [user.user for user in project_roles]
+        form = TicketForm()
+        form.fields['assignee'].choices = ((u.id, u.first_name + " " + u.last_name) for u in users)
+        context['form'] = form
+        context['project'] = project
 
     return render(request, "tickets/add_ticket.html", context)
 
@@ -93,21 +96,21 @@ def edit_ticket_view(request, slug):
             assignee_id = form.cleaned_data["assignee"]
             user_role = form.cleaned_data["user_role"]
             assigned_user = get_object_or_404(Profile, id=assignee_id)
-            ticket_assignee = TicketAssignee.objects.filter(user=assigned_user).filter(ticket=ticket).filter(user_role=user_role)
+            ticket_assignee = get_object_or_404(TicketAssignee, ticket=ticket)
 
             if not ticket_assignee:
-                ticket_assignee.delete()
-
                 new_ticket_assignee = TicketAssignee.objects.create(user=assigned_user, ticket=ticket, user_role=user_role)
-                new_ticket_assignee.save()
+            else:
+                ticket_assignee.user = assigned_user
+                ticket_assignee.user_role = user_role
+                ticket_assignee.save()
 
             return redirect('tickets_page')
     # Present empty form to user
     else:
         context['ticket'] = ticket
-        context['users'] = Profile.objects.all()
         context['form'] = TicketForm(initial={'title': ticket.title, 'description': ticket.description,
-                                              'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority, 'assignee': ticket_assignee.user, 'user_role': ticket_assignee.user_role})
+                                              'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority, 'assignee': ticket_assignee.user.id, 'user_role': ticket_assignee.user_role})
 
     return render(request, "tickets/edit_ticket.html", context)
 

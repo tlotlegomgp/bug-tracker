@@ -31,17 +31,18 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'index',
-    'account',
-    'projects',
-    'tickets',
-    'teams',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'index',
+    'account',
+    'projects',
+    'tickets',
+    'teams',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +135,7 @@ STATIC_ROOT = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-
-#Email Settings
+# Email Settings
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
