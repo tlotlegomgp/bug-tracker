@@ -63,4 +63,4 @@ def projectrole_post_save_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_project_receiver, sender=Project)
-pre_save.connect(projectrole_post_save_receiver, sender=ProjectRole)
+post_save.connect(projectrole_post_save_receiver, sender=ProjectRole)

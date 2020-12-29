@@ -1,14 +1,13 @@
 <a class="d-flex align-items-center dropdown-item" href="#">
 	<div class="dropdown-list-image mr-3">
-		<img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg" alt="user image" />
-		<div class="bg-success status-indicator"></div>
+		<img class="rounded-circle" src="{{message.author.profile_picture.url}}" alt="user image" />
 	</div>
 	<div class="font-weight-bold">
 		<div class="text-truncate">
-			<span
-				>{{message.body}}</span
-			>
+			<span>{{message.body}}</span>
 		</div>
-		<p class="small text-gray-500 mb-0">{{message.author}} · 2w</p>
+		<p class="small text-gray-500 mb-0">
+			{{message.author.first_name}} {{message.author.last_name}} · {{message.created_on|timesince}} ago
+		</p>
 	</div>
 </a>
