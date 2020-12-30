@@ -43,11 +43,18 @@
 				{% endwith %}
 			</li>
 			<li class="nav-item">
-				{% with 'team_page manage_roles' as urls %}
+				{% with 'team_page' as urls %}
 				<a
 					class="nav-link {% if request.resolver_match.url_name in urls %}active{%endif%}"
 					href="{% url 'team_page' %}"
 					><em class="fas fa-users"></em><span>&nbsp;Team</span></a
+				>
+				{% endwith %}
+			</li>
+			<li class="nav-item">
+				{% with 'manage_users' as urls %}
+				<a class="nav-link {% if request.resolver_match.url_name in urls %}active{%endif%}" href="#"
+					><em class="fas fa-users-cog"></em><span>&nbsp;User Management</span></a
 				>
 				{% endwith %}
 			</li>

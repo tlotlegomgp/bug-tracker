@@ -31,6 +31,22 @@
 							<div class="form-row">
 								<div class="col-lg-6">
 									<div class="form-group">
+										<label for="username"><strong>Project</strong></label>
+										<p class="mb-4">{{ ticket.project }}</p>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="form-group">
+										<label for="username"><strong>Submitter</strong></label>
+										<p class="mb-4">
+											{{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }}
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-lg-6">
+									<div class="form-group">
 										<label for="first_name"><strong>Assignee</strong></label>
 										{% with user=ticket.ticketassignee_set.all.first.user %}
 										<p class="mb-4">{{ user.first_name }} {{user.last_name}}</p>
