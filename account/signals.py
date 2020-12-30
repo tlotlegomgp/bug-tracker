@@ -2,7 +2,7 @@ import random
 import string
 from django.utils.text import slugify
 from django.db.models.signals import pre_save, post_save
-from index.models import Alert
+from index.models import Alert, Todo
 from .models import Profile
 
 
@@ -19,8 +19,10 @@ def post_save_profile_receiver(sender, instance, created, **kwargs):
     if created:
         alert_user = instance
         alert_message = "Welcome to Liquid!"
+        todo_note = "Fill in missing profile information."
 
         alert = Alert.objects.create(user=alert_user, note=alert_message)
+        todo = Todo.objects.create(created_by=alert_user, note=todo_note)
 
 
 pre_save.connect(pre_save_profile_receiver, sender=Profile)
