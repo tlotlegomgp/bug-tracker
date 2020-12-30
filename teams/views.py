@@ -33,11 +33,6 @@ def user_management_view(request):
     context = {}
 
     users = Profile.objects.all().order_by('first_name')
-    UserFormSet = formset_factory(UserForm, extra=users.count())
-    formset = UserFormSet()
-    context['formset'] = formset
-    for user, form in zip(users, formset):
-        form.initial = {'is_active': user.user.is_active, 'is_staff': user.user.is_staff, 'is_admin': user.user.is_admin}
 
     page = request.GET.get('page', 1)
     users_paginator = Paginator(users, USERS_PER_PAGE)
@@ -50,6 +45,11 @@ def user_management_view(request):
         users = users_paginator.page(users_paginator.num_pages)
 
     context['users'] = users
+    UserFormSet = formset_factory(UserForm, extra=users.paginator.count)
+    formset = UserFormSet()
+    context['formset'] = formset
+    for user, form in zip(users, formset):
+        form.initial = {'is_active': user.user.is_active, 'is_staff': user.user.is_staff, 'is_admin': user.user.is_admin}
     context['user_forms'] = zip(users, formset)
 
     return render(request, "teams/user_management.html", context)
