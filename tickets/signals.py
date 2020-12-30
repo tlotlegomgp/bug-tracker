@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 from index.models import Alert
 from django.db.models.signals import pre_save, post_save
 from django.utils.text import slugify
-from django.dispatch import receiver
 from .models import Ticket, TicketAssignee, TicketAttachment, TicketComment
 
 

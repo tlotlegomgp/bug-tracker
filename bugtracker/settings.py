@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'index',
+    'index.apps.IndexConfig',
     'account.apps.AccountConfig',
-    'projects',
-    'tickets',
+    'projects.apps.ProjectsConfig',
+    'tickets.apps.TicketsConfig',
     'teams',
 ]
 
