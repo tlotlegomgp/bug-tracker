@@ -48,18 +48,19 @@ def pre_save_project_receiver(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.name + "-" + rand_slug())
 
 
-def projectrole_post_save_receiver(sender, instance, *args, **kwargs):
-    action_user = instance.project.created_by.first_name + " " + instance.project.created_by.last_name
-    alert_user = instance.user
-    project_name = instance.project.name
+def projectrole_post_save_receiver(sender, instance, created, **kwargs):
+    if created:
+        action_user = instance.project.created_by.first_name + " " + instance.project.created_by.last_name
+        alert_user = instance.user
+        project_name = instance.project.name
 
-    if instance.user_role == "Project Manager":
-        alert_message = action_user + " assigned you as Project Manager to project, " + project_name + "."
-    else:
-        alert_message = action_user + " added you to project, " + project_name + "."
+        if instance.user_role == "Project Manager":
+            alert_message = action_user + " assigned you as Project Manager to project, " + project_name + "."
+        else:
+            alert_message = action_user + " added you to project, " + project_name + "."
 
-    if instance.project.created_by != instance.user:
-        alert = Alert.objects.create(user=alert_user, note=alert_message)
+        if instance.project.created_by != instance.user:
+            alert = Alert.objects.create(user=alert_user, note=alert_message)
 
 
 pre_save.connect(pre_save_project_receiver, sender=Project)

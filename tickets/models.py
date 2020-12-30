@@ -101,14 +101,15 @@ def pre_save_ticket_receiver(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.title + "-" + rand_slug())
 
 
-def ticket_post_save_receiver(sender, instance, *args, **kwargs):
-    action_user = instance.ticket.created_by.first_name + " " + instance.ticket.created_by.last_name
-    alert_user = instance.user
-    project_name = instance.ticket.project.name
-    alert_message = action_user + " assigned you to a ticket in project, " + project_name + "."
+def ticket_post_save_receiver(sender, instance, created, **kwargs):
+    if created:
+        action_user = instance.ticket.created_by.first_name + " " + instance.ticket.created_by.last_name
+        alert_user = instance.user
+        project_name = instance.ticket.project.name
+        alert_message = action_user + " assigned you to a ticket in project, " + project_name + "."
 
-    if instance.ticket.created_by != instance.user:
-        alert = Alert.objects.create(user=alert_user, note=alert_message)
+        if instance.ticket.created_by != instance.user:
+            alert = Alert.objects.create(user=alert_user, note=alert_message)
 
 
 def ticket_comment_post_save_receiver(sender, instance, *args, **kwargs):
