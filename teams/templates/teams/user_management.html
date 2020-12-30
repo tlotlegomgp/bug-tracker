@@ -1,0 +1,31 @@
+{% extends "index/header.html" %} {% load static %} {% block title %}User Management{% endblock %} {% block content %}
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+	<h3 class="text-dark mb-0">Users</h3>
+</div>
+<div class="card shadow">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text-md-right dataTables_filter" id="dataTable_filter">
+					<label><input type="search" class="form-control form-control-sm" aria-controls="dataTable"
+							placeholder="Search" /></label>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+			<table class="table my-0" id="dataTable" aria-describedby="team">
+				<thead>
+					{% include 'teams/snippets/user_management_table_header.html'%}
+				</thead>
+				<tbody>
+					{% for profile, form in user_forms %} {%include 'teams/snippets/user.html' %} {% endfor %}
+				</tbody>
+				<tfoot>
+					{% include 'teams/snippets/user_management_table_header.html'%}
+				</tfoot>
+			</table>
+		</div>
+		{% include 'teams/snippets/pagination.html' %}
+	</div>
+</div>
+{% endblock %}

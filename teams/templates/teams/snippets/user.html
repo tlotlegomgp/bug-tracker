@@ -1,18 +1,19 @@
-<tr>
-	<td>
-		<a href="{% url 'view_profile' profile.slug %}"
-			><img
-				class="rounded-circle mr-2"
-				width="30"
-				height="30"
-				src="{{profile.profile_picture.url}}"
-				alt="user image"
-			/>{% if profile.first_name %}{{profile.first_name}} {{profile.last_name}} {%else%} {{profile.user.username}}
-			{%endif%}
-		</a>
-	</td>
-	<td>{{profile.user.email}}</td>
-	<td>{{profile.projectrole_set.all.count}}</td>
-	<td>{{profile.ticketassignee_set.all.count}}</td>
-	<td>{% include 'teams/snippets/user_action.html' %}</td>
-</tr>
+<form method="POST" action="{% url 'update_user' profile.slug %}">{% csrf_token %}
+	{{ formset.management_form }}
+	<tr>
+		<td>
+			<a href="{% url 'update_user' profile.slug %}"><img class="rounded-circle mr-2" width="30" height="30"
+					src="{{profile.profile_picture.url}}"
+					alt="user image" />{% if profile.first_name %}{{profile.first_name}} {{profile.last_name}} {%else%}
+				{{profile.user.username}}
+				{%endif%}
+			</a>
+		</td>
+		<td>{{form.is_active}}</td>
+		<td>{{form.is_staff}}</td>
+		<td>{{form.is_admin}}</td>
+		<td>
+			<button class="btn btn-primary btn-sm" type="submit" style="background: rgb(28, 40, 38)">Update</button>
+		</td>
+	</tr>
+</form>

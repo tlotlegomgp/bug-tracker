@@ -4,7 +4,7 @@
 	<a
 		class="btn btn-primary btn-sm d-none d-sm-inline-block"
 		role="button"
-		href="#"
+		href="{% url 'user_management' %}"
 		style="background: rgb(28, 40, 38)"
 		>Manage Users</a
 	>
@@ -30,7 +30,7 @@
 					{% include 'teams/snippets/table_header.html'%}
 				</thead>
 				<tbody>
-					{% for profile in users %} {% include 'teams/snippets/user.html'%} {% endfor %}
+					{% for profile in users %} {% include 'teams/snippets/member.html'%} {% endfor %}
 				</tbody>
 				<tfoot>
 					{% include 'teams/snippets/table_header.html'%}
