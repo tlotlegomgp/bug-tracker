@@ -53,6 +53,8 @@ def register_view(request):
         form = RegisterForm(request.POST)
         context['form'] = form
         if form.is_valid():
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
             username = form.cleaned_data["username"]
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
@@ -65,11 +67,8 @@ def register_view(request):
                     messages.error(request, 'Email, ' +
                                    email + ', is already in use.')
                 else:
-                    user = Account.objects.create_user(
-                        email, username, password)
-                    user_profile = Profile.objects.create(user=user)
-                    user_profile.save()
-                    user.save()
+                    user = Account.objects.create_user(email, username, password)
+                    user_profile = Profile.objects.create(user=user, first_name=first_name, last_name=last_name)
                     return redirect('user_profile')
             else:
                 messages.error(request, 'Passwords do not match.')

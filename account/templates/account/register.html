@@ -9,11 +9,8 @@
 							<div class="text-center">
 								<h4 class="text-dark mb-4">Create an Account!</h4>
 							</div>
-							<form
-								class="user"
-								method="POST"
-								action="{% url 'registration_page' %}?next={{request.path}}"
-							>
+							<form class="user" method="POST"
+								action="{% url 'registration_page' %}?next={{request.path}}">
 								{% csrf_token %}
 								<div class="form-group">
 									{% for message in messages %}
@@ -27,33 +24,28 @@
 									<div class="col-sm-6 mb-3 mb-sm-0">{{ form.first_name }}</div>
 									<div class="col-sm-6">{{ form.last_name }}</div>
 								</div>
+								<div class="form-group">{{ form.username }}</div>
 								<div class="form-group">{{ form.email }}</div>
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">{{ form.password }}</div>
 									<div class="col-sm-6">{{ form.password_confirm }}</div>
 								</div>
-								<button
-									class="btn btn-primary btn-block text-white btn-user"
-									type="submit"
-									style="background: rgb(28, 40, 38)"
-								>
+								<button class="btn btn-primary btn-block text-white btn-user" type="submit"
+									style="background: rgb(28, 40, 38)">
 									Register Account
 								</button>
 								<hr />
-								<a class="btn btn-primary btn-block text-white btn-google btn-user" role="button"
-									><em class="fab fa-google"></em>&nbsp; Register with Google</a
-								>
+								<a class="btn btn-primary btn-block text-white btn-google btn-user" role="button"><em
+										class="fab fa-google"></em>&nbsp; Register with Google</a>
 								<hr />
 							</form>
 							<div class="text-center">
-								<a class="small" href="{% url 'password_reset' %}" style="color: rgb(28, 40, 38)"
-									>Forgot Password?</a
-								>
+								<a class="small" href="{% url 'password_reset' %}" style="color: rgb(28, 40, 38)">Forgot
+									Password?</a>
 							</div>
 							<div class="text-center">
-								<a class="small" href="{% url 'login_page' %}" style="color: rgb(28, 40, 38)"
-									>Already have an account? Login!</a
-								>
+								<a class="small" href="{% url 'login_page' %}" style="color: rgb(28, 40, 38)">Already
+									have an account? Login!</a>
 							</div>
 						</div>
 					</div>

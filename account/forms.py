@@ -16,6 +16,8 @@ class RegisterForm(forms.Form):
         attrs={'class': form_css_class, 'name': "last_name", 'required': "", 'placeholder': "Last Name"}))
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(
         attrs={'class': form_css_class, 'name': "first_name", 'required': "", 'placeholder': "First Name"}))
+    username = forms.CharField(max_length=30, widget=forms.TextInput(
+        attrs={'class': form_css_class, 'name': "username", 'required': "", 'placeholder': "Username"}))
     email = forms.EmailField(max_length=30, widget=forms.EmailInput(
         attrs={'class': form_css_class, 'name': "email", 'required': "", 'placeholder': "Email Address"}))
     password = forms.CharField(max_length=20, widget=forms.PasswordInput(

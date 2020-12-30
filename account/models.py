@@ -48,7 +48,7 @@ class Account(AbstractBaseUser):
     date_created = models.DateTimeField(verbose_name="date created", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
     is_super_user = models.BooleanField(default=False)
 
@@ -69,7 +69,7 @@ class Account(AbstractBaseUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
-    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_images', blank=True)
+    profile_picture = models.ImageField(default='profile_images/default.jpg', upload_to='profile_images', blank=True)
     website = models.URLField(blank=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
