@@ -58,7 +58,7 @@ def index_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
-
+    print()
     if request.GET:
         query = request.GET['q']
         context['query'] = str(query)

@@ -44,14 +44,8 @@ class Ticket(models.Model):
 
 class TicketAssignee(models.Model):
 
-    ROLE = (
-        ('SUB', 'Submitter'),
-        ('DEV', 'Developer'),
-    )
-
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    user_role = models.CharField(max_length=20, choices=ROLE, default='DEV')
     created_on = models.DateTimeField(verbose_name="date created", auto_now_add=True)
     updated = models.DateTimeField(verbose_name="date updated", auto_now=True)
 
