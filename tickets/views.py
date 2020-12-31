@@ -17,8 +17,12 @@ def tickets_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
-    user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
-    tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+    if user.is_admin:
+        tickets = Ticket.objects.all().order_by('-created_on')
+    else:
+        user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
+        tickets = [assignment.ticket for assignment in user_tickets_assignments]
 
     page = request.GET.get('page', 1)
     tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)
@@ -51,8 +55,6 @@ def add_ticket_view(request, slug):
 
             ticket = Ticket.objects.create(title=title, description=description, created_by=user_profile,
                                            status=status, priority=priority, class_type=class_type, project=project)
-            ticket.save()
-
             assignee_id = form.cleaned_data['assignee']
             assigned_user = get_object_or_404(Profile, id=assignee_id)
             ticket_assignee = TicketAssignee.objects.create(ticket=ticket, user=assigned_user)
@@ -60,7 +62,7 @@ def add_ticket_view(request, slug):
             return redirect('view_project', slug=slug)
     # Present empty form to user
     else:
-        project_roles = ProjectRole.objects.filter(project=project).filter(user_role="Project Manager").order_by('-created_on')
+        project_roles = ProjectRole.objects.filter(project=project).filter(user_role="Developer").order_by('-created_on')
         form = TicketForm()
         form_assignee_choices = ((role.user.id, role.user.first_name + " " + role.user.last_name) for role in project_roles)
         form.fields['assignee'].choices = form_assignee_choices

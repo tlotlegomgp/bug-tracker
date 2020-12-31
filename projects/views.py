@@ -16,8 +16,12 @@ def projects_view(request):
     context = {}
     user = request.user
     profile = get_object_or_404(Profile, user=user)
-    project_roles = ProjectRole.objects.filter(user=profile).order_by('-created_on')
-    projects = [role.project for role in project_roles]
+
+    if user.is_admin:
+        projects = Project.objects.all().order_by('-created_on')
+    else:
+        project_roles = ProjectRole.objects.filter(user=profile).order_by('-created_on')
+        projects = [role.project for role in project_roles]
 
     page = request.GET.get('page', 1)
     projects_paginator = Paginator(projects, PROJECTS_PER_PAGE)

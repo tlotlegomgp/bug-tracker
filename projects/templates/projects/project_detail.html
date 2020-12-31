@@ -2,9 +2,12 @@
 <div class="container-fluid">
 	<div class="d-sm-flex justify-content-between align-items-center mb-4">
 		<h3 class="text-dark mb-0">{{project|truncatechars:40}}</h3>
+		{% if request.user.is_admin %}
 		<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
-			href="{% url 'add_ticket' project.slug %}" style="background: rgb(28, 40, 38)"><em
-				class="fas fa-plus fa-sm text-white-50"></em>&nbsp;New Ticket</a>
+		href="{% url 'manage_roles' project.slug %}" style="background: rgb(28, 40, 38)"><em
+			class="fas fa-users fa-sm text-white-50"></em>&nbsp;Manage Roles
+		</a>
+		{% endif %}
 	</div>
 	<div class="row mb-3">
 		<div class="col-lg-5">
@@ -95,7 +98,10 @@
 				<div class="col">
 					<div class="card shadow mb-3">
 						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">Tickets</p>
+							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38); float: left;">Tickets</p>
+							<a class="btn btn-primary btn-sm" role="button"
+								href="{% url 'add_ticket' project.slug %}" style="background: rgb(28, 40, 38); float: right;"><em
+									class="fas fa-plus fa-sm text-white-50"></em>&nbsp;New Ticket</a>
 						</div>
 						{% if tickets %}
 						<div class="table-responsive table mt-0" id="dataTable" role="grid"

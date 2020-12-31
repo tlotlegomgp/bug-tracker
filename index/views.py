@@ -74,13 +74,19 @@ def index_view(request):
         return render(request, "index/search_results.html", context)
 
     else:
-        user_tickets = TicketAssignee.objects.filter(user=user_profile)
-        resolved_tickets = TicketAssignee.objects.filter(
-            user=user_profile).filter(ticket__status='RESOLVED').count()
-        new_tickets = TicketAssignee.objects.filter(
-            user=user_profile).filter(ticket__status='NEW').count()
-        in_progress_tickets = TicketAssignee.objects.filter(
-            user=user_profile).filter(ticket__status='IN_PROGRESS').count()
+        if user.is_admin:
+            user_tickets = Ticket.objects.all()
+            resolved_tickets = Ticket.objects.filter(status='RESOLVED').count()
+            new_tickets = Ticket.objects.filter(status='NEW').count()
+            in_progress_tickets = Ticket.objects.filter(status='IN_PROGRESS').count()
+        else:
+            user_tickets = TicketAssignee.objects.filter(user=user_profile)
+            resolved_tickets = TicketAssignee.objects.filter(
+                user=user_profile).filter(ticket__status='RESOLVED').count()
+            new_tickets = TicketAssignee.objects.filter(
+                user=user_profile).filter(ticket__status='NEW').count()
+            in_progress_tickets = TicketAssignee.objects.filter(
+                user=user_profile).filter(ticket__status='IN_PROGRESS').count()
 
         if user_tickets.count() != 0:
             context['resolved_tickets'] = round(
@@ -96,7 +102,6 @@ def index_view(request):
             context['new_tickets'] = default_value
             context['in_progress_tickets'] = default_value
 
-        project_roles = ProjectRole.objects.filter(user=user_profile).order_by('-created_on')
         context['user_todos'] = Todo.objects.filter(
             created_by=user_profile).order_by('-created_on')[:10]
         return render(request, "index/dashboard.html", context)

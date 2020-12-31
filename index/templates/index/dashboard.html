@@ -27,7 +27,11 @@
 							<span>Projects</span>
 						</div>
 						<div class="text-dark font-weight-bold h5 mb-0">
+							{% if request.user.is_admin %}
+							<span>Check Online</span>
+							{% else %}
 							<span>{{ profile.projectrole_set.all.count }}</span>
+							{% endif %}
 						</div>
 					</div>
 					<div class="col-auto"><em class="fas fa-tasks fa-2x text-gray-300"></em></div>
@@ -44,7 +48,12 @@
 						<div class="row no-gutters align-items-center">
 							<div class="col-auto">
 								<div class="text-dark font-weight-bold h5 mb-0 mr-3">
+									{% if request.user.is_admin %}
+									<span>Check Online</span>
+									{% else %}
 									<span>{{ profile.ticketassignee_set.all.count }}</span>
+									{% endif %}
+									
 								</div>
 							</div>
 						</div>

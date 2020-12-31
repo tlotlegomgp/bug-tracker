@@ -12,7 +12,8 @@ class TicketForm(forms.Form):
     status = forms.ChoiceField(choices=Ticket.TICKET_STATUS, widget=forms.Select(attrs={'class': select_styling}), label_suffix="")
     priority = forms.ChoiceField(choices=Ticket.TICKET_PRIORITY, widget=forms.Select(attrs={'class': select_styling, }), label_suffix="")
     class_type = forms.ChoiceField(choices=Ticket.TICKET_TYPE, widget=forms.Select(attrs={'class': select_styling}), label_suffix="")
-    assignee = forms.ChoiceField(widget=forms.Select(attrs={'class': select_styling}))
+    assignee = forms.ChoiceField(choices=((str(p.id), p.first_name + " " + p.last_name)
+                                          for p in Profile.objects.all().order_by('first_name')), widget=forms.Select(attrs={'class': select_styling}))
 
 
 class TicketCommentForm(forms.Form):
