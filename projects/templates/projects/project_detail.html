@@ -2,13 +2,9 @@
 <div class="container-fluid">
 	<div class="d-sm-flex justify-content-between align-items-center mb-4">
 		<h3 class="text-dark mb-0">{{project|truncatechars:40}}</h3>
-		<a
-			class="btn btn-primary btn-sm d-none d-sm-inline-block"
-			role="button"
-			href="{% url 'add_ticket' project.slug %}"
-			style="background: rgb(28, 40, 38)"
-			><em class="fas fa-plus fa-sm text-white-50"></em>&nbsp;New Ticket</a
-		>
+		<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
+			href="{% url 'add_ticket' project.slug %}" style="background: rgb(28, 40, 38)"><em
+				class="fas fa-plus fa-sm text-white-50"></em>&nbsp;New Ticket</a>
 	</div>
 	<div class="row mb-3">
 		<div class="col-lg-5">
@@ -38,13 +34,9 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<a
-									class="btn btn-primary btn-sm d-none d-sm-inline-block"
-									role="button"
+								<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
 									href="{% url 'edit_project' project.slug %}"
-									style="background: rgb(28, 40, 38)"
-									>&nbsp;Edit Project</a
-								>
+									style="background: rgb(28, 40, 38)">&nbsp;Edit Project</a>
 							</div>
 						</div>
 					</div>
@@ -60,12 +52,8 @@
 								Assigned Personnel
 							</p>
 						</div>
-						<div
-							class="table-responsive table mt-0"
-							id="dataTable"
-							role="grid"
-							aria-describedby="dataTable_info"
-						>
+						<div class="table-responsive table mt-0" id="dataTable" role="grid"
+							aria-describedby="dataTable_info">
 							<table class="table my-0" id="dataTable" aria-describedby="users">
 								<thead>
 									<tr>
@@ -102,12 +90,8 @@
 							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">Tickets</p>
 						</div>
 						{% if tickets %}
-						<div
-							class="table-responsive table mt-0"
-							id="dataTable"
-							role="grid"
-							aria-describedby="dataTable_info"
-						>
+						<div class="table-responsive table mt-0" id="dataTable" role="grid"
+							aria-describedby="dataTable_info">
 							<table class="table my-0" id="dataTable" aria-describedby="projects">
 								<thead>
 									<tr>

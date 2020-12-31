@@ -1,12 +1,13 @@
+{% if request.user.is_admin %}
 <a role="button" href="{% url 'edit_project' project.slug %}" style="color: rgb(28, 40, 38)" title="Edit"
 	><em class="far fa-edit fa-sm">&nbsp</em></a
 >
-
-|&nbsp&nbsp
+ |&nbsp&nbsp{% endif %}
 <a role="button" href="{% url 'view_project' project.slug %}" style="color: rgb(28, 40, 38)" title="More information"
 	><em class="fa fa-info-circle">&nbsp</em></a
 >
-|&nbsp&nbsp
+{% if request.user.is_admin %} |&nbsp&nbsp
 <a role="button" href="{% url 'delete_project' project.slug %}" style="color: rgb(28, 40, 38)" title="Delete"
 	><em class="far fa-trash-alt fa-sm">&nbsp</em></a
 >
+{% endif %}

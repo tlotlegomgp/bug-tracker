@@ -1,6 +1,7 @@
 {% extends "index/header.html" %} {% load static %} {% block title %}Teams{% endblock %} {% block content %}
 <div class="d-sm-flex justify-content-between align-items-center mb-4">
 	<h3 class="text-dark mb-0">Team</h3>
+	{% if request.user.is_admin %}
 	<a
 		class="btn btn-primary btn-sm d-none d-sm-inline-block"
 		role="button"
@@ -8,6 +9,7 @@
 		style="background: rgb(28, 40, 38)"
 		>Manage Users</a
 	>
+	{% endif %}
 </div>
 <div class="card shadow">
 	<div class="card-body">

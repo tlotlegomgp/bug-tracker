@@ -19,7 +19,7 @@ def post_save_profile_receiver(sender, instance, created, **kwargs):
     if created:
         alert_user = instance
         alert_message = "Welcome to Liquid!"
-        todo_note = "Fill up missing profile information."
+        todo_note = "Take a moment to fill in missing profile information."
 
         alert = Alert.objects.create(user=alert_user, note=alert_message)
         todo = Todo.objects.create(created_by=alert_user, note=todo_note)

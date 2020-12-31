@@ -51,6 +51,7 @@
 				>
 				{% endwith %}
 			</li>
+			{% if request.user.is_admin %}
 			<li class="nav-item">
 				{% with 'user_management' as urls %}
 				<a
@@ -60,6 +61,7 @@
 				>
 				{% endwith %}
 			</li>
+			{% endif %}
 			<li class="nav-item">
 				<a class="nav-link" href="{% url 'logout' %}"
 					><em class="fas fa-sign-out-alt"></em><span>&nbsp;&nbsp;Logout</span></a
