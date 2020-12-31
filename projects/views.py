@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from .models import Project, ProjectRole
-from .forms import ProjectForm
+from .forms import ProjectForm, ProjectRolesForm
 
 # Create your views here.
 
@@ -57,9 +57,9 @@ def add_project_view(request):
                 member = get_object_or_404(Profile, id=member_id)
 
                 if selected_user_profile != member:
-                    project_role = ProjectRole.objects.create(user=member, project=project, user_role='Member')
+                    project_role = ProjectRole.objects.create(user=member, project=project)
 
-            return redirect('projects_page')
+            return redirect('manage_roles', slug=project.slug)
     # Present empty form to user
     else:
         form = ProjectForm(request.POST or None)
@@ -90,6 +90,34 @@ def project_detail_view(request, slug):
     context['user_roles'] = users
 
     return render(request, "projects/project_detail.html", context)
+
+
+@login_required(login_url='login_page')
+def project_roles_view(request, slug):
+    context = {}
+
+    project = get_object_or_404(Project, slug=slug)
+    project_roles = ProjectRole.objects.filter(project=project).exclude(user_role="Project Manager").order_by('-created_on')
+    form_member_choices = ((role.user.id, role.user.first_name + " " + role.user.last_name) for role in project_roles)
+
+    page = request.GET.get('page', 1)
+    users_paginator = Paginator(project_roles, USERS_PER_PAGE)
+
+    try:
+        project_roles = users_paginator.page(page)
+    except PageNotAnInteger:
+        project_roles = users_paginator.page(USERS_PER_PAGE)
+    except EmptyPage:
+        project_roles = users_paginator.page(users_paginator.num_pages)
+
+    context['user_roles'] = project_roles
+
+    form = ProjectRolesForm()
+    form.fields['members'].choices = form_member_choices
+    context['form'] = form
+    context['project'] = project
+
+    return render(request, "projects/assign_roles.html", context)
 
 
 @login_required(login_url='login_page')
