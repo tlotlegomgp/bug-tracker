@@ -78,6 +78,11 @@ def project_detail_view(request, slug):
     project = get_object_or_404(Project, slug=slug)
     context['project'] = project
 
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+    user_project_role = ProjectRole.objects.filter(project=project).filter(user=user_profile).first()
+    context['user_project_role'] = user_project_role
+
     users = ProjectRole.objects.filter(project=project).exclude(user_role="Project Manager").order_by('user__first_name')
     page = request.GET.get('page', 1)
     users_paginator = Paginator(users, USERS_PER_PAGE)

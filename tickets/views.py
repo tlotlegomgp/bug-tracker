@@ -106,6 +106,10 @@ def edit_ticket_view(request, slug):
             return redirect('tickets_page')
     # Present empty form to user
     else:
+        user = request.user
+        user_profile = get_object_or_404(Profile, user=user)
+        user_project_role = ProjectRole.objects.filter(project=ticket.project).filter(user=user_profile).first()
+        context['user_project_role'] = user_project_role
         context['ticket'] = ticket
         context['form'] = TicketForm(initial={'title': ticket.title, 'description': ticket.description,
                                               'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority, 'assignee': ticket_assignee.user.id})

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
-from projects.models import Project, ProjectRole
+from projects.models import Project
 from .models import Todo
 
 
@@ -37,6 +37,9 @@ def search_tickets(query=None):
     return list(set(qs))
 
 
+# Search for users from search bar
+
+
 def search_users(query=None):
     qs = []
     queries = query.split(" ")
@@ -49,9 +52,8 @@ def search_users(query=None):
 
     return list(set(qs))
 
+
 # Create your views here.
-
-
 @login_required(login_url='login_page')
 def index_view(request):
     query = ""
@@ -95,7 +97,6 @@ def index_view(request):
                 new_tickets*100 / user_tickets.count())
             context['in_progress_tickets'] = round(
                 in_progress_tickets*100 / user_tickets.count())
-
         else:
             default_value = round(100/3)
             context['resolved_tickets'] = default_value
@@ -104,6 +105,11 @@ def index_view(request):
 
         context['user_todos'] = Todo.objects.filter(
             created_by=user_profile).order_by('-created_on')[:10]
+
+        if user.is_admin:
+            context['tickets_count'] = user_tickets.count()
+            context['projects_count'] = Project.objects.all().count()
+
         return render(request, "index/dashboard.html", context)
 
 
