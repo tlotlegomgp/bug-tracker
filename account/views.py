@@ -4,12 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Account, Profile
 from .forms import LoginForm, RegisterForm, UserProfileForm
-
+from .decorators import logout_required
 
 # Create your views here.
 
 
+@logout_required
 def login_view(request):
+
     # If user has filled form and wants to post form
     context = {}
     if request.method == "POST":
@@ -36,7 +38,9 @@ def login_view(request):
     return render(request, 'account/login.html', context)
 
 
+@logout_required
 def demo_view(request):
+
     # Log user in with demo account
     demo_user_password = "demo-password"
     demo_user_email = "demo-user@email.com"
@@ -46,7 +50,9 @@ def demo_view(request):
     return redirect('index_page')
 
 
+@logout_required
 def register_view(request):
+
     context = {}
     # If user has filled form and wants to post form
     if request.method == "POST":
