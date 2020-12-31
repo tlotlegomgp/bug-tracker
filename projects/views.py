@@ -74,7 +74,7 @@ def project_detail_view(request, slug):
     project = get_object_or_404(Project, slug=slug)
     context['project'] = project
 
-    users = ProjectRole.objects.filter(project=project).order_by('-created_on')
+    users = ProjectRole.objects.filter(project=project).exclude(user_role="Project Manager").order_by('-created_on')
     page = request.GET.get('page', 1)
     users_paginator = Paginator(users, USERS_PER_PAGE)
 
@@ -89,6 +89,7 @@ def project_detail_view(request, slug):
 
     context['tickets'] = tickets
     context['user_roles'] = users
+    context['manager_role'] = ProjectRole.objects.filter(project=project).filter(user_role="Project Manager").first()
 
     return render(request, "projects/project_detail.html", context)
 
