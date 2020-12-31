@@ -22,4 +22,5 @@ class ProjectForm(forms.Form):
 
 class ProjectRolesForm(forms.Form):
     role = forms.ChoiceField(choices=ROLE_CHOICES, widget=forms.Select(attrs={'class': select_styling}))
-    members = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class': select_styling}))
+    members = forms.MultipleChoiceField(choices=((str(p.id), p.first_name + " " + p.last_name)
+                                                 for p in Profile.objects.all().order_by('first_name')), widget=forms.SelectMultiple(attrs={'class': select_styling}))

@@ -70,6 +70,7 @@ def add_project_view(request):
 @login_required(login_url='login_page')
 def project_detail_view(request, slug):
     context = {}
+
     project = get_object_or_404(Project, slug=slug)
     context['project'] = project
 
@@ -95,27 +96,45 @@ def project_detail_view(request, slug):
 @login_required(login_url='login_page')
 def project_roles_view(request, slug):
     context = {}
-
     project = get_object_or_404(Project, slug=slug)
-    project_roles = ProjectRole.objects.filter(project=project).exclude(user_role="Project Manager").order_by('-created_on')
-    form_member_choices = ((role.user.id, role.user.first_name + " " + role.user.last_name) for role in project_roles)
-
-    page = request.GET.get('page', 1)
-    users_paginator = Paginator(project_roles, USERS_PER_PAGE)
-
-    try:
-        project_roles = users_paginator.page(page)
-    except PageNotAnInteger:
-        project_roles = users_paginator.page(USERS_PER_PAGE)
-    except EmptyPage:
-        project_roles = users_paginator.page(users_paginator.num_pages)
-
-    context['user_roles'] = project_roles
-
-    form = ProjectRolesForm()
-    form.fields['members'].choices = form_member_choices
-    context['form'] = form
     context['project'] = project
+
+    if request.method == "POST":
+        print("Its POST")
+        form = ProjectRolesForm(request.POST or None)
+        context['form'] = form
+        if form.is_valid():
+            print("Its VALID")
+            role = form.cleaned_data['role']
+
+            members = form.cleaned_data.get("members")
+            for member_id in members:
+                user = get_object_or_404(Profile, id=member_id)
+                member_role = ProjectRole.objects.filter(user=user).filter(project=project).first()
+                member_role.user_role = role
+                member_role.save()
+
+            return redirect('manage_roles', slug=project.slug)
+
+    else:
+        project_roles = ProjectRole.objects.filter(project=project).exclude(user_role="Project Manager").order_by('-created_on')
+        form_member_choices = ((role.user.id, role.user.first_name + " " + role.user.last_name) for role in project_roles)
+        form = ProjectRolesForm()
+        form.fields['members'].choices = form_member_choices
+
+        page = request.GET.get('page', 1)
+        users_paginator = Paginator(project_roles, 6)
+
+        try:
+            project_roles = users_paginator.page(page)
+        except PageNotAnInteger:
+            project_roles = users_paginator.page(USERS_PER_PAGE)
+        except EmptyPage:
+            project_roles = users_paginator.page(users_paginator.num_pages)
+
+        context['user_roles'] = project_roles
+
+        context['form'] = form
 
     return render(request, "projects/assign_roles.html", context)
 

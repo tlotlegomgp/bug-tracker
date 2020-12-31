@@ -5,10 +5,10 @@
 		<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
 			href="{% url 'view_project' project.slug %}" style="background: rgb(28, 40, 38)">Proceed To Project</a>
 	</div>
-    <form method="POST" action="{% url 'manage_roles' project.slug %}">
-		{% csrf_token %}
-        <div class="row mb-3">
-            <div class="col-lg-5">
+    <div class="row mb-3">
+        <div class="col-lg-5">
+            <form method="POST" action="{% url 'manage_roles' project.slug %}">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col">
                         <div class="card shadow mb-3">
@@ -52,53 +52,57 @@
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
-                                        href="{% url 'edit_project' project.slug %}"
-                                        style="background: rgb(28, 40, 38)">Assign Role</a>
+                                    <button
+                                            class="btn btn-primary btn-sm"
+                                            type="submit"
+                                            style="background: rgb(28, 40, 38)"
+                                        >
+                                        Assign Role
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-7">
-                <div class="row">
-                    <div class="col">
-                        <div class="card shadow mb-3">
-                            <div class="card-header py-3">
-                                <p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-                                    Project Members
-                                </p>
-                            </div>
-                            <div class="table-responsive table mt-0" id="dataTable" role="grid"
-                                aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable" aria-describedby="users">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Role</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in user_roles %}
-                                        <tr style="white-space: nowrap">
-                                            <td>{{user.user.first_name}} {{user.user.last_name}}</td>
-                                            <td>{{ user.user }}</td>
-                                            <td>{{ user.user_role|title }}</td>
-                                        </tr>
-                                        {%endfor%}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style="margin-left: 20px; margin-right: 20px">
-                                {% include 'projects/snippets/users_pagination.html' with users=user_roles %}
-                            </div>
+            </form>
+        </div>
+        <div class="col-lg-7">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow mb-3">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+                                Project Members
+                            </p>
+                        </div>
+                        <div class="table-responsive table mt-0" id="dataTable" role="grid"
+                            aria-describedby="dataTable_info">
+                            <table class="table my-0" id="dataTable" aria-describedby="users">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in user_roles %}
+                                    <tr style="white-space: nowrap">
+                                        <td>{{user.user.first_name}} {{user.user.last_name}}</td>
+                                        <td>{{ user.user }}</td>
+                                        <td>{{ user.user_role|title }}</td>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-left: 20px; margin-right: 20px">
+                            {% include 'projects/snippets/users_pagination.html' with users=user_roles %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 {% endblock %}
