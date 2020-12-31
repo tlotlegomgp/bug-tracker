@@ -1,4 +1,6 @@
-{% extends "index/header.html" %} {% load static %} {% block title %}Projects{% endblock %} {% block content %}
+{% extends "index/header.html" %}
+{% block title %}Projects{% endblock %}
+{% block content %}
 <div class="d-sm-flex justify-content-between align-items-center mb-4">
 	<h3 class="text-dark mb-0">Projects</h3>
 	{% if request.user.is_admin %}
@@ -33,7 +35,8 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include "projects/snippets/pagination.html" with projects=user_projects %} {% else %}
+		{% include "projects/snippets/pagination.html" with projects=user_projects %}
+		{% else %}
 		<div style="padding-top: 20px" class="text-center">
 			<p><strong>You have no projects.</strong></p>
 		</div>

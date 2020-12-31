@@ -25,7 +25,7 @@
 				{% endwith %}
 			</li>
 			<li class="nav-item">
-				{% with 'projects_page add_project edit_project view_project' as urls %}
+				{% with 'projects_page add_project edit_project view_project manage_roles' as urls %}
 				<a
 					class="nav-link {% if request.resolver_match.url_name in urls %}active{% endif %}"
 					href="{% url 'projects_page' %}"

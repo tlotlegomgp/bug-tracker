@@ -2,11 +2,11 @@
 	{{ formset.management_form }}
 	<tr>
 		<td>
-			<a href="{% url 'view_profile' profile.slug %}"><img class="rounded-circle mr-2" width="30" height="30"
+			<a href="{% url 'view_profile' profile.slug %}">
+				<img class="rounded-circle mr-2" width="30" height="30"
 					src="{{profile.profile_picture.url}}"
-					alt="user image" />{% if profile.first_name %}{{profile.first_name}} {{profile.last_name}} {%else%}
-				{{profile.user.username}}
-				{%endif%}
+					alt="user image" />
+				{{profile.first_name}} {{profile.last_name}}
 			</a>
 		</td>
 		<td>{{form.is_active}}</td>
