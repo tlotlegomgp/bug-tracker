@@ -1,0 +1,87 @@
+{% extends "account/header.html" %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="row justify-content-center" style="margin-top: 50px">
+	<div class="col-md-6 col-lg-10 col-xl-8">
+		<div class="card shadow-lg o-hidden border-0 my-5" style="background: rgb(238, 244, 212)">
+			<div class="card-body p-0">
+				<div class="row justify-content-center">
+					<div class="col-lg-10">
+						<div class="p-5">
+							<div class="text-center">
+                                <h4 class="text-dark mb-4">Select Demo Account</h4>
+                                <br>
+							</div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <a href="{% url 'demo_login' role.ADMIN %}" style="text-decoration: none; color: grey">
+                                        <div class="card shadow border-left-success py-2">
+                                            <div class="card-body">
+                                                <div class="row align-items-center no-gutters">
+                                                    <h5>Admin</h5>
+                                                    <div class="col-auto"><em class="fas fa-user fa-3x text-success"></em></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="{% url 'demo_login' role.MAN %}" style="text-decoration: none; color: grey">
+                                        <div class="card shadow border-left-primary py-2">
+                                            <div class="card-body">
+                                                <div class="row align-items-center no-gutters">
+                                                    <h5>Project Manager</h5>
+                                                    <div class="col-auto"><em class="fas fa-user fa-3x text-primary"></em></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <a href="{% url 'demo_login' role.DEV %}" style="text-decoration: none; color: grey">
+                                        <div class="card shadow border-left-info py-2">
+                                            <div class="card-body">
+                                                <div class="row align-items-center no-gutters">
+                                                    <h5>Developer</h5>
+                                                    <div class="col-auto"><em class="fas fa-user fa-3x text-info"></em></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="{% url 'demo_login' role.SUB %}" style="text-decoration: none; color: grey">
+                                        <div class="card shadow border-left-warning py-2">
+                                            <div class="card-body">
+                                                <div class="row align-items-center no-gutters">
+                                                    <h5>Submitter</h5>
+                                                    <div class="col-auto"><em class="fas fa-user fa-3x text-warning"></em></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <br>
+                            <hr />
+							<div class="text-center">
+								<a class="small" href="{% url 'login_page' %}" style="color: rgb(28, 40, 38)"
+									>Already have an account? Login</a
+								>
+							</div>
+							<div class="text-center">
+								<a class="small" href="{% url 'registration_page' %}" style="color: rgb(28, 40, 38)"
+									>Create an Account!</a
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

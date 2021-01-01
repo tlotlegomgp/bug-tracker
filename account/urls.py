@@ -9,7 +9,8 @@ urlpatterns = [
     path('register/', views.register_view, name="registration_page"),
     path('login/', views.login_view, name="login_page"),
     path('logout/', views.logout_view, name="logout"),
-    path('demo-login/', views.demo_view, name="demo_login"),
+    path('demo-login/', views.demo_view, name="demo_account"),
+    path('demo-login/<slug:role>', views.demo_login_view, name="demo_login"),
 
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='account/password_change.html'), name='password_change'),
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html'), name='password_change_done'),

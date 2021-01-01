@@ -22,65 +22,71 @@
 		</div>
 	</div>
 	<div class="col-md-6 col-xl-3 mb-4">
-		<div class="card shadow border-left-success py-2">
-			<div class="card-body">
-				<div class="row align-items-center no-gutters">
-					<div class="col mr-2">
-						<div class="text-uppercase text-success font-weight-bold text-xs mb-1">
-							<span>Projects</span>
+		<a href="{% url 'projects_page' %}" style="text-decoration: none;">
+			<div class="card shadow border-left-success py-2">
+				<div class="card-body">
+					<div class="row align-items-center no-gutters">
+						<div class="col mr-2">
+							<div class="text-uppercase text-success font-weight-bold text-xs mb-1">
+								<span>Projects</span>
+							</div>
+							<div class="text-dark font-weight-bold h5 mb-0">
+								{% if request.user.is_admin %}
+								<span>{{ projects_count }}</span>
+								{% else %}
+								<span>{{ profile.projectrole_set.all.count }}</span>
+								{% endif %}
+							</div>
 						</div>
-						<div class="text-dark font-weight-bold h5 mb-0">
-							{% if request.user.is_admin %}
-							<span>{{ projects_count }}</span>
-							{% else %}
-							<span>{{ profile.projectrole_set.all.count }}</span>
-							{% endif %}
-						</div>
+						<div class="col-auto"><em class="fas fa-tasks fa-2x text-gray-300"></em></div>
 					</div>
-					<div class="col-auto"><em class="fas fa-tasks fa-2x text-gray-300"></em></div>
 				</div>
 			</div>
-		</div>
+		</a>
 	</div>
 	<div class="col-md-6 col-xl-3 mb-4">
-		<div class="card shadow border-left-info py-2">
-			<div class="card-body">
-				<div class="row align-items-center no-gutters">
-					<div class="col mr-2">
-						<div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Tickets</span></div>
-						<div class="row no-gutters align-items-center">
-							<div class="col-auto">
-								<div class="text-dark font-weight-bold h5 mb-0 mr-3">
-									{% if request.user.is_admin %}
-									<span>{{ tickets_count }}</span>
-									{% else %}
-									<span>{{ profile.ticketassignee_set.all.count }}</span>
-									{% endif %}
+		<a href="{% url 'tickets_page' %}" style="text-decoration: none;">
+			<div class="card shadow border-left-info py-2">
+				<div class="card-body">
+					<div class="row align-items-center no-gutters">
+						<div class="col mr-2">
+							<div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Tickets</span></div>
+							<div class="row no-gutters align-items-center">
+								<div class="col-auto">
+									<div class="text-dark font-weight-bold h5 mb-0 mr-3">
+										{% if request.user.is_admin %}
+										<span>{{ tickets_count }}</span>
+										{% else %}
+										<span>{{ profile.ticketassignee_set.all.count }}</span>
+										{% endif %}
+									</div>
 								</div>
 							</div>
 						</div>
+						<div class="col-auto"><em class="fas fa-bug fa-2x text-gray-300"></em></div>
 					</div>
-					<div class="col-auto"><em class="fas fa-bug fa-2x text-gray-300"></em></div>
 				</div>
 			</div>
-		</div>
+		</a>
 	</div>
 	<div class="col-md-6 col-xl-3 mb-4">
-		<div class="card shadow border-left-warning py-2">
-			<div class="card-body">
-				<div class="row align-items-center no-gutters">
-					<div class="col mr-2">
-						<div class="text-uppercase text-warning font-weight-bold text-xs mb-1">
-							<span>Messages</span>
+		<a href="#" style="text-decoration: none; ">
+			<div class="card shadow border-left-warning py-2">
+				<div class="card-body">
+					<div class="row align-items-center no-gutters">
+						<div class="col mr-2">
+							<div class="text-uppercase text-warning font-weight-bold text-xs mb-1">
+								<span>Messages</span>
+							</div>
+							<div class="text-dark font-weight-bold h5 mb-0">
+								<span>{{ profile.direct_messages.all.count }}</span>
+							</div>
 						</div>
-						<div class="text-dark font-weight-bold h5 mb-0">
-							<span>{{ profile.direct_messages.all.count }}</span>
-						</div>
+						<div class="col-auto"><em class="fas fa-comments fa-2x text-gray-300"></em></div>
 					</div>
-					<div class="col-auto"><em class="fas fa-comments fa-2x text-gray-300"></em></div>
 				</div>
 			</div>
-		</div>
+		</a>
 	</div>
 </div>
 <div class="row">

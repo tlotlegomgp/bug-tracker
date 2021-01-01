@@ -40,15 +40,28 @@ def login_view(request):
 
 @logout_required
 def demo_view(request):
+    context = {}
+    demo_role = {}
+    demo_role['ADMIN'] = 'ADMIN'
+    demo_role['DEV'] = 'DEV'
+    demo_role['SUB'] = 'SUB'
+    demo_role['MAN'] = 'MAN'
+    context['role'] = demo_role
+    return render(request, 'account/demo_user_login.html', context)
+
+
+@logout_required
+def demo_login_view(request, role):
+
 
     # Log user in with demo account
-    demo_user_password = "demo-password"
+    """ demo_user_password = "demo-password"
     demo_user_email = "demo-user@email.com"
     user = authenticate(request, email=demo_user_email,
-                        password=demo_user_password)
-    login(request, user)
-    return redirect('index_page')
+                        password=demo_user_password) """
+    #login(request, user)
 
+    return redirect('demo_account')
 
 @logout_required
 def register_view(request):
