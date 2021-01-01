@@ -41,27 +41,42 @@ def login_view(request):
 @logout_required
 def demo_view(request):
     context = {}
-    demo_role = {}
-    demo_role['ADMIN'] = 'ADMIN'
-    demo_role['DEV'] = 'DEV'
-    demo_role['SUB'] = 'SUB'
-    demo_role['MAN'] = 'MAN'
-    context['role'] = demo_role
+    demo_roles = {
+        'ADMIN' : 'admin',
+        'DEV' : 'developer',
+        'SUB' : 'submitter',
+        'MAN' : 'project-manager'
+    }
+    context['role'] = demo_roles
     return render(request, 'account/demo_user_login.html', context)
 
 
 @logout_required
 def demo_login_view(request, role):
 
+    print(role)
+    if role == 'admin':
+        email = "demo-user@email.com"
+    elif role == 'project-manager':
+        email = "demo-manager@email.com"
+    elif role == 'developer':
+        email = "demo-dev@email.com"
+    elif role == 'submitter':
+        email = "demo-sub@email.com"
+    else:
+        email = "unknown@email.com"
+
+    password = "demo-password"
 
     # Log user in with demo account
-    """ demo_user_password = "demo-password"
-    demo_user_email = "demo-user@email.com"
-    user = authenticate(request, email=demo_user_email,
-                        password=demo_user_password) """
-    #login(request, user)
+    user = authenticate(request, email=email, password=password)
+    if user is not None:
+        login(request, user)
+        return redirect('index_page')
+    else:
+        messages.error(request, 'Account could not be logged in.')
 
-    return redirect('demo_account')
+    return redirect('index_page')
 
 @logout_required
 def register_view(request):

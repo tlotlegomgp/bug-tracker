@@ -2,6 +2,7 @@ from operator import attrgetter
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
 from projects.models import Project
@@ -60,9 +61,8 @@ def index_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
-    print()
-    if request.GET:
-        query = request.GET['q']
+    if request.GET and request.GET.get('q', None):
+        query = request.GET.get('q', ' ')
         context['query'] = str(query)
         projects_query = sorted(search_projects(
             query), key=attrgetter('created_on'), reverse=True)
@@ -103,8 +103,18 @@ def index_view(request):
             context['new_tickets'] = default_value
             context['in_progress_tickets'] = default_value
 
-        context['user_todos'] = Todo.objects.filter(
-            created_by=user_profile).order_by('-created_on')[:10]
+        user_todos = Todo.objects.filter(created_by=user_profile).order_by('-created_on')
+        page = request.GET.get('page', 1)
+        todos_paginator = Paginator(user_todos, 5)
+
+        try:
+            user_todos = todos_paginator.page(page)
+        except PageNotAnInteger:
+            user_todos = todos_paginator.page(5)
+        except EmptyPage:
+            user_todos = todos_paginator.page(todos_paginator.num_pages)
+
+        context['user_todos'] = user_todos
 
         if user.is_admin:
             context['tickets_count'] = user_tickets.count()

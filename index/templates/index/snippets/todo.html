@@ -1,15 +1,8 @@
 <li class="list-group-item">
 	<div class="row align-items-center no-gutters">
-		<div class="col mr-2">
+		<div class="col mr-2" onmouseover="">
 			<h6 class="mb-0"><strong>{{ todo.note }}</strong></h6>
-		</div>
-		<div class="col-auto">
-			<div class="custom-control custom-checkbox">
-				<input class="custom-control-input" type="checkbox" id="formCheck-{{forloop.counter}}" /><label
-					class="custom-control-label"
-					for="formCheck-{{forloop.counter}}"
-				></label>
-			</div>
+			<span class="text-xs">Added: {{ todo.created_on|timesince }} ago</span>
 		</div>
 	</div>
 </li>

@@ -4,7 +4,14 @@
 			<h6 class="text-primary font-weight-bold m-0">Todo List</h6>
 		</div>
 		<ul class="list-group list-group-flush">
-			{% for todo in user_todos %} {% include "index/snippets/todo.html" %} {% endfor %}
+			{% for todo in user_todos %}
+				{% include "index/snippets/todo.html" %}
+			{% empty %}
+				<div style="padding-top: 25px; padding-bottom: 10px;" class="text-center">
+					<p><strong>Good job! You have no todos.</strong></p>
+				</div>
+			{% endfor %}
+			{% include "index/snippets/todos_pagination.html" %}
 		</ul>
 	</div>
 </div>
