@@ -110,11 +110,9 @@ def project_roles_view(request, slug):
     context['project'] = project
 
     if request.method == "POST":
-        print("Its POST")
         form = ProjectRolesForm(request.POST or None)
         context['form'] = form
         if form.is_valid():
-            print("Its VALID")
             role = form.cleaned_data['role']
 
             members = form.cleaned_data.get("members")
