@@ -55,17 +55,17 @@ def demo_view(request):
 @logout_required
 def demo_login_view(request, role):
     if role == 'admin':
-        email = "demo-admin@email.com"
+        email = os.environ.get("DJANG0_DEMO_ADMIN_EMAIL")
     elif role == 'project-manager':
-        email = "demo-manager@email.com"
+        email = os.environ.get("DJANGO_DEMO_MANAGER_EMAIL")
     elif role == 'developer':
-        email = "demo-dev@email.com"
+        email = os.environ.get("DJANGO_DEMO_DEV_EMAIL")
     elif role == 'submitter':
-        email = "demo-sub@email.com"
+        email = os.environ.get("DJANGO_DEMO_SUB_EMAIL")
     else:
         email = "unknown@email.com"
 
-    password = "demo-password"
+    password = os.environ.get("DJANGO_DEMO_USER_PASSWORD")
 
     # Log user in with demo account
     user = authenticate(request, email=email, password=password)
