@@ -1,3 +1,4 @@
+from operator import attrgetter
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Profile
 from projects.models import Project, ProjectRole
@@ -17,9 +18,29 @@ def tickets_view(request):
     context = {}
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
-
+    manager_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Project Manager")
+    submitter_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Submitter")
     if user.is_admin:
         tickets = Ticket.objects.all().order_by('-created_on')
+    elif manager_project_roles or submitter_project_roles:
+        tickets = []
+        for role in manager_project_roles:
+            project_tickets = role.project.tickets.all().order_by('-created_on')
+            for ticket in project_tickets:
+                tickets.append(ticket)
+
+        for role in submitter_project_roles:
+            project_tickets = role.project.tickets.all().order_by('-created_on')
+            for ticket in project_tickets:
+                tickets.append(ticket)
+
+        user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
+        user_tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+        for ticket in user_tickets:
+            tickets.append(ticket)
+
+        tickets = sorted(list(set(tickets)), key=attrgetter('created_on'), reverse=True)
     else:
         user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
         tickets = [assignment.ticket for assignment in user_tickets_assignments]
