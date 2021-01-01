@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -53,10 +54,8 @@ def demo_view(request):
 
 @logout_required
 def demo_login_view(request, role):
-
-    print(role)
     if role == 'admin':
-        email = "demo-user@email.com"
+        email = "demo-admin@email.com"
     elif role == 'project-manager':
         email = "demo-manager@email.com"
     elif role == 'developer':
@@ -77,6 +76,7 @@ def demo_login_view(request, role):
         messages.error(request, 'Account could not be logged in.')
 
     return redirect('index_page')
+
 
 @logout_required
 def register_view(request):
