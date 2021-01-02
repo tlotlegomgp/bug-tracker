@@ -1,89 +1,87 @@
 {% extends "index/header.html" %}
 {% block title %}Add Project{% endblock %}
 {% block content %}
-<div class="container-fluid">
-	<h3 class="text-dark mb-4">Add Project</h3>
-	<form method="POST" action="{% url 'add_project' %}">
-		{% csrf_token %}
-		<div class="row mb-3">
-			<div class="col-lg-7">
-				<div class="row">
-					<div class="col">
-						<div class="card shadow mb-3">
-							<div class="card-header py-3">
-								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Project Information
-								</p>
-							</div>
-							<div class="card-body">
-								<div class="form-row">
-									<div class="col">
-										<div class="form-group">
-											<label for="username"><strong>Name</strong></label
-											>{{ form.name }}
-										</div>
-									</div>
-								</div>
-								<div class="form-row">
-									<div class="col">
-										<div class="form-group">
-											<label for="first_name"><strong>Description</strong></label
-											>{{ form.description }}
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<br>
-									<button
-										class="btn btn-primary btn-sm"
-										type="submit"
-										style="background: rgb(28, 40, 38)"
-									>
-										Create&nbsp;Project
-									</button>
-								</div>
-							</div>
+<h3 class="text-dark mb-4">Add Project</h3>
+<form method="POST" action="{% url 'add_project' %}">
+	{% csrf_token %}
+	<div class="row mb-3">
+		<div class="col-lg-7">
+			<div class="row">
+				<div class="col">
+					<div class="card shadow mb-3">
+						<div class="card-header py-3">
+							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+								Project Information
+							</p>
 						</div>
-					</div>
-				</div>
-            </div>
-            <div class="col-lg-5">
-				<div class="row">
-					<div class="col">
-						<div class="card shadow mb-3">
-							<div class="card-header py-3">
-								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Project Manager
-								</p>
-                            </div>
-                            <div class="form-row" style="margin: 10px; margin-top: 20px;">
+						<div class="card-body">
+							<div class="form-row">
 								<div class="col">
 									<div class="form-group">
-										{{form.manager}}
+										<label for="username"><strong>Name</strong></label
+										>{{ form.name }}
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="card shadow mb-3">
-							<div class="card-header py-3">
-								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Members
-								</p>
-                            </div>
-                            <div class="form-row" style="margin: 10px; margin-top: 20px;">
+							<div class="form-row">
 								<div class="col">
-									{{form.members}}
+									<div class="form-group">
+										<label for="first_name"><strong>Description</strong></label
+										>{{ form.description }}
+									</div>
 								</div>
+							</div>
+							<div class="form-group">
+								<br>
+								<button
+									class="btn btn-primary btn-sm"
+									type="submit"
+									style="background: rgb(28, 40, 38)"
+								>
+									Create&nbsp;Project
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form>
-</div>
+		<div class="col-lg-5">
+			<div class="row">
+				<div class="col">
+					<div class="card shadow mb-3">
+						<div class="card-header py-3">
+							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+								Project Manager
+							</p>
+						</div>
+						<div class="form-row" style="margin: 10px; margin-top: 20px;">
+							<div class="col">
+								<div class="form-group">
+									{{form.manager}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="card shadow mb-3">
+						<div class="card-header py-3">
+							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+								Members
+							</p>
+						</div>
+						<div class="form-row" style="margin: 10px; margin-top: 20px;">
+							<div class="col">
+								{{form.members}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
 {% endblock %}

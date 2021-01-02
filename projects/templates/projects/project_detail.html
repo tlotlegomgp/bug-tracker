@@ -1,142 +1,140 @@
 {% extends "index/header.html" %}
 {% block title %}Project{% endblock %}
 {% block content %}
-<div class="container-fluid">
-	<div class="d-sm-flex justify-content-between align-items-center mb-4">
-		<h3 class="text-dark mb-0">{{project|truncatechars:40}}</h3>
-		{% if request.user.is_admin or user_project_role.user_role == "Project Manager" %}
-		<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
-		href="{% url 'manage_roles' project.slug %}" style="background: rgb(28, 40, 38)"><em
-			class="fas fa-users fa-sm text-white-50"></em>&nbsp;Manage Roles
-		</a>
-		{% endif %}
-	</div>
-	<div class="row mb-3">
-		<div class="col-lg-5">
-			<div class="row">
-				<div class="col">
-					<div class="card shadow mb-3">
-						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-								Project Details
-							</p>
-						</div>
-						<div class="card-body">
-							<div class="form-row">
-								<div class="col">
-									<div class="form-group">
-										<label for="username"><strong>Name</strong></label>
-										<p class="mb-4">{{ project.name }}</p>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col">
-									<div class="form-group">
-										<label for="first_name"><strong>Description</strong></label>
-										<p class="mb-4">{{ project.description }}</p>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col">
-									<div class="form-group">
-										<label for="first_name"><strong>Project Manager</strong></label>
-										<p class="mb-4">{{ manager_role.user.first_name }} {{ manager_role.user.last_name }}</p>
-									</div>
-								</div>
-							</div>
-							{% if request.user.is_admin or user_project_role.user_role == "Project Manager" %}
-							<div class="form-group">
-								<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
-									href="{% url 'edit_project' project.slug %}"
-									style="background: rgb(28, 40, 38)">&nbsp;Edit Project
-								</a>
-							</div>
-							{% endif %}
-						</div>
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+	<h3 class="text-dark mb-0">{{project|truncatechars:40}}</h3>
+	{% if request.user.is_admin or user_project_role.user_role == "Project Manager" %}
+	<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
+	href="{% url 'manage_roles' project.slug %}" style="background: rgb(28, 40, 38)"><em
+		class="fas fa-users fa-sm text-white-50"></em>&nbsp;Manage Roles
+	</a>
+	{% endif %}
+</div>
+<div class="row mb-3">
+	<div class="col-lg-5">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-3">
+					<div class="card-header py-3">
+						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+							Project Details
+						</p>
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-7">
-			<div class="row">
-				<div class="col">
-					<div class="card shadow mb-3">
-						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-								Assigned Personnel
-							</p>
+					<div class="card-body">
+						<div class="form-row">
+							<div class="col">
+								<div class="form-group">
+									<label for="username"><strong>Name</strong></label>
+									<p class="mb-4">{{ project.name }}</p>
+								</div>
+							</div>
 						</div>
-						<div class="table-responsive table mt-0" id="dataTable" role="grid"
-							aria-describedby="dataTable_info">
-							<table class="table my-0" id="dataTable" aria-describedby="users">
-								<thead>
-									<tr>
-										<th scope="col">Name</th>
-										<th scope="col">Email</th>
-										<th scope="col">Role</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for user in user_roles %}
-									<tr style="white-space: nowrap">
-										<td>{{user.user.first_name}} {{user.user.last_name}}</td>
-										<td>{{ user.user }}</td>
-										<td>{{ user.user_role|title }}</td>
-									</tr>
-									{%endfor%}
-								</tbody>
-							</table>
+						<div class="form-row">
+							<div class="col">
+								<div class="form-group">
+									<label for="first_name"><strong>Description</strong></label>
+									<p class="mb-4">{{ project.description }}</p>
+								</div>
+							</div>
 						</div>
-						<div style="margin-left: 20px; margin-right: 20px">
-							{% include 'projects/snippets/users_pagination.html' with users=user_roles %}
+						<div class="form-row">
+							<div class="col">
+								<div class="form-group">
+									<label for="first_name"><strong>Project Manager</strong></label>
+									<p class="mb-4">{{ manager_role.user.first_name }} {{ manager_role.user.last_name }}</p>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col-lg-12">
-			<div class="row">
-				<div class="col">
-					<div class="card shadow mb-3">
-						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38); float: left;">Tickets</p>
-							{% if user_project_role.user_role != "Developer" or request.user.is_admin %}
-							<a class="btn btn-primary btn-sm" role="button"
-								href="{% url 'add_ticket' project.slug %}" 
-								style="background: rgb(28, 40, 38); float: right;">
-								<em class="fas fa-plus fa-sm text-white-50"></em>&nbsp;New Ticket
+						{% if request.user.is_admin or user_project_role.user_role == "Project Manager" %}
+						<div class="form-group">
+							<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
+								href="{% url 'edit_project' project.slug %}"
+								style="background: rgb(28, 40, 38)">&nbsp;Edit Project
 							</a>
-							{% endif %}
-						</div>
-						{% if tickets %}
-						<div class="table-responsive table mt-0" id="dataTable" role="grid"
-							aria-describedby="dataTable_info">
-							<table class="table my-0" id="dataTable" aria-describedby="projects">
-								<thead>
-									<tr>
-										<th scope="col">Title</th>
-										<th scope="col">Status</th>
-										<th scope="col">Developer</th>
-										<th scope="col">Submitter</th>
-										<th scope="col">Updated</th>
-										<th scope="col">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									{%for ticket in tickets %} {% include "projects/snippets/project_ticket.html" %} {%endfor%}
-								</tbody>
-							</table>
-						</div>
-						{% else %}
-						<div style="padding-top: 20px" class="text-center">
-							<p><strong>Project Has No Tickets.</strong></p>
 						</div>
 						{% endif %}
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-7">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-3">
+					<div class="card-header py-3">
+						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+							Assigned Personnel
+						</p>
+					</div>
+					<div class="table-responsive table mt-0" id="dataTable" role="grid"
+						aria-describedby="dataTable_info">
+						<table class="table my-0" id="dataTable" aria-describedby="users">
+							<thead>
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Email</th>
+									<th scope="col">Role</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for user in user_roles %}
+								<tr style="white-space: nowrap">
+									<td>{{user.user.first_name}} {{user.user.last_name}}</td>
+									<td>{{ user.user }}</td>
+									<td>{{ user.user_role|title }}</td>
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					</div>
+					<div style="margin-left: 20px; margin-right: 20px">
+						{% include 'projects/snippets/users_pagination.html' with users=user_roles %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row mb-3">
+	<div class="col-lg-12">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-3">
+					<div class="card-header py-3">
+						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38); float: left;">Tickets</p>
+						{% if user_project_role.user_role != "Developer" or request.user.is_admin %}
+						<a class="btn btn-primary btn-sm" role="button"
+							href="{% url 'add_ticket' project.slug %}" 
+							style="background: rgb(28, 40, 38); float: right;">
+							<em class="fas fa-plus fa-sm text-white-50"></em>&nbsp;New Ticket
+						</a>
+						{% endif %}
+					</div>
+					{% if tickets %}
+					<div class="table-responsive table mt-0" id="dataTable" role="grid"
+						aria-describedby="dataTable_info">
+						<table class="table my-0" id="dataTable" aria-describedby="projects">
+							<thead>
+								<tr>
+									<th scope="col">Title</th>
+									<th scope="col">Status</th>
+									<th scope="col">Developer</th>
+									<th scope="col">Submitter</th>
+									<th scope="col">Updated</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{%for ticket in tickets %} {% include "projects/snippets/project_ticket.html" %} {%endfor%}
+							</tbody>
+						</table>
+					</div>
+					{% else %}
+					<div style="padding-top: 20px" class="text-center">
+						<p><strong>Project Has No Tickets.</strong></p>
+					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>

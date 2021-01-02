@@ -1,180 +1,103 @@
 {% extends "index/header.html" %}
 {% block title %}Ticket{% endblock %}
 {% block content %}
-<div class="container-fluid">
-	<div class="d-sm-flex justify-content-between align-items-center mb-4">
-		<h3 class="text-dark mb-0">{{ticket}}</h3>
-	</div>
-	<div class="row mb-3">
-		<div class="col-lg-6">
-			<div class="row">
-				<div class="col">
-					<div class="card shadow mb-3">
-						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-								Ticket Details
-							</p>
-						</div>
-						<div class="card-body">
-							<div class="form-row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="username"><strong>Title</strong></label>
-										<p class="mb-4">{{ ticket.title }}</p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="username"><strong>Description</strong></label>
-										<p class="mb-4">{{ ticket.description}}</p>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="username"><strong>Project</strong></label>
-										<p class="mb-4">{{ ticket.project }}</p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="username"><strong>Submitter</strong></label>
-										<p class="mb-4">
-											{{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }}
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="first_name"><strong>Developer</strong></label>
-										{% with user=ticket.ticketassignee_set.all.first.user %}
-										<p class="mb-4">{{ user.first_name }} {{user.last_name}}</p>
-										{% endwith %}
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="first_name"><strong>Status</strong></label>
-										<p class="mb-4">{{ ticket.status|title }}</p>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="first_name"><strong>Priority</strong></label>
-										<p class="mb-4">{{ ticket.priority|title }}</p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="first_name"><strong>Type</strong></label>
-										<p class="mb-4">{{ ticket.class_type|title }}</p>
-									</div>
-								</div>
-							</div>
-							<div class="form-row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="first_name"><strong>Created</strong></label>
-										<p class="mb-4">{{ ticket.created_on }}</p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="first_name"><strong>Updated</strong></label>
-										<p class="mb-4">{{ ticket.updated|timesince }} ago</p>
-									</div>
-								</div>
-							</div>
-							{% if profile == ticket_developer or profile == submitter or profile == manager or request.user.is_admin %}
-							<div class="form-group">
-								<a
-									class="btn btn-primary btn-sm d-none d-sm-inline-block"
-									role="button"
-									href="{% url 'edit_ticket' ticket.slug %}"
-									style="background: rgb(28, 40, 38)"
-									>&nbsp;Edit Ticket</a
-								>
-							</div>
-							{% endif %}
-						</div>
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+	<h3 class="text-dark mb-0">{{ticket}}</h3>
+</div>
+<div class="row mb-3">
+	<div class="col-lg-6">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-3">
+					<div class="card-header py-3">
+						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+							Ticket Details
+						</p>
 					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6">
-			<div class="row">
-				<div class="col">
-					<div class="card shadow mb-3">
-						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-								Ticket Comments
-							</p>
+					<div class="card-body">
+						<div class="form-row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="username"><strong>Title</strong></label>
+									<p class="mb-4">{{ ticket.title }}</p>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="username"><strong>Description</strong></label>
+									<p class="mb-4">{{ ticket.description}}</p>
+								</div>
+							</div>
 						</div>
 						<div class="form-row">
-							<div class="col">
-								<div
-									class="form-group"
-									style="margin-left: 20px; margin-right: 20px; margin-bottom: 15px; margin-top: 10px"
-								>
-									<label for="username"><strong>Add a Comment?</strong></label>
-									<div>
-										<form method="POST" action="{% url 'view_ticket' ticket.slug %}">
-											{% csrf_token %}
-											<div class="input-group">
-												{{ form.comment }}
-												<div class="input-group-append">
-													<button
-														class="btn btn-primary btn-sm"
-														type="submit"
-														style="background: rgb(28, 40, 38);"
-													>
-														Add
-													</button>
-												</div>
-											</div>
-											
-										</form>
-									</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="username"><strong>Project</strong></label>
+									<p class="mb-4">{{ ticket.project }}</p>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="username"><strong>Submitter</strong></label>
+									<p class="mb-4">
+										{{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }}
+									</p>
 								</div>
 							</div>
 						</div>
-						{% if ticket_comments %}
-						<div
-							class="table-responsive table mt-0"
-							id="dataTable"
-							role="grid"
-							aria-describedby="dataTable_info"
-						>
-							<table class="table my-0" id="dataTable" aria-describedby="ticket_comments">
-								<thead>
-									<tr>
-										<th scope="col">User</th>
-										<th scope="col">Comment</th>
-										<th scope="col">Added</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for comment in ticket_comments %}
-									<tr style="white-space: nowrap">
-										<td>{{comment.user.first_name}} {{comment.user.last_name}}</td>
-										<td>{{ comment }}</td>
-										<td>{{ comment.created_on|timesince}} ago</td>
-									</tr>
-									{%endfor%}
-								</tbody>
-							</table>
+						<div class="form-row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="first_name"><strong>Developer</strong></label>
+									{% with user=ticket.ticketassignee_set.all.first.user %}
+									<p class="mb-4">{{ user.first_name }} {{user.last_name}}</p>
+									{% endwith %}
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="first_name"><strong>Status</strong></label>
+									<p class="mb-4">{{ ticket.status|title }}</p>
+								</div>
+							</div>
 						</div>
-						<div style="margin-left: 20px; margin-right: 20px">
-							{% include 'tickets/snippets/comments_pagination.html' with comments=ticket_comments %}
+						<div class="form-row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="first_name"><strong>Priority</strong></label>
+									<p class="mb-4">{{ ticket.priority|title }}</p>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="first_name"><strong>Type</strong></label>
+									<p class="mb-4">{{ ticket.class_type|title }}</p>
+								</div>
+							</div>
 						</div>
-						{% else %}
-						<div style="padding-top: 20px" class="text-center">
-							<p><strong>Ticket Has No Comments.</strong></p>
+						<div class="form-row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="first_name"><strong>Created</strong></label>
+									<p class="mb-4">{{ ticket.created_on }}</p>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="first_name"><strong>Updated</strong></label>
+									<p class="mb-4">{{ ticket.updated|timesince }} ago</p>
+								</div>
+							</div>
+						</div>
+						{% if profile == ticket_developer or profile == submitter or profile == manager or request.user.is_admin %}
+						<div class="form-group">
+							<a
+								class="btn btn-primary btn-sm d-none d-sm-inline-block"
+								role="button"
+								href="{% url 'edit_ticket' ticket.slug %}"
+								style="background: rgb(28, 40, 38)"
+								>&nbsp;Edit Ticket</a
+							>
 						</div>
 						{% endif %}
 					</div>
@@ -182,86 +105,161 @@
 			</div>
 		</div>
 	</div>
-	<div class="row mb-3">
-		<div class="col-lg-12">
-			<div class="row">
-				<div class="col">
-					<div class="card shadow mb-3">
-						<div class="card-header py-3">
-							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-								Ticket Attachments
-							</p>
-						</div>
-						<div class="form-group" style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px">
-							<div>
-								<form
-									method="POST"
-									action="{% url 'add_attachment' ticket.slug %}"
-									enctype="multipart/form-data"
-								>
-									{% csrf_token %}
-									<div class="form-row align-items-center" style="margin-top: 20px">
-										<div class="col-lg-4">
-											<div>
-												<label for="username"><strong>Add Attachment?</strong></label>
+	<div class="col-lg-6">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-3">
+					<div class="card-header py-3">
+						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+							Ticket Comments
+						</p>
+					</div>
+					<div class="form-row">
+						<div class="col">
+							<div
+								class="form-group"
+								style="margin-left: 20px; margin-right: 20px; margin-bottom: 15px; margin-top: 10px"
+							>
+								<label for="username"><strong>Add a Comment?</strong></label>
+								<div>
+									<form method="POST" action="{% url 'view_ticket' ticket.slug %}">
+										{% csrf_token %}
+										<div class="input-group">
+											{{ form.comment }}
+											<div class="input-group-append">
+												<button
+													class="btn btn-primary btn-sm"
+													type="submit"
+													style="background: rgb(28, 40, 38);"
+												>
+													Add
+												</button>
 											</div>
-											<div class="text-truncate d-flex">{{ attachment_form.attachment }}</div>
 										</div>
-										<div class="col-lg-7">
-											<label for="username"><strong>Description</strong></label>
-											{{attachment_form.note}}
-										</div>
-										<div class="col-lg-1" style="margin-top: 30px">
-											<button
-												class="btn btn-primary btn-sm"
-												type="submit"
-												style="background: rgb(28, 40, 38);"
-											>
-												Upload
-											</button>
-										</div>
-									</div>
-								</form>
+										
+									</form>
+								</div>
 							</div>
 						</div>
-						{% if ticket_attachments %}
-						<div
-							class="table-responsive table mt-0"
-							id="dataTable"
-							role="grid"
-							aria-describedby="dataTable_info"
-						>
-							<table class="table my-0" id="dataTable" aria-describedby="ticket_attachments">
-								<thead>
-									<tr>
-										<th scope="col">Uploader</th>
-										<th scope="col">Added On</th>
-										<th scope="col">Note</th>
-										<th scope="col">File</th>
-										<th scope="col">Size</th>
-										<th scope="col">Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for attachment in ticket_attachments %}
-									<tr style="white-space: nowrap">
-										<td>{{attachment.user.first_name}} {{attachment.user.last_name}}</td>
-										<td>{{ attachment.created_on|date:"SHORT_DATE_FORMAT" }}</td>
-										<td>{{ attachment.note|truncatechars:40 }}</td>
-										<td>{{ attachment.filename|truncatechars:20 }}</td>
-										<td>{{ attachment.attachment.size|filesizeformat }}</td>
-										<td>{% include 'tickets/snippets/ticket_attachement_action.html' %}</td>
-									</tr>
-									{%endfor%}
-								</tbody>
-							</table>
-						</div>
-						{% else %}
-						<div style="padding-top: 20px" class="text-center">
-							<p><strong>Ticket Has No Attachments.</strong></p>
-						</div>
-						{% endif %}
 					</div>
+					{% if ticket_comments %}
+					<div
+						class="table-responsive table mt-0"
+						id="dataTable"
+						role="grid"
+						aria-describedby="dataTable_info"
+					>
+						<table class="table my-0" id="dataTable" aria-describedby="ticket_comments">
+							<thead>
+								<tr>
+									<th scope="col">User</th>
+									<th scope="col">Comment</th>
+									<th scope="col">Added</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for comment in ticket_comments %}
+								<tr style="white-space: nowrap">
+									<td>{{comment.user.first_name}} {{comment.user.last_name}}</td>
+									<td>{{ comment }}</td>
+									<td>{{ comment.created_on|timesince}} ago</td>
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					</div>
+					<div style="margin-left: 20px; margin-right: 20px">
+						{% include 'tickets/snippets/comments_pagination.html' with comments=ticket_comments %}
+					</div>
+					{% else %}
+					<div style="padding-top: 20px" class="text-center">
+						<p><strong>Ticket Has No Comments.</strong></p>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row mb-3">
+	<div class="col-lg-12">
+		<div class="row">
+			<div class="col">
+				<div class="card shadow mb-3">
+					<div class="card-header py-3">
+						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+							Ticket Attachments
+						</p>
+					</div>
+					<div class="form-group" style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px">
+						<div>
+							<form
+								method="POST"
+								action="{% url 'add_attachment' ticket.slug %}"
+								enctype="multipart/form-data"
+							>
+								{% csrf_token %}
+								<div class="form-row align-items-center" style="margin-top: 20px">
+									<div class="col-lg-4">
+										<div>
+											<label for="username"><strong>Add Attachment?</strong></label>
+										</div>
+										<div class="text-truncate d-flex">{{ attachment_form.attachment }}</div>
+									</div>
+									<div class="col-lg-7">
+										<label for="username"><strong>Description</strong></label>
+										{{attachment_form.note}}
+									</div>
+									<div class="col-lg-1" style="margin-top: 30px">
+										<button
+											class="btn btn-primary btn-sm"
+											type="submit"
+											style="background: rgb(28, 40, 38);"
+										>
+											Upload
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					{% if ticket_attachments %}
+					<div
+						class="table-responsive table mt-0"
+						id="dataTable"
+						role="grid"
+						aria-describedby="dataTable_info"
+					>
+						<table class="table my-0" id="dataTable" aria-describedby="ticket_attachments">
+							<thead>
+								<tr>
+									<th scope="col">Uploader</th>
+									<th scope="col">Added On</th>
+									<th scope="col">Note</th>
+									<th scope="col">File</th>
+									<th scope="col">Size</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for attachment in ticket_attachments %}
+								<tr style="white-space: nowrap">
+									<td>{{attachment.user.first_name}} {{attachment.user.last_name}}</td>
+									<td>{{ attachment.created_on|date:"SHORT_DATE_FORMAT" }}</td>
+									<td>{{ attachment.note|truncatechars:40 }}</td>
+									<td>{{ attachment.filename|truncatechars:20 }}</td>
+									<td>{{ attachment.attachment.size|filesizeformat }}</td>
+									<td>{% include 'tickets/snippets/ticket_attachement_action.html' %}</td>
+								</tr>
+								{%endfor%}
+							</tbody>
+						</table>
+					</div>
+					{% else %}
+					<div style="padding-top: 20px" class="text-center">
+						<p><strong>Ticket Has No Attachments.</strong></p>
+					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>

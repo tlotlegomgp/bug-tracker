@@ -1,89 +1,87 @@
 {% extends "index/header.html" %}
 {% block title %}Edit Ticket{% endblock %}
 {% block content %}
-<div class="container-fluid">
-	<h3 class="text-dark mb-4">Edit Ticket</h3>
-	<form method="POST" action="{% url 'edit_ticket' ticket.slug %}">
-		{% csrf_token %}
-		<div class="row mb-3">
-			<div class="col-lg-7">
-				<div class="row">
-					<div class="col">
-						<div class="card shadow mb-3">
-							<div class="card-header py-3">
-								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Ticket Details
-								</p>
+<h3 class="text-dark mb-4">Edit Ticket</h3>
+<form method="POST" action="{% url 'edit_ticket' ticket.slug %}">
+	{% csrf_token %}
+	<div class="row mb-3">
+		<div class="col-lg-7">
+			<div class="row">
+				<div class="col">
+					<div class="card shadow mb-3">
+						<div class="card-header py-3">
+							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+								Ticket Details
+							</p>
+						</div>
+						<div class="card-body">
+							<div class="form-row">
+								<div class="col">
+									<div class="form-group">
+										<label for="username"><strong>Title</strong></label
+										>{{ form.title }}
+									</div>
+								</div>
 							</div>
-							<div class="card-body">
-								<div class="form-row">
-									<div class="col">
-										<div class="form-group">
-											<label for="username"><strong>Title</strong></label
-											>{{ form.title }}
-										</div>
+							<div class="form-row">
+								<div class="col">
+									<div class="form-group">
+										<label for="first_name"><strong>Status</strong></label
+										>
+										{{form.status}}
 									</div>
 								</div>
-								<div class="form-row">
-									<div class="col">
-										<div class="form-group">
-											<label for="first_name"><strong>Status</strong></label
-											>
-											{{form.status}}
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-group">
-											<label for="first_name"><strong>Type</strong></label
-											>
-											{{form.class_type}}
-										</div>
-									</div>
-									<div class="col">
-										<div class="form-group">
-											<label for="first_name"><strong>Priority</strong></label
-											>
-											{{form.priority}}
-										</div>
+								<div class="col">
+									<div class="form-group">
+										<label for="first_name"><strong>Type</strong></label
+										>
+										{{form.class_type}}
 									</div>
 								</div>
-								<div class="form-row">
-									<div class="col">
-										<div class="form-group">
-											<label for="first_name"><strong>Description</strong></label
-											>{{ form.description }}
-										</div>
+								<div class="col">
+									<div class="form-group">
+										<label for="first_name"><strong>Priority</strong></label
+										>
+										{{form.priority}}
 									</div>
 								</div>
-								<div class="form-group">
-									<button
-										class="btn btn-primary btn-sm"
-										type="submit"
-										style="background: rgb(28, 40, 38)"
-									>
-										Update&nbsp;Ticket
-									</button>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<div class="form-group">
+										<label for="first_name"><strong>Description</strong></label
+										>{{ form.description }}
+									</div>
 								</div>
+							</div>
+							<div class="form-group">
+								<button
+									class="btn btn-primary btn-sm"
+									type="submit"
+									style="background: rgb(28, 40, 38)"
+								>
+									Update&nbsp;Ticket
+								</button>
 							</div>
 						</div>
 					</div>
 				</div>
-            </div>
-            <div class="col-lg-5">
-				<div class="row">
-					<div class="col">
-						<div class="card shadow mb-3">
-							<div class="card-header py-3">
-								<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
-									Ticket Assignee
-								</p>
-                            </div>
-                            <div class="form-row" style="margin: 10px; margin-top: 20px;">
-								<div class="col">
-									<div class="form-group">
-										<label for="first_name"><strong>Assignee</strong></label>
-										{{form.assignee}}
-									</div>
+			</div>
+		</div>
+		<div class="col-lg-5">
+			<div class="row">
+				<div class="col">
+					<div class="card shadow mb-3">
+						<div class="card-header py-3">
+							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38)">
+								Ticket Assignee
+							</p>
+						</div>
+						<div class="form-row" style="margin: 10px; margin-top: 20px;">
+							<div class="col">
+								<div class="form-group">
+									<label for="first_name"><strong>Assignee</strong></label>
+									{{form.assignee}}
 								</div>
 							</div>
 						</div>
@@ -91,6 +89,6 @@
 				</div>
 			</div>
 		</div>
-	</form>
-</div>
+	</div>
+</form>
 {% endblock %}
