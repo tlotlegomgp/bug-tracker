@@ -8,7 +8,7 @@ from account.models import Profile
 class Todo(models.Model):
 
     TODO_STATUS = (
-        ('COM', 'Complete'),
+        ('COM', 'Completed'),
         ('SCH', 'Scheduled'),
     )
 

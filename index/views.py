@@ -136,6 +136,12 @@ def index_view(request):
             context['new_tickets'] = default_value
             context['in_progress_tickets'] = default_value
 
+        todos_count = Todo.objects.filter(created_by=user_profile).count()
+        completed_todos = Todo.objects.filter(created_by=user_profile).filter(status='COM').count()
+        todos_percentage = round(completed_todos*100 / todos_count)
+        context['todos_percentage'] = todos_percentage
+        context['todos_width'] = f"style='width:{todos_percentage}%;'"
+
         user_todos = Todo.objects.filter(created_by=user_profile).filter(status='SCH').order_by('-created_on')
         page = request.GET.get('page', 1)
         todos_paginator = Paginator(user_todos, 5)

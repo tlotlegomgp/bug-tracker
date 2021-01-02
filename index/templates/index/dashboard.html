@@ -14,9 +14,18 @@
 						<div class="text-uppercase text-primary font-weight-bold text-xs mb-1">
 							<span>Todo's</span>
 						</div>
-						<div class="text-dark font-weight-bold h5 mb-0"><span>{{ user_todos.paginator.count }}</span></div>
+						<div class="row no-gutters align-items-center">
+							<div class="col-auto">
+								<div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>{{todos_percentage}}%</span></div>
+							</div>
+							<div class="col">
+								<div class="progress progress-sm">
+								<div class="progress-bar bg-info" aria-valuenow="{{todos_percentage}}" aria-valuemin="0" aria-valuemax="100" {{todos_width}}><span class="sr-only">{{todos_percentage}}%</span></div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="col-auto"><em class="fas fa-calendar fa-2x text-gray-300"></em></div>
+					<div class="col-auto"><em class="fas fa-clipboard-list fa-2x text-gray-300"></em></div>
 				</div>
 			</div>
 		</div>
