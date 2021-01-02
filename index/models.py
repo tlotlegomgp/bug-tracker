@@ -6,9 +6,16 @@ from account.models import Profile
 
 
 class Todo(models.Model):
+
+    TODO_STATUS = (
+        ('COM', 'Complete'),
+        ('SCH', 'Scheduled'),
+    )
+
     created_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
-    note = models.CharField(max_length=50)
+    note = models.CharField(max_length=80)
+    status = models.CharField(max_length=6, choices=TODO_STATUS, default='SCH')
 
     def __str__(self):
         return self.note

@@ -136,7 +136,7 @@ def index_view(request):
             context['new_tickets'] = default_value
             context['in_progress_tickets'] = default_value
 
-        user_todos = Todo.objects.filter(created_by=user_profile).order_by('-created_on')
+        user_todos = Todo.objects.filter(created_by=user_profile).filter(status='SCH').order_by('-created_on')
         page = request.GET.get('page', 1)
         todos_paginator = Paginator(user_todos, 5)
 
