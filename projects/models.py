@@ -19,7 +19,6 @@ class Project(models.Model):
 class ProjectRole(models.Model):
 
     ROLE = (
-        ('Admin', 'Admin'),
         ('Project Manager', 'Project Manager'),
         ('Developer', 'Developer'),
         ('Submitter', 'Submitter'),
