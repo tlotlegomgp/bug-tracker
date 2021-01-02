@@ -54,11 +54,7 @@
 							<div class="row no-gutters align-items-center">
 								<div class="col-auto">
 									<div class="text-dark font-weight-bold h5 mb-0 mr-3">
-										{% if request.user.is_admin %}
-										<span>{{ tickets_count }}</span>
-										{% else %}
-										<span>{{ profile.ticketassignee_set.all.count }}</span>
-										{% endif %}
+										<span>{{ total_tickets }}</span>
 									</div>
 								</div>
 							</div>

@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
-from projects.models import Project
+from projects.models import Project, ProjectRole
 from .models import Todo
 
 
@@ -54,6 +54,38 @@ def search_users(query=None):
     return list(set(qs))
 
 
+def get_user_tickets(user_profile):
+    manager_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Project Manager")
+    submitter_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Submitter")
+    if user_profile.user.is_admin:
+        tickets = Ticket.objects.all().order_by('-created_on')
+    elif manager_project_roles or submitter_project_roles:
+        tickets = []
+        for role in manager_project_roles:
+            project_tickets = role.project.tickets.all().order_by('-created_on')
+            for ticket in project_tickets:
+                tickets.append(ticket)
+
+        for role in submitter_project_roles:
+            project_tickets = role.project.tickets.all().order_by('-created_on')
+            for ticket in project_tickets:
+                tickets.append(ticket)
+
+        user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
+        user_tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+        for ticket in user_tickets:
+            tickets.append(ticket)
+
+        tickets = sorted(list(set(tickets)), key=attrgetter('created_on'), reverse=True)
+    else:
+        user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
+        tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+    
+    return tickets
+
+
 # Create your views here.
 @login_required(login_url='login_page')
 def index_view(request):
@@ -76,27 +108,28 @@ def index_view(request):
         return render(request, "index/search_results.html", context)
 
     else:
-        if user.is_admin:
-            user_tickets = Ticket.objects.all()
-            resolved_tickets = Ticket.objects.filter(status='RESOLVED').count()
-            new_tickets = Ticket.objects.filter(status='NEW').count()
-            in_progress_tickets = Ticket.objects.filter(status='IN_PROGRESS').count()
-        else:
-            user_tickets = TicketAssignee.objects.filter(user=user_profile)
-            resolved_tickets = TicketAssignee.objects.filter(
-                user=user_profile).filter(ticket__status='RESOLVED').count()
-            new_tickets = TicketAssignee.objects.filter(
-                user=user_profile).filter(ticket__status='NEW').count()
-            in_progress_tickets = TicketAssignee.objects.filter(
-                user=user_profile).filter(ticket__status='IN_PROGRESS').count()
+        user_tickets = get_user_tickets(user_profile)
 
-        if user_tickets.count() != 0:
-            context['resolved_tickets'] = round(
-                resolved_tickets*100 / user_tickets.count())
-            context['new_tickets'] = round(
-                new_tickets*100 / user_tickets.count())
-            context['in_progress_tickets'] = round(
-                in_progress_tickets*100 / user_tickets.count())
+        resolved_tickets = 0
+        new_tickets = 0
+        in_progress_tickets = 0
+        total_tickets = 0
+
+        for ticket in user_tickets:
+            total_tickets += 1
+            if ticket.status == 'RESOLVED':
+                resolved_tickets += 1
+            elif ticket.status == 'NEW':
+                new_tickets += 1
+            elif ticket.status == 'IN_PROGRESS':
+                in_progress_tickets += 1
+
+
+        context['total_tickets'] = total_tickets
+        if total_tickets != 0:
+            context['resolved_tickets'] = round(resolved_tickets*100 / total_tickets)
+            context['new_tickets'] = round(new_tickets*100 / total_tickets)
+            context['in_progress_tickets'] = round(in_progress_tickets*100 / total_tickets)
         else:
             default_value = round(100/3)
             context['resolved_tickets'] = default_value
