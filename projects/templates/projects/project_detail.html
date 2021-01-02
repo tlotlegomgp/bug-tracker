@@ -104,7 +104,7 @@
 					<div class="card shadow mb-3">
 						<div class="card-header py-3">
 							<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38); float: left;">Tickets</p>
-							{% if user_project_role.user_role != "Developer" or  profile.user.is_admin %}
+							{% if user_project_role.user_role != "Developer" or request.user.is_admin %}
 							<a class="btn btn-primary btn-sm" role="button"
 								href="{% url 'add_ticket' project.slug %}" 
 								style="background: rgb(28, 40, 38); float: right;">
@@ -119,16 +119,15 @@
 								<thead>
 									<tr>
 										<th scope="col">Title</th>
-										<th scope="col">Priority</th>
 										<th scope="col">Status</th>
-										<th scope="col">Type</th>
-										<th scope="col">Created</th>
+										<th scope="col">Developer</th>
+										<th scope="col">Submitter</th>
 										<th scope="col">Updated</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									{%for ticket in tickets %} {% include "tickets/snippets/ticket.html" %} {%endfor%}
+									{%for ticket in tickets %} {% include "projects/snippets/project_ticket.html" %} {%endfor%}
 								</tbody>
 							</table>
 						</div>

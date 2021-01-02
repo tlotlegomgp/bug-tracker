@@ -178,6 +178,9 @@ def ticket_detail_view(request, slug):
             comments = comments_paginator.page(comments_paginator.num_pages)
 
         context['ticket_comments'] = comments
+        context['ticket_developer'] = get_object_or_404(TicketAssignee, ticket=ticket).user
+        context['submitter'] = ticket.created_by
+        context['manager'] = ProjectRole.objects.filter(project=ticket.project).filter(user_role="Project Manager").first().user
         context['form'] = TicketCommentForm()
         context['attachment_form'] = TicketAttachmentForm()
 

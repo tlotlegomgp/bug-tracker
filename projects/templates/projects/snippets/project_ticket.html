@@ -1,0 +1,10 @@
+<tr style="white-space: nowrap">
+	<td><a href="{% url 'view_ticket' ticket.slug %}">{{ ticket.title | truncatechars:40 }}</a></td>
+    <td>{{ ticket.status|title }}</td>
+    {% with assignee=ticket.ticketassignee_set.all.first.user %}
+    <td>{{ assignee.first_name }} {{ assignee.last_name }}</td>
+    {% endwith %}
+    <td>{{ ticket.created_by.first_name }} {{ ticket.created_by.last_name }}</td>
+	<td>{{ ticket.updated|timesince }} ago</td>
+	<td>{% include "tickets/snippets/ticket_action.html" %}</td>
+</tr>

@@ -49,7 +49,7 @@
 							<div class="form-row">
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label for="first_name"><strong>Assignee</strong></label>
+										<label for="first_name"><strong>Developer</strong></label>
 										{% with user=ticket.ticketassignee_set.all.first.user %}
 										<p class="mb-4">{{ user.first_name }} {{user.last_name}}</p>
 										{% endwith %}
@@ -90,6 +90,7 @@
 									</div>
 								</div>
 							</div>
+							{% if profile == ticket_developer or profile == submitter or profile == manager  %}
 							<div class="form-group">
 								<a
 									class="btn btn-primary btn-sm d-none d-sm-inline-block"
@@ -99,6 +100,7 @@
 									>&nbsp;Edit Ticket</a
 								>
 							</div>
+							{% endif %}
 						</div>
 					</div>
 				</div>
