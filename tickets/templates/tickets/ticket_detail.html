@@ -125,14 +125,19 @@
 									<div>
 										<form method="POST" action="{% url 'view_ticket' ticket.slug %}">
 											{% csrf_token %}
-											<div style="float: left; width: 88%">{{ form.comment }}</div>
-											<button
-												class="btn btn-primary btn-sm"
-												type="submit"
-												style="background: rgb(28, 40, 38); margin: 3px"
-											>
-												Add
-											</button>
+											<div class="input-group">
+												{{ form.comment }}
+												<div class="input-group-append">
+													<button
+														class="btn btn-primary btn-sm"
+														type="submit"
+														style="background: rgb(28, 40, 38);"
+													>
+														Add
+													</button>
+												</div>
+											</div>
+											
 										</form>
 									</div>
 								</div>
@@ -195,12 +200,12 @@
 									enctype="multipart/form-data"
 								>
 									{% csrf_token %}
-									<div class="form-row" style="margin-top: 20px">
+									<div class="form-row align-items-center" style="margin-top: 20px">
 										<div class="col-lg-4">
 											<div>
 												<label for="username"><strong>Add Attachment?</strong></label>
 											</div>
-											<div>{{ attachment_form.attachment }}</div>
+											<div class="text-truncate d-flex">{{ attachment_form.attachment }}</div>
 										</div>
 										<div class="col-lg-7">
 											<label for="username"><strong>Description</strong></label>
@@ -210,9 +215,9 @@
 											<button
 												class="btn btn-primary btn-sm"
 												type="submit"
-												style="background: rgb(28, 40, 38); margin: 3px"
+												style="background: rgb(28, 40, 38);"
 											>
-												Add
+												Upload
 											</button>
 										</div>
 									</div>
