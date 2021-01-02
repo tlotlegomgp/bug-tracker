@@ -12,15 +12,10 @@ TICKETS_PER_PAGE = 10
 COMMENTS_PER_PAGE = 8
 # Create your views here.
 
-
-@login_required(login_url='login_page')
-def tickets_view(request):
-    context = {}
-    user = request.user
-    user_profile = get_object_or_404(Profile, user=user)
+def get_user_tickets(user_profile):
     manager_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Project Manager")
     submitter_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Submitter")
-    if user.is_admin:
+    if user_profile.user.is_admin:
         tickets = Ticket.objects.all().order_by('-created_on')
     elif manager_project_roles or submitter_project_roles:
         tickets = []
@@ -44,6 +39,16 @@ def tickets_view(request):
     else:
         user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
         tickets = [assignment.ticket for assignment in user_tickets_assignments]
+
+    return tickets
+
+
+@login_required(login_url='login_page')
+def tickets_view(request):
+    context = {}
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+    tickets = get_user_tickets(user_profile)
 
     page = request.GET.get('page', 1)
     tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)
