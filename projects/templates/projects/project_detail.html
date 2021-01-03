@@ -45,7 +45,7 @@
 								</div>
 							</div>
 						</div>
-						{% if request.user.is_admin or user_project_role.user_role == "Project Manager" %}
+						{% if request.user.is_admin %}
 						<div class="form-group">
 							<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button"
 								href="{% url 'edit_project' project.slug %}"

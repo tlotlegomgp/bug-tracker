@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.core.exceptions import PermissionDenied
 from account.models import Profile
 from .forms import UserForm
 
@@ -30,8 +31,12 @@ def team_view(request):
 
 @login_required(login_url='login_page')
 def user_management_view(request):
-    context = {}
 
+    if not request.user.is_admin:
+        raise PermissionDenied
+
+
+    context = {}
     users = Profile.objects.all().order_by('first_name')
 
     page = request.GET.get('page', 1)
@@ -57,6 +62,10 @@ def user_management_view(request):
 
 @login_required(login_url='login_page')
 def update_user_view(request, slug):
+
+    if not request.user.is_admin:
+        raise PermissionDenied
+    
     user_profile = get_object_or_404(Profile, slug=slug)
     user = user_profile.user
     UserFormSet = formset_factory(UserForm)

@@ -4,6 +4,7 @@ from account.models import Profile
 from projects.models import Project, ProjectRole
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.exceptions import PermissionDenied
 from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
 from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 
@@ -11,6 +12,9 @@ from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 TICKETS_PER_PAGE = 10
 COMMENTS_PER_PAGE = 8
 # Create your views here.
+
+
+
 
 def get_user_tickets(user_profile):
     manager_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Project Manager")
@@ -63,12 +67,28 @@ def tickets_view(request):
     return render(request, "tickets/tickets.html", context)
 
 
+
+def can_user_add_ticket(user, project):
+    user_profile = get_object_or_404(Profile, user=user)
+    sub_role = ProjectRole.objects.filter(project=project).filter(user=user_profile).filter(user_role="Submitter").first()
+    man_role = ProjectRole.objects.filter(project=project).filter(user=user_profile).filter(user_role="Project Manager").first()
+
+    return (sub_role is not None) or (man_role is not None) or (user.is_admin)
+
+
 @login_required(login_url='login_page')
 def add_ticket_view(request, slug):
+
     context = {}
     user = request.user
-    user_profile = get_object_or_404(Profile, user=user)
     project = get_object_or_404(Project, slug=slug)
+
+    if not can_user_add_ticket(user, project):
+        raise PermissionDenied
+
+
+    user_profile = get_object_or_404(Profile, user=user)
+    
 
     if request.method == "POST":
         form = TicketForm(request.POST)
@@ -145,9 +165,12 @@ def edit_ticket_view(request, slug):
 
 @login_required(login_url='login_page')
 def delete_ticket_view(request, slug):
-    ticket = get_object_or_404(Ticket, slug=slug)
-    ticket.delete()
-    return redirect('tickets_page')
+    if request.user.is_admin:
+        ticket = get_object_or_404(Ticket, slug=slug)
+        ticket.delete()
+        return redirect('tickets_page')
+    else:
+        raise PermissionDenied
 
 
 @login_required(login_url='login_page')
@@ -211,7 +234,10 @@ def ticket_attachment_view(request, slug):
 
 @login_required(login_url='login_page')
 def delete_attachment_view(request, attachment_id):
-    attachment = get_object_or_404(TicketAttachment, id=attachment_id)
-    ticket_slug = attachment.ticket.slug
-    attachment.delete()
-    return redirect('view_ticket', slug=ticket_slug)
+    if request.user.is_admin:
+        attachment = get_object_or_404(TicketAttachment, id=attachment_id)
+        ticket_slug = attachment.ticket.slug
+        attachment.delete()
+        return redirect('view_ticket', slug=ticket_slug)
+    else:
+        raise PermissionDenied

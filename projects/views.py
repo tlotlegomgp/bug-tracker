@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from .models import Project, ProjectRole
@@ -10,6 +11,15 @@ from .forms import ProjectForm, ProjectRolesForm
 PROJECTS_PER_PAGE = 10
 USERS_PER_PAGE = 5
 
+
+def is_admin(user):
+    return user.is_admin
+
+def is_project_manager(user, project):
+    user_profile = get_object_or_404(Profile, user = user)
+    user_role = ProjectRole.objects.filter(project=project).filter(user_role='Project Manager').filter(user=user_profile).first()
+
+    return user_role is not None
 
 @login_required(login_url='login_page')
 def projects_view(request):
@@ -42,6 +52,10 @@ def projects_view(request):
 def add_project_view(request):
     context = {}
     user = request.user
+
+    if not is_admin(user):
+        raise PermissionDenied
+
     user_profile = get_object_or_404(Profile, user=user)
 
     if request.method == "POST":
@@ -105,8 +119,13 @@ def project_detail_view(request, slug):
 
 @login_required(login_url='login_page')
 def project_roles_view(request, slug):
-    context = {}
+
+    user = request.user
     project = get_object_or_404(Project, slug=slug)
+    if not (is_admin(user) or is_project_manager(user, project)):
+        raise PermissionDenied
+
+    context = {}
     context['project'] = project
 
     if request.method == "POST":
@@ -149,13 +168,21 @@ def project_roles_view(request, slug):
 
 @login_required(login_url='login_page')
 def delete_project_view(request, slug):
-    project = get_object_or_404(Project, slug=slug)
-    project.delete()
-    return redirect('projects_page')
+
+    if is_admin(request.user):
+        project = get_object_or_404(Project, slug=slug)
+        project.delete()
+        return redirect('projects_page')
+    else:
+        return PermissionDenied
 
 
 @login_required(login_url='login_page')
 def edit_project_view(request, slug):
+
+    if not is_admin(request.user):
+        raise PermissionDenied
+
     context = {}
     project = get_object_or_404(Project, slug=slug)
     current_project_manager = ProjectRole.objects.filter(project=project).filter(user_role='Project Manager').first()
