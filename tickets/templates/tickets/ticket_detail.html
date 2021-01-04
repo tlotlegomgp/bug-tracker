@@ -92,10 +92,10 @@
 						{% if profile == ticket_developer or profile == submitter or profile == manager or request.user.is_admin %}
 						<div class="form-group">
 							<a
-								class="btn btn-primary btn-sm d-none d-sm-inline-block"
+								class="btn btn-sm d-none d-sm-inline-block"
 								role="button"
 								href="{% url 'edit_ticket' ticket.slug %}"
-								style="background: rgb(28, 40, 38)"
+								style="background: rgb(28, 40, 38); color: aliceblue;"
 								>&nbsp;Edit Ticket</a
 							>
 						</div>
@@ -128,9 +128,9 @@
 											{{ form.comment }}
 											<div class="input-group-append">
 												<button
-													class="btn btn-primary btn-sm"
+													class="btn btn-sm"
 													type="submit"
-													style="background: rgb(28, 40, 38);"
+													style="background: rgb(28, 40, 38); color: aliceblue;"
 												>
 													Add
 												</button>
@@ -212,9 +212,9 @@
 									</div>
 									<div class="col-lg-1" style="margin-top: 30px">
 										<button
-											class="btn btn-primary btn-sm"
+											class="btn btn-sm"
 											type="submit"
-											style="background: rgb(28, 40, 38);"
+											style="background: rgb(28, 40, 38); color: aliceblue;"
 										>
 											Upload
 										</button>

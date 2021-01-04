@@ -7,6 +7,7 @@ from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
 from projects.models import Project, ProjectRole
 from .models import Todo
+from .forms import TodoForm
 
 
 # Search for projects from search bar
@@ -157,6 +158,8 @@ def index_view(request):
         if user.is_admin:
             context['tickets_count'] = user_tickets.count()
             context['projects_count'] = Project.objects.all().count()
+
+        context['form'] = TodoForm()
 
         return render(request, "index/dashboard.html", context)
 

@@ -13,5 +13,30 @@
 			{% endfor %}
 			{% include "index/snippets/todos_pagination.html" %}
 		</ul>
+		<div class="card-header py-2">
+			<div
+				class="form-group"
+				style="margin: 10px;"
+			>
+				<div>
+					<form method="POST" action="#">
+						{% csrf_token %}
+						<div class="input-group">
+							{{ form.todo }}
+							<div class="input-group-append">
+								<button
+									class="btn btn-sm"
+									type="submit"
+									style="background: rgb(28, 40, 38); color: aliceblue;"
+								>
+									Add a Todo
+								</button>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

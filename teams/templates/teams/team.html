@@ -5,10 +5,10 @@
 	<h3 class="text-dark mb-0">Team</h3>
 	{% if request.user.is_admin %}
 	<a
-		class="btn btn-primary btn-sm d-none d-sm-inline-block"
+		class="btn btn-sm d-none d-sm-inline-block"
 		role="button"
 		href="{% url 'user_management' %}"
-		style="background: rgb(28, 40, 38)"
+		style="background: rgb(28, 40, 38); color: aliceblue;"
 		>Manage Users
 	</a>
 	{% endif %}

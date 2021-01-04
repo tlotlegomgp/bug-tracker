@@ -4,8 +4,8 @@
 <div class="d-sm-flex justify-content-between align-items-center mb-4">
 	<h3 class="text-dark mb-0">Projects</h3>
 	{% if request.user.is_admin %}
-	<a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="{% url 'add_project' %}"
-		style="background: rgb(28, 40, 38)">
+	<a class="btn btn-sm d-none d-sm-inline-block" role="button" href="{% url 'add_project' %}"
+		style="background: rgb(28, 40, 38); color: aliceblue;">
 		<em class="fas fa-plus fa-sm text-white-50"></em>
 		&nbsp;New Project
 	</a>
