@@ -140,7 +140,6 @@ def index_view(request):
         completed_todos = Todo.objects.filter(created_by=user_profile).filter(status='COM').count()
         todos_percentage = round(completed_todos*100 / todos_count)
         context['todos_percentage'] = todos_percentage
-        context['todos_width'] = f"style='width:{todos_percentage}%;'"
 
         user_todos = Todo.objects.filter(created_by=user_profile).filter(status='SCH').order_by('-created_on')
         page = request.GET.get('page', 1)
