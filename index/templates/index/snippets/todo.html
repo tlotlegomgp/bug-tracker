@@ -1,5 +1,5 @@
 <li class="list-group-item">
-	<a href="#" style="text-decoration: none; color: grey;" onmouseover="t">
+	<a href="{% url 'delete_todo' todo.id %}" style="text-decoration: none; color: grey;" onmouseover="t">
 		<div class="row align-items-center no-gutters">
 			<div class="col mr-2" onmouseover="">
 				<h6 class="mb-0"><strong>{{ todo.note }}</strong></h6>

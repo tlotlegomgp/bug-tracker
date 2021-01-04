@@ -180,6 +180,14 @@ def add_todo_view(request):
 
 
 @login_required(login_url='login_page')
+def delete_todo_view(request, id):
+    todo = get_object_or_404(Todo, id=id)
+    todo.status = 'COM'
+    todo.save()
+    return redirect('index_page')
+
+
+@login_required(login_url='login_page')
 def handler404(request, exception=None):
     return render(request, 'index/404.html', status=404)
 
