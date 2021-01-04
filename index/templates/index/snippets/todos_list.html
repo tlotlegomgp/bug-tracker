@@ -19,7 +19,7 @@
 				style="margin: 10px;"
 			>
 				<div>
-					<form method="POST" action="#">
+					<form method="POST" action="{% url 'add_todo' %}">
 						{% csrf_token %}
 						<div class="input-group">
 							{{ form.todo }}

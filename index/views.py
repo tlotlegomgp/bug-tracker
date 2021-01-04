@@ -1,5 +1,5 @@
 from operator import attrgetter
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -162,6 +162,21 @@ def index_view(request):
         context['form'] = TodoForm()
 
         return render(request, "index/dashboard.html", context)
+
+
+@login_required(login_url='login_page')
+def add_todo_view(request):
+    user = request.user
+    user_profile = get_object_or_404(Profile, user=user)
+
+    if request.method == "POST":
+        form = TodoForm(request.POST)
+        if form.is_valid():
+            todo = form.cleaned_data['todo']
+
+            create_todo = Todo.objects.create(created_by = user_profile, note=todo)
+
+        return redirect('index_page')
 
 
 @login_required(login_url='login_page')
