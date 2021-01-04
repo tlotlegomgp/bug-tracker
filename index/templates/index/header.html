@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="{% static 'index/fonts/fontawesome5-overrides.min.css' %}" />
 
 	</head>
+	{% if request.user.is_authenticated %}
 	<body id="page-top">
 		<div id="wrapper">
 			{% include "index/snippets/sidebar.html" %}
@@ -23,17 +24,15 @@
 					{% include "index/snippets/navbar.html" %}
 					<div class="container-fluid">{% block content %} {% endblock %}</div>
 				</div>
-				<footer class="bg-white sticky-footer">
-					<div class="container my-auto">
-						<div class="text-center my-auto copyright"><span>Copyright © Liquid 2021</span></div>
-					</div>
-				</footer>
+				{% include "index/snippets/footer.html" %}
 			</div>
 		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-		<script src="{% static 'index/js/script.min.js' %}"></script>
+		{% include "index/snippets/scripts.html" %}
 	</body>
+	{% else %}
+	<body class="bg-gradient-primary" style="background: rgb(28, 40, 38)">
+		<div class="container">{% block account %} {% endblock %}</div>
+		{% include "index/snippets/scripts.html" %}
+	</body>
+	{% endif %}
 </html>
