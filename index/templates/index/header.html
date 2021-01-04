@@ -27,12 +27,10 @@
 				{% include "index/snippets/footer.html" %}
 			</div>
 		</div>
-		{% include "index/snippets/scripts.html" %}
-	</body>
 	{% else %}
 	<body class="bg-gradient-primary" style="background: rgb(28, 40, 38)">
 		<div class="container">{% block account %} {% endblock %}</div>
-		{% include "index/snippets/scripts.html" %}
-	</body>
 	{% endif %}
+	{% include "index/snippets/scripts.html" %}
+	</body>
 </html>

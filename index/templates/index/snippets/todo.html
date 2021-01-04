@@ -1,15 +1,6 @@
 <li class="list-group-item">
-	<a href="{% url 'delete_todo' todo.id %}" style="text-decoration: none; color: grey;" onmouseover="t">
+	<a href="{% url 'delete_todo' todo.id %}" style="text-decoration: none; color: grey;">
 		<div class="row align-items-center no-gutters">
-			<style>
-				.todo:hover {
-					text-decoration: line-through 3px rgb(28, 40, 38);
-					padding: 2.5px;
-					transition: padding 0.15s;
-					opacity: 0.5;
-					font-size: xx-small;
-				}
-			</style>
 			<div class="col mr-2 todo">
 				<h6 class="mb-0"><strong>{{ todo.note }}</strong></h6>
 				<span class="text-xs">Added: {{ todo.created_on|timesince }} ago</span>
