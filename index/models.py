@@ -31,7 +31,7 @@ class DirectMessage(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     receiver = models.ForeignKey(Profile, related_name="direct_messages", on_delete=models.CASCADE)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
-    body = models.CharField(max_length=200)
+    body = models.CharField(max_length=250)
     status = models.CharField(max_length=6, choices=MESSAGE_STATUS, default='UNREAD')
 
     def __str__(self):
