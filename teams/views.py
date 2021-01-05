@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import formset_factory
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from account.models import Profile
 from index.models import DirectMessage
@@ -99,4 +100,4 @@ def send_message_view(request, user_id):
 
             direct_message = DirectMessage.objects.create(author=author, receiver=recipient, body=message)
 
-        return redirect('team_page')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

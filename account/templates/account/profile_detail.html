@@ -8,9 +8,11 @@
         role="button"
         href="#"
         style="background: rgb(28, 40, 38)"
+        title="Send Message" data-toggle="modal" data-target="#{{user_profile.user.username}}"
         ><em class="fas fa-comment fa-sm text-white-50"></em>&nbsp;Send Message</a
     >
 </div>
+{% include 'teams/snippets/send_mail.html' with member=user_profile %}
 <div class="row mb-3">
     <div class="col-lg-4">
         <div class="card mb-3">

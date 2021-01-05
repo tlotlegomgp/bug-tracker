@@ -16,39 +16,4 @@
 	<td>{{member.ticketassignee_set.all.count}}</td>
 	<td>{% include 'teams/snippets/user_action.html' %}</td>
 </tr>
-
-<div class="modal fade" id={{member.user.username}} tabindex="-1" role="dialog" aria-labelledby="sendMail" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-		<form method="POST" action="{% url 'send_message' member.id %}">{% csrf_token %}
-			<div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
-				<h5 class="modal-title" id="sendMail">New Message to @{{member.user.username}}</h5>
-				<button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				
-					<div class="form-group">
-						<label for="recipient-name" class="col-form-label">Recipient:</label>
-						<input type="text" class="form-control" name="user" id="recipient-name" value="{{member.first_name}} {{member.last_name}}" readonly>
-					</div>
-					<div class="form-group">
-						<label for="messages" class="col-form-label">Message:</label>
-						{{form.message}}
-					</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
-				<button
-					class="btn btn-sm"
-					type="submit"
-					style="background: rgb(28, 40, 38); color: aliceblue;"
-				>
-					Send&nbsp;Message
-				</button>
-			</div>
-		</form>
-    </div>
-  </div>
-</div>
+{% include 'teams/snippets/send_mail.html' %}

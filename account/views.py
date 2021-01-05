@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from teams.forms import MessageForm
 from .models import Account, Profile
 from .forms import LoginForm, RegisterForm, UserProfileForm
 from .decorators import logout_required
@@ -158,6 +159,7 @@ def profile_view(request):
 @login_required(login_url='login_page')
 def profile_detail_view(request, slug):
     context = {}
+    context['form'] = MessageForm()
     context['user_profile'] = get_object_or_404(Profile, slug=slug)
     return render(request, "account/profile_detail.html", context)
 
