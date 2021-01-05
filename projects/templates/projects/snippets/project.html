@@ -10,13 +10,15 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
-				<h5 class="modal-title" id="projectDeletionConfirmation">Project Deletion Confirmation</h5>
+				<h5 class="modal-title" id="projectDeletionConfirmation">Delete Confirmation</h5>
 				<button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 				Are you sure you want to delete project, {{project.name}}?
+				<br><br>
+				Deleting the project will result in the deletion of all the tickets added to the project.
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
