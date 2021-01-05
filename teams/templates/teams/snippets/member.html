@@ -16,3 +16,35 @@
 	<td>{{profile.ticketassignee_set.all.count}}</td>
 	<td>{% include 'teams/snippets/user_action.html' %}</td>
 </tr>
+
+<div class="modal fade" id={{profile.user.username}} tabindex="-1" role="dialog" aria-labelledby="sendMail" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+		<div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
+			<h5 class="modal-title" id="sendMail">New Message to @{{profile.user.username}}</h5>
+			<button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form method="POST" action="">{% csrf_token %}
+			<div class="form-group">
+				<label for="recipient-name" class="col-form-label">Recipient:</label>
+				<input type="text" class="form-control" name="user" id="recipient-name" value="{{profile.first_name}} {{profile.last_name}}" readonly>
+			</div>
+			<div class="form-group">
+				<label for="messages" class="col-form-label">Message:</label>
+				<textarea class="form-control" id="message-text"></textarea>
+			</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
+			<a class="btn btn-sm d-none d-sm-inline-block" role="button" href="#"
+				style="background: rgb(28, 40, 38); color: aliceblue;">
+				Send Message
+			</a>
+		</div>
+    </div>
+  </div>
+</div>

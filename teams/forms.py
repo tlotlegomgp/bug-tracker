@@ -15,3 +15,7 @@ class UserForm(forms.Form):
     is_active = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'class': select_styling}))
     is_staff = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'class': select_styling}))
     is_admin = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={'class': select_styling}))
+
+
+class MessageForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
