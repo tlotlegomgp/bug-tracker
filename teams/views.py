@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.core.exceptions import PermissionDenied
 from account.models import Profile
-from .forms import UserForm
+from .forms import UserForm, MessageForm
 
 # Create your views here.
 
@@ -26,6 +26,7 @@ def team_view(request):
 
     context = {}
     context['users'] = users
+    context['form'] = MessageForm()
     return render(request, "teams/team.html", context)
 
 
