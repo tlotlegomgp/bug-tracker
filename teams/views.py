@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.core.exceptions import PermissionDenied
 from account.models import Profile
+from index.models import DirectMessage
 from .forms import UserForm, MessageForm
 
 # Create your views here.
@@ -82,3 +83,20 @@ def update_user_view(request, slug):
                     user.save()
 
     return redirect('user_management')
+
+
+
+@login_required(login_url='login_page')
+def send_message_view(request, user_id):
+
+     if request.method == "POST":
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data["message"]
+            recipient = get_object_or_404(Profile, id=user_id)
+            user = request.user
+            author = get_object_or_404(Profile, user = user)
+
+            direct_message = DirectMessage.objects.create(author=author, receiver=recipient, body=message)
+
+        return redirect('team_page')

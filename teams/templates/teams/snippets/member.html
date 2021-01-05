@@ -1,50 +1,54 @@
 <tr>
 	<td>
-		<a href="{% url 'view_profile' profile.slug %}"
+		<a href="{% url 'view_profile' member.slug %}"
 			><img
 				class="rounded-circle mr-2"
 				width="30"
 				height="30"
-				src="{{profile.profile_picture.url}}"
+				src="{{member.profile_picture.url}}"
 				alt="user image"
-			/>{% if profile.first_name %}{{profile.first_name}} {{profile.last_name}} {%else%} {{profile.user.username}}
+			/>{% if member.first_name %}{{member.first_name}} {{member.last_name}} {%else%} {{member.user.username}}
 			{%endif%}
 		</a>
 	</td>
-	<td>{{profile.user.email}}</td>
-	<td>{{profile.projectrole_set.all.count}}</td>
-	<td>{{profile.ticketassignee_set.all.count}}</td>
+	<td>{{member.user.email}}</td>
+	<td>{{member.projectrole_set.all.count}}</td>
+	<td>{{member.ticketassignee_set.all.count}}</td>
 	<td>{% include 'teams/snippets/user_action.html' %}</td>
 </tr>
 
-<div class="modal fade" id={{profile.user.username}} tabindex="-1" role="dialog" aria-labelledby="sendMail" aria-hidden="true">
+<div class="modal fade" id={{member.user.username}} tabindex="-1" role="dialog" aria-labelledby="sendMail" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-		<div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
-			<h5 class="modal-title" id="sendMail">New Message to @{{profile.user.username}}</h5>
-			<button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-		<div class="modal-body">
-			<form method="POST" action="">{% csrf_token %}
-			<div class="form-group">
-				<label for="recipient-name" class="col-form-label">Recipient:</label>
-				<input type="text" class="form-control" name="user" id="recipient-name" value="{{profile.first_name}} {{profile.last_name}}" readonly>
+		<form method="POST" action="{% url 'send_message' member.id %}">{% csrf_token %}
+			<div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
+				<h5 class="modal-title" id="sendMail">New Message to @{{member.user.username}}</h5>
+				<button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
-			<div class="form-group">
-				<label for="messages" class="col-form-label">Message:</label>
-				{{form.message}}
+			<div class="modal-body">
+				
+					<div class="form-group">
+						<label for="recipient-name" class="col-form-label">Recipient:</label>
+						<input type="text" class="form-control" name="user" id="recipient-name" value="{{member.first_name}} {{member.last_name}}" readonly>
+					</div>
+					<div class="form-group">
+						<label for="messages" class="col-form-label">Message:</label>
+						{{form.message}}
+					</div>
 			</div>
-			</form>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
-			<a class="btn btn-sm d-none d-sm-inline-block" role="button" href="#"
-				style="background: rgb(28, 40, 38); color: aliceblue;">
-				Send Message
-			</a>
-		</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
+				<button
+					class="btn btn-sm"
+					type="submit"
+					style="background: rgb(28, 40, 38); color: aliceblue;"
+				>
+					Send&nbsp;Message
+				</button>
+			</div>
+		</form>
     </div>
   </div>
 </div>
