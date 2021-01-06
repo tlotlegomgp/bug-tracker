@@ -20,6 +20,7 @@ def projectrole_post_save_receiver(sender, instance, created, **kwargs):
         action_user = instance.project.created_by.first_name + " " + instance.project.created_by.last_name
         alert_user = instance.user
         project_name = instance.project.name
+        alert_url = f'projects/{instance.project.slug}/'
 
         if instance.user_role == "Project Manager":
             alert_message = action_user + " assigned you as Project Manager to project, " + project_name + "."
@@ -27,7 +28,7 @@ def projectrole_post_save_receiver(sender, instance, created, **kwargs):
             alert_message = action_user + " added you to project, " + project_name + "."
 
         if instance.project.created_by != instance.user:
-            alert = Alert.objects.create(user=alert_user, note=alert_message)
+            alert = Alert.objects.create(user=alert_user, note=alert_message, url=alert_url)
 
 
 pre_save.connect(pre_save_project_receiver, sender=Project)
