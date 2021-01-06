@@ -140,7 +140,10 @@ def index_view(request):
 
         todos_count = Todo.objects.filter(created_by=user_profile).count()
         completed_todos = Todo.objects.filter(created_by=user_profile).filter(status='COM').count()
-        todos_percentage = round(completed_todos*100 / todos_count)
+        if todos_count != 0:
+            todos_percentage = round(completed_todos*100 / todos_count)
+        else:
+            todos_percentage = 0
         context['todos_percentage'] = todos_percentage
 
         user_todos = Todo.objects.filter(created_by=user_profile).filter(status='SCH').order_by('-created_on')
@@ -192,10 +195,11 @@ def delete_todo_view(request, id):
 def clear_alerts_view(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user = user)
-    user_alerts = Alert.objects.filter(created_by = user_profile)
+    user_alerts = Alert.objects.filter(user = user_profile)
 
     for alert in user_alerts:
         alert.status = 'READ'
+        alert.save()
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
