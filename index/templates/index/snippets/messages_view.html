@@ -12,12 +12,12 @@
                     {% for message in direct_messages %}
                     <li class="list-group-item" style="margin: 5px; padding: 10px;">
                         <a class="d-flex align-items-center" href="#" style="text-decoration: none;" data-toggle="modal" data-target="#msg-{{message.id}}">
-                            <img class="rounded-circle mr-2" width="50" height="50"
+                            <img class="rounded-circle mr-2 align-items-center" width="50" height="50"
                                 src="{{message.author.profile_picture.url}}"
                                 alt="user image" />
                             <div class="font-weight-bold">
-                                <div class="text-truncate" style="color: rgb(28, 40, 38);">
-                                    <span>{{message.body}}</span>
+                                <div style="color: rgb(28, 40, 38);">
+                                    <span>{{message.body|truncatechars:45}}</span>
                                 </div>
                                 <p class="small text-gray-500 mb-0">
                                     <strong>{{message.author.first_name}} {{message.author.last_name}}</strong>

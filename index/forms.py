@@ -6,4 +6,4 @@ class TodoForm(forms.Form):
 
 
 class ConversationForm(forms.Form):
-    message = forms.CharField(max_length=500, widget=forms.Textarea(attrs={'class': 'form-control', 'name': "message", 'style': 'max-height: 120px;'}))
+    message = forms.CharField(max_length=500, widget=forms.Textarea(attrs={'class': 'form-control', 'name': "message", 'style': 'max-height: 120px; min-height: 120px;'}))
