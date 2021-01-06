@@ -1,0 +1,48 @@
+<div class="modal fade" id="message-{{message.id}}" tabindex="-1" role="dialog" aria-labelledby="viewMessages" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
+                <h5 class="modal-title" id="viewMessages">Messages</h5>
+                <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    {% for message in direct_messages %}
+                    <li class="list-group-item" style="margin: 5px; padding: 10px;">
+                        <a class="d-flex align-items-center" href="#" style="text-decoration: none;" 
+                            data-toggle="modal" data-target="conversation-{{message.id}}">
+                            <img class="rounded-circle mr-2" width="50" height="50"
+                                src="{{message.author.profile_picture.url}}"
+                                alt="user image" />
+                            <div class="font-weight-bold">
+                                <div class="text-truncate" style="color: rgb(28, 40, 38);">
+                                    <span>{{message.body}}</span>
+                                </div>
+                                <p class="small text-gray-500 mb-0">
+                                    <strong>{{message.author.first_name}} {{message.author.last_name}}</strong>
+                                    · {{message.created_on|timesince}} ago
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                    {% empty %}
+                        <div style="padding: 20px;"><h6>You have no messages</h6></div>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a
+                    class="btn btn-sm"
+                    role="button"
+                    style="background: rgb(28, 40, 38); color: aliceblue;"
+                    href="#"
+                >
+                    Clear&nbsp;All
+                </a>
+                <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-<div class="modal fade" id={{profile.slug}} tabindex="-1" role="dialog" aria-labelledby="viewAlerts" aria-hidden="true">
+<div class="modal fade" id="alert-{{alert.id}}" tabindex="-1" role="dialog" aria-labelledby="viewAlerts" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
@@ -11,7 +11,7 @@
                 <ul class="list-group list-group-flush">
                     {% for alert in all_alerts %}
                         <li class="list-group-item" style="margin: 0; padding: 1px;">
-                            <a class="d-flex align-items-center" href="{{ alert.url }}" style="text-decoration: none; color: grey;">
+                            <a class="d-flex align-items-center" href="/{{ alert.url }}" style="text-decoration: none; color: grey;">
                                 <div class="mr-3">
                                     <div class="icon-circle" style="background-color: rgb(28, 40, 38)">
                                         <em class="fas fa-bell text-white"></em>

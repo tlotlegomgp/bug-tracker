@@ -84,7 +84,7 @@
 								{% include 'index/snippets/alert.html' %}
 							{% endfor %}
 							<a class="text-center dropdown-item small" style="color: rgb(28, 40, 38)" href="#"
-								data-toggle="modal" data-target="#{{profile.slug}}"
+								data-toggle="modal" data-target="#alert-{{alert.id}}"
 								>Show All Alerts</a
 							>
 						</div>
@@ -107,9 +107,13 @@
 							>
 								Direct Messages
 							</h6>
-							{% for message in direct_messages %} {% include "index/snippets/message_alert.html" %}
+							{% for message in direct_messages %}
+								{% include "index/snippets/message_alert.html" %}
 							{%endfor%}
-							<a class="text-center dropdown-item small text-gray-500" href="#">Show All Messages</a>
+							<a class="text-center dropdown-item small" style="color: rgb(28, 40, 38)" href="#"
+								data-toggle="modal" data-target="#message-{{message.id}}"
+								>Show All Messages</a
+							>
 						</div>
 					</div>
 					<div
@@ -149,3 +153,5 @@
 	</div>
 </nav>
 {% include 'index/snippets/alerts_view.html' %}
+{% include 'index/snippets/messages_view.html' %}
+{% include 'index/snippets/conversation.html' %}

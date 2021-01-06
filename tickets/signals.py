@@ -22,7 +22,7 @@ def ticket_post_save_receiver(sender, instance, created, **kwargs):
         alert_user = instance.user
         project_name = instance.ticket.project.name
         alert_message = action_user + " assigned you to a ticket in project, " + project_name + "."
-        alert_url = f'/tickets/{instance.ticket.slug}/'
+        alert_url = f'tickets/{instance.ticket.slug}/'
 
         if instance.ticket.created_by != instance.user:
             alert = Alert.objects.create(user=alert_user, note=alert_message, url = alert_url)

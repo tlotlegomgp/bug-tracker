@@ -20,7 +20,7 @@ def projectrole_post_save_receiver(sender, instance, created, **kwargs):
         action_user = instance.project.created_by.first_name + " " + instance.project.created_by.last_name
         alert_user = instance.user
         project_name = instance.project.name
-        alert_url = f'/projects/{instance.project.slug}/'
+        alert_url = f'projects/{instance.project.slug}/'
 
         if instance.user_role == "Project Manager":
             alert_message = action_user + " assigned you as Project Manager to project, " + project_name + "."
