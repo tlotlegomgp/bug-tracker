@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from account.models import Profile
 from .models import DirectMessage, Alert
+from .forms import ConversationForm
 
 
 def profile_processor(request):
@@ -11,6 +12,7 @@ def profile_processor(request):
         user_messages = DirectMessage.objects.filter(receiver=user_profile).filter(status='UNREAD').order_by('-created_on')[:5]
         user_alerts = Alert.objects.filter(user=user_profile).filter(status='UNREAD').order_by('-created_on')[:4]
         all_alerts = Alert.objects.filter(user=user_profile).filter(status='UNREAD').order_by('-created_on')[:30]
-        return {'profile': user_profile, 'direct_messages': user_messages, 'alerts': user_alerts, 'all_alerts': all_alerts, 'unread_count': unread_messages_count}
+        form = ConversationForm()
+        return {'profile': user_profile, 'direct_messages': user_messages, 'alerts': user_alerts, 'all_alerts': all_alerts, 'unread_count': unread_messages_count, 'conversation_form': form}
     else:
         return{}

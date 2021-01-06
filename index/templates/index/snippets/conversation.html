@@ -84,6 +84,10 @@
                 {% empty %}
                     <div>Aint nothing to see here.</div>
                 {% endfor %}
+                <div class="form-group">
+                    <label for="messages" class="col-form-label">Message:</label>
+                    {{conversation_form.message}}
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
