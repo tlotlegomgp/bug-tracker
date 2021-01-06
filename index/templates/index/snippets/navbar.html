@@ -81,19 +81,10 @@
 								Alerts Center
 							</h6>
 							{% for alert in alerts %}
-							<a class="d-flex align-items-center dropdown-item" href="#">
-								<div class="mr-3">
-									<div class="icon-circle" style="background-color: rgb(28, 40, 38)">
-										<em class="fas fa-bell text-white"></em>
-									</div>
-								</div>
-								<div>
-									<span class="small text-gray-500">{{ alert.created_on|timesince }} ago</span>
-									<p>{{ alert.note }}</p>
-								</div>
-							</a>
+								{% include 'index/snippets/alert.html' %}
 							{% endfor %}
 							<a class="text-center dropdown-item small" style="color: rgb(28, 40, 38)" href="#"
+								data-toggle="modal" data-target="#{{profile.slug}}"
 								>Show All Alerts</a
 							>
 						</div>
@@ -157,3 +148,4 @@
 		</div>
 	</div>
 </nav>
+{% include 'index/snippets/alerts_view.html' %}

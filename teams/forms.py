@@ -18,4 +18,4 @@ class UserForm(forms.Form):
 
 
 class MessageForm(forms.Form):
-    message = forms.CharField(max_length=500, widget=forms.Textarea(attrs={'class': 'form-control', 'required': ""}), required=True)
+    message = forms.CharField(max_length=500, widget=forms.Textarea(attrs={'class': 'form-control'}), required=True)

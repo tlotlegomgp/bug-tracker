@@ -1,0 +1,43 @@
+<div class="modal fade" id={{profile.slug}} tabindex="-1" role="dialog" aria-labelledby="viewAlerts" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
+                <h5 class="modal-title" id="viewAlerts">Alerts</h5>
+                <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush">
+                    {% for alert in all_alerts %}
+                        <li class="list-group-item" style="margin: 0; padding: 1px;">
+                            <a class="d-flex align-items-center" href="#" style="text-decoration: none; color: grey;">
+                                <div class="mr-3">
+                                    <div class="icon-circle" style="background-color: rgb(28, 40, 38)">
+                                        <em class="fas fa-bell text-white"></em>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="small text-gray-500">{{ alert.created_on|timesince }} ago</span>
+                                    <p>{{ alert.note }}</p>
+                                </div>
+                            </a>
+                        </li>
+                    {% empty %}
+                        <div style="padding: 20px;"><h6>You have no alerts</h6></div>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button
+                    class="btn btn-sm"
+                    type="submit"
+                    style="background: rgb(28, 40, 38); color: aliceblue;"
+                >
+                    Clear&nbsp;All
+                </button>
+                <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
