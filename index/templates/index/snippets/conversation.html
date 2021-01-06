@@ -75,7 +75,7 @@
                                     <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
                                 </div>
                             {% else %}
-                                <div class="speech-bubble-mate" style="padding: 10px; padding-left: 20px; flex-grow: 1;">
+                                <div class="speech-bubble-mate" style="padding: 10px; padding-left: 20px;">
                                     {{message.body}}
                                     <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
                                 </div>
@@ -86,7 +86,7 @@
                         <div style="padding: 20px;"><h6>No messages in this conversation. You can start one!</h6></div>
                     {% endfor %}
                     <div class="form-group">
-                        <label for="messages" class="col-form-label">Message:</label>
+                        <label for="messages" class="col-form-label" style="float: right; margin-right: 8px;">Message:</label>
                         {{conversation_form.message}}
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                         type="submit"
                         style="background: rgb(28, 40, 38); color: aliceblue;"
                     >
-                        Reply
+                        &nbsp;Send&nbsp;
                     </button>
                 </div>
             </form>
