@@ -1,71 +1,86 @@
 <style type="text/css">
-    .speech-bubble-right, .speech-bubble-left {
-        position: relative;
-        max-width: 70%;
-        background-color: #fff;
-        padding: 25px;
-        font-size: 1.25em;
-        border-radius: 1rem;
-        box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+    .speech-bubble, .speech-bubble-mate {
+	position: relative;
+	background: #00aabb;
+	border-radius: .4em;
+    max-width: 75%;
+    margin-top: 10px;
     }
-    
-    .speech-bubble-right::before , .speech-bubble-left::before{
+
+    .speech-bubble-mate:after {
         content: '';
         position: absolute;
+        left: 0;
+        top: 50%;
         width: 0;
         height: 0;
-        bottom: 100%;
-        border: .75rem solid transparent;
-        border-top: none;
-        border-bottom-color: #fff;
-        filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+        border: 28px solid transparent;
+        border-right-color: #00aabb;
+        border-left: 0;
+        border-top: 0;
+        margin-top: -14px;
+        margin-left: -8px;
     }
 
-    .speech-bubble-left::before {
-        left: 1.5em;
-    }
-
-    .speech-bubble-right::before {
-        right: 1.5em;
+    .speech-bubble:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 28px solid transparent;
+        border-left-color: #00aabb;
+        border-right: 0;
+        border-top: 0;
+        margin-top: -14px;
+        margin-right: -8px;
     }
 </style>
 
-<div class="modal fade" id="conversation-{{message.id}}" tabindex="-1" role="dialog" aria-labelledby="conversation" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <form method="POST" action="#">{% csrf_token %}
-              <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
-                <img class="rounded-circle mr-2" width="40" height="40"
+
+<div class="modal fade" id="msg-{{message.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue; align-items: center;">
+                <img class="rounded-circle mr-2" width="50" height="50"
                     src="{{message.author.profile_picture.url}}"
-                    alt="user image" />
-                  <h5 class="modal-title" id="conversation">{{message.author.first_name}} {{message.author.last_name}}</h5>
-                  <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                      <div class="form-group">
-                          {{message}}
-                          {% for message in conversation%}
-                          {% empty %}
-                          {% endfor %}
-                      </div>
-                      <div class="form-group">
-                          <label for="messages" class="col-form-label">Reply:</label>
-                          {{form.reply}}
-                      </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
-                  <button
-                      class="btn btn-sm"
-                      type="submit"
-                      style="background: rgb(28, 40, 38); color: aliceblue;"
-                  >
-                      Send&nbsp;Message
-                  </button>
-              </div>
-          </form>
-      </div>
+                    alt="user image" 
+                    style="margin-left: 10px;"/>
+                <h5 class="modal-title" id="viewMessages">{{message.author.first_name}} {{message.author.last_name}}</h5>
+                <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% for message in message.conversation.directmessage_set.all %}
+                    {% if profile == message.author %}
+                        <div class="container">
+                            <div class="speech-bubble" style="padding: 20px; float: right;">
+                                {{message.body}}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="container">
+                            <div class="speech-bubble-mate" style="padding: 20px; float: left;">
+                                {{message.body}}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <div>Aint nothing to see here.</div>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
+                <button
+                    class="btn btn-sm"
+                    type="submit"
+                    style="background: rgb(28, 40, 38); color: aliceblue;"
+                >
+                    Reply
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
+</div>

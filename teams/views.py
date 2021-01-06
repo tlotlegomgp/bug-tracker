@@ -6,7 +6,7 @@ from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from account.models import Profile
-from index.models import DirectMessage
+from index.models import DirectMessage, Conversation
 from .forms import UserForm, MessageForm
 
 # Create your views here.
@@ -99,6 +99,10 @@ def send_message_view(request, user_id):
             user = request.user
             author = get_object_or_404(Profile, user = user)
 
-            direct_message = DirectMessage.objects.create(author=author, receiver=recipient, body=message)
+            conversation = Conversation.objects.filter(Q(user_1=author) | Q(user_2=author)).filter(Q(user_1=recipient) | Q(user_2=recipient)).first()
+            if not conversation:
+                conversation = Conversation.objects.create(user_1= author, user_2=recipient)
+            
+            direct_message = DirectMessage.objects.create(author=author, receiver=recipient, body=message, conversation=conversation)
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

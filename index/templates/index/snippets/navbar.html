@@ -154,3 +154,7 @@
 </nav>
 {% include 'index/snippets/alerts_view.html' %}
 {% include 'index/snippets/messages_view.html' %}
+{% for message in direct_messages %}
+	{% include 'index/snippets/conversation.html' %}
+{%endfor%}
+
