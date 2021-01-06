@@ -1,5 +1,37 @@
+<style type="text/css">
+    .speech-bubble-right, .speech-bubble-left {
+        position: relative;
+        max-width: 70%;
+        background-color: #fff;
+        padding: 25px;
+        font-size: 1.25em;
+        border-radius: 1rem;
+        box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+    }
+    
+    .speech-bubble-right::before , .speech-bubble-left::before{
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        bottom: 100%;
+        border: .75rem solid transparent;
+        border-top: none;
+        border-bottom-color: #fff;
+        filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+    }
+
+    .speech-bubble-left::before {
+        left: 1.5em;
+    }
+
+    .speech-bubble-right::before {
+        right: 1.5em;
+    }
+</style>
+
 <div class="modal fade" id="conversation-{{message.id}}" tabindex="-1" role="dialog" aria-labelledby="conversation" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
           <form method="POST" action="#">{% csrf_token %}
               <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
