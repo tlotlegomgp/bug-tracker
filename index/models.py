@@ -49,6 +49,7 @@ class Alert(models.Model):
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     note = models.CharField(max_length=150)
     status = models.CharField(max_length=6, choices=ALERT_STATUS, default='UNREAD')
+    url = models.URLField(blank=True)
 
     def __str__(self):
         return self.note
