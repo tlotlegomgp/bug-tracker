@@ -31,7 +31,7 @@
         border-left: 0;
         border-top: 0;
         margin-top: -14px;
-        margin-left: -8px;
+        margin-left: -10px;
     }
 
     .speech-bubble:after {
@@ -46,7 +46,7 @@
         border-right: 0;
         border-top: 0;
         margin-top: -14px;
-        margin-right: -8px;
+        margin-right: -10px;
     }
 </style>
 
@@ -54,51 +54,53 @@
 <div class="modal fade" id="msg-{{message.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue; align-items: center;">
-                <img class="rounded-circle mr-2" width="50" height="50"
-                    src="{{message.author.profile_picture.url}}"
-                    alt="user image" 
-                    style="margin-left: 10px;"/>
-                <h5 class="modal-title" id="viewMessages">{{message.author.first_name}} {{message.author.last_name}}</h5>
-                <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                {% for message in message.conversation.directmessage_set.all %}
-                    <div style="display: flex;">
-                        {% if profile == message.author %}
-                            <div style="flex-grow: 1;"></div>
-                            <div class="speech-bubble" style="padding: 20px; text-align: right;">
-                                {{message.body}}
-                                <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
-                            </div>
-                        {% else %}
-                            <div class="speech-bubble-mate" style="padding: 20px; flex-grow: 1;">
-                                {{message.body}}
-                                <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
-                            </div>
-                            <div></div>
-                        {% endif %}
-                    </div>
-                {% empty %}
-                    <div>Aint nothing to see here.</div>
-                {% endfor %}
-                <div class="form-group">
-                    <label for="messages" class="col-form-label">Message:</label>
-                    {{conversation_form.message}}
+            <form method="POST" action="{% url 'send_message' message.author.id %}">{% csrf_token %}
+                <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue; align-items: center;">
+                    <img class="rounded-circle mr-2" width="50" height="50"
+                        src="{{message.author.profile_picture.url}}"
+                        alt="user image" 
+                        style="margin-left: 10px;"/>
+                    <h5 class="modal-title" id="viewMessages">{{message.author.first_name}} {{message.author.last_name}}</h5>
+                    <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
-                <button
-                    class="btn btn-sm"
-                    type="submit"
-                    style="background: rgb(28, 40, 38); color: aliceblue;"
-                >
-                    Reply
-                </button>
-            </div>
+                <div class="modal-body">
+                    {% for message in message.conversation.directmessage_set.all %}
+                        <div style="display: flex;">
+                            {% if profile == message.author %}
+                                <div style="flex-grow: 1;"></div>
+                                <div class="speech-bubble" style="padding: 10px; text-align: right; padding-right: 20px;">
+                                    {{message.body}}
+                                    <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
+                                </div>
+                            {% else %}
+                                <div class="speech-bubble-mate" style="padding: 10px; padding-left: 20px; flex-grow: 1;">
+                                    {{message.body}}
+                                    <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
+                                </div>
+                                <div></div>
+                            {% endif %}
+                        </div>
+                    {% empty %}
+                        <div style="padding: 20px;"><h6>No messages in this conversation. You can start one!</h6></div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="messages" class="col-form-label">Message:</label>
+                        {{conversation_form.message}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Cancel</button>
+                    <button
+                        class="btn btn-sm"
+                        type="submit"
+                        style="background: rgb(28, 40, 38); color: aliceblue;"
+                    >
+                        Reply
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
