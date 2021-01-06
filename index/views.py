@@ -7,7 +7,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
 from projects.models import Project, ProjectRole
-from .models import Todo, Alert
+from .models import Todo, Alert, DirectMessage
 from .forms import TodoForm
 
 
@@ -203,6 +203,19 @@ def clear_alerts_view(request):
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+
+@login_required(login_url='login_page')
+def clear_messages_view(request):
+    user = request.user
+    user_profile = get_object_or_404(Profile, user = user)
+    user_messages = DirectMessage.objects.filter(receiver = user_profile)
+
+    for message in user_messages:
+        message.status = 'READ'
+        message.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required(login_url='login_page')

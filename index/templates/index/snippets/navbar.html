@@ -95,7 +95,7 @@
 						<a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"
 							><em class="fas fa-envelope fa-fw"></em>{% if direct_messages %}<span
 								class="badge badge-danger badge-counter"
-								>{{profile.direct_messages.all.count}}</span
+								>{{ unread_count }}</span
 							>{%endif%}</a
 						>
 						<div
@@ -154,4 +154,3 @@
 </nav>
 {% include 'index/snippets/alerts_view.html' %}
 {% include 'index/snippets/messages_view.html' %}
-{% include 'index/snippets/conversation.html' %}

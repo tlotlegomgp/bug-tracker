@@ -11,8 +11,7 @@
                 <ul class="list-group list-group-flush">
                     {% for message in direct_messages %}
                     <li class="list-group-item" style="margin: 5px; padding: 10px;">
-                        <a class="d-flex align-items-center" href="#" style="text-decoration: none;" 
-                            data-toggle="modal" data-target="conversation-{{message.id}}">
+                        <a class="d-flex align-items-center" href="#" style="text-decoration: none;">
                             <img class="rounded-circle mr-2" width="50" height="50"
                                 src="{{message.author.profile_picture.url}}"
                                 alt="user image" />
@@ -37,9 +36,9 @@
                     class="btn btn-sm"
                     role="button"
                     style="background: rgb(28, 40, 38); color: aliceblue;"
-                    href="#"
+                    href="{% url 'clear_messages' %}"
                 >
-                    Clear&nbsp;All
+                    Mark&nbsp;All&nbsp;As&nbsp;Read
                 </a>
                 <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
             </div>
