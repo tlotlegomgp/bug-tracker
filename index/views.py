@@ -2,11 +2,12 @@ from operator import attrgetter
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from tickets.models import Ticket, TicketAssignee
 from projects.models import Project, ProjectRole
-from .models import Todo
+from .models import Todo, Alert
 from .forms import TodoForm
 
 
@@ -185,6 +186,19 @@ def delete_todo_view(request, id):
     todo.status = 'COM'
     todo.save()
     return redirect('index_page')
+
+
+@login_required(login_url='login_page')
+def clear_alerts_view(request):
+    user = request.user
+    user_profile = get_object_or_404(Profile, user = user)
+    user_alerts = Alert.objects.filter(created_by = user_profile)
+
+    for alert in user_alerts:
+        alert.status = 'READ'
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 
 
 @login_required(login_url='login_page')

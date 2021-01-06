@@ -29,13 +29,14 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button
+                <a
                     class="btn btn-sm"
-                    type="submit"
+                    role="button"
                     style="background: rgb(28, 40, 38); color: aliceblue;"
+                    href="{% url 'clear_alerts' %}"
                 >
                     Clear&nbsp;All
-                </button>
+                </a>
                 <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
             </div>
         </div>
