@@ -1,10 +1,22 @@
 <style type="text/css">
-    .speech-bubble, .speech-bubble-mate {
+    .speech-bubble {
 	position: relative;
-	background: #00aabb;
+	background: #C9D5B5;
 	border-radius: .4em;
     max-width: 75%;
     margin-top: 10px;
+    color: rgb(28, 40, 38);
+    font-weight: 600;
+    }
+
+    .speech-bubble-mate {
+	position: relative;
+	background: #C4F4C7;
+	border-radius: .4em;
+    max-width: 75%;
+    margin-top: 10px;
+    color: rgb(28, 40, 38);
+    font-weight: 600;
     }
 
     .speech-bubble-mate:after {
@@ -15,7 +27,7 @@
         width: 0;
         height: 0;
         border: 28px solid transparent;
-        border-right-color: #00aabb;
+        border-right-color: #C4F4C7;
         border-left: 0;
         border-top: 0;
         margin-top: -14px;
@@ -30,7 +42,7 @@
         width: 0;
         height: 0;
         border: 28px solid transparent;
-        border-left-color: #00aabb;
+        border-left-color: #C9D5B5;
         border-right: 0;
         border-top: 0;
         margin-top: -14px;
@@ -54,19 +66,21 @@
             </div>
             <div class="modal-body">
                 {% for message in message.conversation.directmessage_set.all %}
-                    {% if profile == message.author %}
-                        <div class="container">
-                            <div class="speech-bubble" style="padding: 20px; float: right;">
+                    <div style="display: flex;">
+                        {% if profile == message.author %}
+                            <div style="flex-grow: 1;"></div>
+                            <div class="speech-bubble" style="padding: 20px; text-align: right;">
                                 {{message.body}}
+                                <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
                             </div>
-                        </div>
-                    {% else %}
-                        <div class="container">
-                            <div class="speech-bubble-mate" style="padding: 20px; float: left;">
+                        {% else %}
+                            <div class="speech-bubble-mate" style="padding: 20px; flex-grow: 1;">
                                 {{message.body}}
+                                <p class="small text-gray-900 mb-0" style="font-weight: 400;">{{message.created_on|timesince}} ago</p>
                             </div>
-                        </div>
-                    {% endif %}
+                            <div></div>
+                        {% endif %}
+                    </div>
                 {% empty %}
                     <div>Aint nothing to see here.</div>
                 {% endfor %}

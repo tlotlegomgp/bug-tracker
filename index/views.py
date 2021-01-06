@@ -220,20 +220,6 @@ def clear_messages_view(request):
 
 
 @login_required(login_url='login_page')
-def conversation_view(request, slug, message_id):
-    context = {}
-    user = request.user
-    user_profile = get_object_or_404(Profile, user = user)
-    mate = get_object_or_404(Profile, slug=slug)
-    message = get_object_or_404(DirectMessage, id=message_id)
-    conversation = message.conversation
-    conversation_messages = DirectMessage.objects.filter(conversation = conversation).order_by('-created_on')
-
-    context['mate'] = mate
-    context['conversation'] = conversation_messages
-    return render(request, 'index/snippets/conversation.html', context)
-
-@login_required(login_url='login_page')
 def handler404(request, exception=None):
     return render(request, 'index/404.html', status=404)
 
