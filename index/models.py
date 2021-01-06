@@ -21,6 +21,16 @@ class Todo(models.Model):
         return self.note
 
 
+class Conversation(models.Model):
+    user_1 =  models.ForeignKey(Profile, related_name="user_1", on_delete=models.CASCADE)
+    user_2 =  models.ForeignKey(Profile, related_name="user_2", on_delete=models.CASCADE)
+    slug = models.SlugField(unique= True, blank = True)
+
+    def __str__(self):
+        return self.user_1.user.username + " " + self.user_2.user.username
+
+
+
 class DirectMessage(models.Model):
 
     MESSAGE_STATUS = (
@@ -30,6 +40,7 @@ class DirectMessage(models.Model):
 
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     receiver = models.ForeignKey(Profile, related_name="direct_messages", on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, blank=True, null=True)
     created_on = models.DateTimeField(verbose_name="created on", auto_now_add=True)
     body = models.CharField(max_length=500)
     status = models.CharField(max_length=6, choices=MESSAGE_STATUS, default='UNREAD')
