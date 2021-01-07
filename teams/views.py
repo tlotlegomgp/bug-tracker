@@ -117,3 +117,5 @@ def send_message_view(request, user_id):
                 conversation = Conversation.objects.create(user_1= author, user_2=recipient)
             
             direct_message = DirectMessage.objects.create(author=author, receiver=recipient, body=message, conversation=conversation)
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
