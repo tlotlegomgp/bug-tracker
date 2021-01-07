@@ -47,9 +47,14 @@ def user_management_view(request):
     if not request.user.is_admin:
         raise PermissionDenied
 
+    users = Profile.objects.all().order_by('first_name')
 
     context = {}
-    users = Profile.objects.all().order_by('first_name')
+    if request.GET:
+        query = request.GET.get('qs', '')
+        context['search'] = query
+        results = users.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query)).distinct()
+        users = results
 
     page = request.GET.get('page', 1)
     users_paginator = Paginator(users, USERS_PER_PAGE)
