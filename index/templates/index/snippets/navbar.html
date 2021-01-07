@@ -93,7 +93,7 @@
 				<li class="nav-item dropdown no-arrow mx-1">
 					<div class="nav-item dropdown no-arrow">
 						<a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"
-							><em class="fas fa-envelope fa-fw"></em>{% if direct_messages %}<span
+							><em class="fas fa-envelope fa-fw"></em>{% if unread_count != 0 %}<span
 								class="badge badge-danger badge-counter"
 								>{{ unread_count }}</span
 							>{%endif%}</a
@@ -107,7 +107,7 @@
 							>
 								Direct Messages
 							</h6>
-							{% for message in direct_messages %}
+							{% for message in nav_messages %}
 								{% include "index/snippets/message_alert.html" %}
 							{%endfor%}
 							<a class="text-center dropdown-item small" style="color: rgb(28, 40, 38)" href="#"
