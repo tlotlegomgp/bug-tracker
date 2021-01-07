@@ -2,6 +2,7 @@ from operator import attrgetter
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import Profile
 from projects.models import Project, ProjectRole
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.exceptions import PermissionDenied
@@ -53,6 +54,12 @@ def tickets_view(request):
     user = request.user
     user_profile = get_object_or_404(Profile, user=user)
     tickets = get_user_tickets(user_profile)
+
+    if request.GET:
+        query = request.GET.get('qs', '')
+        context['search'] = query
+        results = tickets.filter(Q(title__icontains=query) | Q(status__icontains=query) | Q(priority__icontains=query) | Q(class_type__icontains=query)).distinct()
+        tickets = results
 
     page = request.GET.get('page', 1)
     tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)

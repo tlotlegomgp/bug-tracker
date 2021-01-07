@@ -18,6 +18,9 @@
                             <div class="font-weight-bold">
                                 <div style="color: rgb(28, 40, 38);">
                                     <span>{{message.body|truncatechars:45}}</span>
+                                    {% if message.author != profile %}
+                                        <span class="badge badge-success" style="position: absolute; right: 0;">{{message.conversation.directmessage_set.all.count}}</span>
+                                    {% endif %}
                                 </div>
                                 <p class="small text-gray-500 mb-0">
                                     {% if message.author != profile %}

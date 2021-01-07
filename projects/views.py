@@ -1,6 +1,8 @@
+from operator import attrgetter
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
 from .models import Project, ProjectRole
@@ -21,6 +23,19 @@ def is_project_manager(user, project):
 
     return user_role is not None
 
+
+def search_projects(query=None):
+    qs = []
+    queries = query.split(" ")
+    for q in queries:
+        projects = Project.objects.filter(Q(name__icontains=q)).distinct()
+
+        for project in projects:
+            qs.append(project)
+
+    return list(set(qs))
+
+
 @login_required(login_url='login_page')
 def projects_view(request):
     context = {}
@@ -32,6 +47,13 @@ def projects_view(request):
     else:
         project_roles = ProjectRole.objects.filter(user=profile).order_by('-created_on')
         projects = [role.project for role in project_roles]
+
+    if request.GET:
+        query = request.GET.get('qs', '')
+        context['search'] = query
+        results = projects.filter(Q(name__icontains=query)).distinct()
+        projects = results
+
 
     page = request.GET.get('page', 1)
     projects_paginator = Paginator(projects, PROJECTS_PER_PAGE)

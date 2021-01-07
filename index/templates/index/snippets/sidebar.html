@@ -1,12 +1,16 @@
+{% load static %}
 <nav
 	class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
 	style="background: rgb(28, 40, 38)"
 >
 	<div class="container-fluid d-flex flex-column p-0">
-		<a class="navbar-brand d-flex sidebar-brand m-0" href="{% url 'index_page' %}">
+		<a class="navbar-brand d-flex sidebar-brand m-0 align-items-center" href="{% url 'index_page' %}">
+			<img width="35" height="35"
+				src="{% static 'index/favicon/favicon.jpg' %}"
+				alt="brand-image"/>
 			<div class="sidebar-brand-text mx-3"><span>Liquid</span></div>
 		</a>
-		<hr class="sidebar-divider my-0" />
+		<hr class="sidebar-divider my-3" />
 		<ul class="nav navbar-nav text-light" id="accordionSidebar">
 			<li class="nav-item">
 				<a
