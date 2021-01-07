@@ -30,6 +30,7 @@
 				</div>
 			</div>
 		</div>
+		{% if users %}
 		<div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
 			<table class="table my-0" id="dataTable" aria-describedby="team" style="white-space: nowrap">
 				<thead>
@@ -44,6 +45,11 @@
 			</table>
 		</div>
 		{% include 'teams/snippets/pagination.html' %}
+		{% elif search %}
+		<div style="padding: 20px" class="text-center">
+			<p><strong>There were no results matching your search for, {{search}}.</strong></p>
+		</div>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

@@ -34,8 +34,13 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include "tickets/snippets/pagination.html" with tickets=user_tickets %} {% else %}
-		<div style="padding-top: 20px" class="text-center">
+		{% include "tickets/snippets/pagination.html" with tickets=user_tickets %}
+		{% elif search %}
+		<div style="padding: 20px" class="text-center">
+			<p><strong>There were no results matching your search for, {{search}}.</strong></p>
+		</div>
+		{% else %}
+		<div style="padding: 20px" class="text-center">
 			<p><strong>You have no tickets.</strong></p>
 		</div>
 		{% endif %}
