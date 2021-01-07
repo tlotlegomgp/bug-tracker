@@ -7,7 +7,12 @@
 			<span>{{message.body}}</span>
 		</div>
 		<p class="small text-gray-500 mb-0">
-			{{message.author.first_name}} {{message.author.last_name}} · {{message.created_on|timesince}} ago
+			{% if message.author != profile %}
+			<strong>{{message.author.first_name}} {{message.author.last_name}}</strong>
+			{% else %}
+			<strong>You</strong>
+			{% endif %}
+			· {{message.created_on|timesince}} ago
 		</p>
 	</div>
 </a>

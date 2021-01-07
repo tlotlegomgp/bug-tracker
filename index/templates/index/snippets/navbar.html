@@ -154,6 +154,51 @@
 </nav>
 {% include 'index/snippets/alerts_view.html' %}
 {% include 'index/snippets/messages_view.html' %}
+
+<style type="text/css">
+    .speech-bubble, .speech-bubble-mate {
+	position: relative;
+	border-radius: .4em;
+    max-width: 75%;
+    margin-top: 10px;
+    color: rgb(28, 40, 38);
+    font-weight: 600;
+    }
+
+	.speech-bubble {
+		background: #C9D5B5;
+    }
+
+    .speech-bubble-mate {
+		background: #C4F4C7;
+    }
+
+    .speech-bubble-mate:after, .speech-bubble:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 0;
+        height: 0;
+        border: 28px solid transparent;
+        border-top: 0;
+        margin-top: -14px;
+    }
+
+    .speech-bubble:after {
+        right: 0;
+        border-left-color: #C9D5B5;
+        border-right: 0;
+        margin-right: -10px;
+    }
+
+	.speech-bubble-mate:after {
+        left: 0;
+        border-right-color: #C4F4C7;
+        border-left: 0;
+        margin-left: -10px;
+    }
+</style>
+
 {% for message in direct_messages %}
 	{% include 'index/snippets/conversation.html' %}
 {%endfor%}

@@ -24,11 +24,12 @@
                             </a>
                         </li>
                     {% empty %}
-                        <div style="padding: 20px;"><h6>You have no alerts</h6></div>
+                        <div style="padding: 20px;" class="text-center"><h6>You have no alerts</h6></div>
                     {% endfor %}
                 </ul>
             </div>
             <div class="modal-footer">
+                {% if all_alerts %}
                 <a
                     class="btn btn-sm"
                     role="button"
@@ -37,6 +38,7 @@
                 >
                     Clear&nbsp;All
                 </a>
+                {% endif %}
                 <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
             </div>
         </div>

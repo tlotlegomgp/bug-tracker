@@ -20,18 +20,23 @@
                                     <span>{{message.body|truncatechars:45}}</span>
                                 </div>
                                 <p class="small text-gray-500 mb-0">
+                                    {% if message.author != profile %}
                                     <strong>{{message.author.first_name}} {{message.author.last_name}}</strong>
+                                    {% else %}
+                                    <strong>You</strong>
+                                    {% endif %}
                                     · {{message.created_on|timesince}} ago
                                 </p>
-                            </div>
+                            </div>  
                         </a>
                     </li>
                     {% empty %}
-                        <div style="padding: 20px;"><h6>You have no messages</h6></div>
+                        <div style="padding: 20px;" class="text-center"><h6>You have no messages</h6></div>
                     {% endfor %}
                 </ul>
             </div>
             <div class="modal-footer">
+                {% if direct_messages %}
                 <a
                     class="btn btn-sm"
                     role="button"
@@ -40,6 +45,7 @@
                 >
                     Mark&nbsp;All&nbsp;As&nbsp;Read
                 </a>
+                {% endif %}
                 <button type="button" class="btn btn-sm" data-dismiss="modal" style="background-color: rgb(28, 40, 38); color: aliceblue;">Close</button>
             </div>
         </div>
