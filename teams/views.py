@@ -17,6 +17,15 @@ USERS_PER_PAGE = 10
 @login_required(login_url='login_page')
 def team_view(request):
     users = Profile.objects.all().order_by('first_name')
+
+    context = {}
+    if request.GET:
+        query = request.GET.get('qs', '')
+        context['search'] = query
+        results = users.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query)).distinct()
+        users = results
+
+
     page = request.GET.get('page', 1)
     users_paginator = Paginator(users, USERS_PER_PAGE)
 
@@ -27,7 +36,6 @@ def team_view(request):
     except EmptyPage:
         users = users_paginator.page(users_paginator.num_pages)
 
-    context = {}
     context['users'] = users
     context['form'] = MessageForm()
     return render(request, "teams/team.html", context)
@@ -104,5 +112,3 @@ def send_message_view(request, user_id):
                 conversation = Conversation.objects.create(user_1= author, user_2=recipient)
             
             direct_message = DirectMessage.objects.create(author=author, receiver=recipient, body=message, conversation=conversation)
-
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -19,13 +19,14 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="text-md-right dataTables_filter" id="dataTable_filter">
-					<label
-						><input
-							type="search"
-							class="form-control form-control-sm"
-							aria-controls="dataTable"
-							placeholder="Search"
-					/></label>
+					<form method="GET" action="{% url 'team_page' %}" target="_self">{% csrf_token %}
+						<div class="text-md-right dataTables_filter" id="dataTable_filter">
+							<label>
+								<input type="search" class="form-control form-control-sm" aria-controls="dataTable"
+									placeholder="Search" value="{{search}}" name="qs" id="project-search" required />
+							</label>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
