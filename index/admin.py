@@ -5,7 +5,7 @@ from .models import Todo, DirectMessage, Alert, Conversation
 
 
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ('created_by', 'created_on', 'note')
+    list_display = ('created_by', 'created_on', 'note', 'status')
 
 
 class DirectMessageAdmin(admin.ModelAdmin):
@@ -14,7 +14,7 @@ class DirectMessageAdmin(admin.ModelAdmin):
 
 
 class AlertAdmin(admin.ModelAdmin):
-    list_display = ('user', 'note', 'created_on')
+    list_display = ('user', 'note', 'status', 'created_on')
 
 
 class ConversationAdmin(admin.ModelAdmin):
