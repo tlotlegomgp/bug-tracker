@@ -140,8 +140,11 @@
 					<div class="nav-item dropdown no-arrow">
 						<a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"
 							><span class="d-none d-lg-inline mr-2 text-gray-600 small">
-								{% if profile.first_name and profile.last_name %} {{profile.first_name}}
-								{{profile.last_name}} {% else %} {{user}} {%endif%}
+								{% if profile.first_name and profile.last_name %}
+									{{profile.first_name}} {{profile.last_name}}
+								{% else %}
+									{{user}}
+								{%endif%}
 							</span>
 							<img
 								class="border rounded-circle img-profile"
