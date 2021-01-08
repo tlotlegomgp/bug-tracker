@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.exceptions import PermissionDenied
+from index.views import get_user_tickets
 from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
 from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 
@@ -13,39 +14,6 @@ from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 TICKETS_PER_PAGE = 10
 COMMENTS_PER_PAGE = 8
 # Create your views here.
-
-
-
-
-def get_user_tickets(user_profile):
-    manager_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Project Manager")
-    submitter_project_roles = ProjectRole.objects.filter(user = user_profile).filter(user_role = "Submitter")
-    if user_profile.user.is_admin:
-        tickets = Ticket.objects.all().order_by('-created_on')
-    elif manager_project_roles or submitter_project_roles:
-        tickets = []
-        for role in manager_project_roles:
-            project_tickets = role.project.tickets.all().order_by('-created_on')
-            for ticket in project_tickets:
-                tickets.append(ticket)
-
-        for role in submitter_project_roles:
-            project_tickets = role.project.tickets.all().order_by('-created_on')
-            for ticket in project_tickets:
-                tickets.append(ticket)
-
-        user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
-        user_tickets = [assignment.ticket for assignment in user_tickets_assignments]
-
-        for ticket in user_tickets:
-            tickets.append(ticket)
-
-        tickets = sorted(list(set(tickets)), key=attrgetter('created_on'), reverse=True)
-    else:
-        user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
-        tickets = [assignment.ticket for assignment in user_tickets_assignments]
-
-    return tickets
 
 
 @login_required(login_url='login_page')

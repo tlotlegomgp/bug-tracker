@@ -71,7 +71,9 @@ def get_user_tickets(user_profile):
         for role in submitter_project_roles:
             project_tickets = role.project.tickets.all().order_by('-created_on')
             for ticket in project_tickets:
-                tickets.append(ticket)
+                if ticket.created_by == user_profile:
+                    tickets.append(ticket)
+
 
         user_tickets_assignments = TicketAssignee.objects.filter(user=user_profile).order_by('-created_on')
         user_tickets = [assignment.ticket for assignment in user_tickets_assignments]
