@@ -109,7 +109,15 @@
 							</h6>
 							{% for message in nav_messages %}
 								{% include "index/snippets/message_alert.html" %}
-							{%endfor%}
+							{% empty %}
+							<a class="align-items-center dropdown-item text-center">
+								<div class="font-weight-bold">
+									<div>
+										<span>No new messages.</span>
+									</div>
+								</div>
+							</a>
+							{% endfor %}
 							<a class="text-center dropdown-item small" style="color: rgb(28, 40, 38)" href="#"
 								data-toggle="modal" data-target="#message-{{message.id}}"
 								>Show All Messages</a

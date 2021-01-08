@@ -14,12 +14,13 @@ def profile_processor(request):
         all_alerts = Alert.objects.filter(user=user_profile).filter(status='UNREAD').order_by('-created_on')[:30]
         user_alerts = all_alerts[:4]
         conversations = Conversation.objects.filter(Q(user_1=user_profile) | Q(user_2=user_profile))
+        
         unsorted_messages = []
         conv_count = {}
         for conv in conversations:
             latest_message = DirectMessage.objects.filter(conversation = conv).order_by('-created_on').first()
             unsorted_messages.append(latest_message)
-            conv_count[conv.slug] = DirectMessage.objects.filter(conversation = conv).exclude(author = user_profile).count()
+            conv_count[conv.slug] = DirectMessage.objects.filter(conversation = conv).filter(status='UNREAD').exclude(author = user_profile).count()
 
         user_messages = sorted(list(set(unsorted_messages)), key=attrgetter('created_on'), reverse=True)
         nav_messages = DirectMessage.objects.filter(receiver=user_profile).filter(status='UNREAD').order_by('-created_on')[:5]

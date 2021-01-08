@@ -1,7 +1,15 @@
 <div class="modal fade" id="msg-{{message.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <form method="POST" action="{% url 'send_message' message.author.id %}">{% csrf_token %}
+            {% if message.author == profile %}
+            {% with user_id=message.receiver.id %}
+            <form method="POST" action="{% url 'send_message' user_id %}">{% csrf_token %}
+            {% endwith %}
+            {% else %}
+            {% with user_id=message.author.id %}
+            <form method="POST" action="{% url 'send_message' user_id %}">{% csrf_token %}
+            {% endwith %}
+            {% endif %}
                 <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue; align-items: center;">
                     {% if message.author != profile %}
                     <img class="rounded-circle mr-2" width="50" height="50"

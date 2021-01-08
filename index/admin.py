@@ -9,7 +9,7 @@ class TodoAdmin(admin.ModelAdmin):
 
 
 class DirectMessageAdmin(admin.ModelAdmin):
-    list_display = ('author', 'receiver', 'body', 'created_on')
+    list_display = ('author', 'receiver', 'status', 'body', 'created_on')
     search_fields = ('author', 'receiver')
 
 

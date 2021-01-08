@@ -31,7 +31,7 @@ class UserProfileForm(forms.Form):
     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "username"}), required=False)
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "first_name"}), required=False)
     last_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "last_name"}), required=False)
-    website = forms.URLField(max_length=30, widget=forms.URLInput(attrs={'class': profile_form, 'name': "website"}), required=False)
+    website = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "website"}), required=False)
     address = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "address"}), required=False)
     city = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "city"}), required=False)
     country = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "country"}), required=False)

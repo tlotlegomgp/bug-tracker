@@ -104,7 +104,8 @@ def update_user_view(request, slug):
 @login_required(login_url='login_page')
 def send_message_view(request, user_id):
 
-     if request.method == "POST":
+    print(user_id)
+    if request.method == "POST":
         form = MessageForm(request.POST)
         if form.is_valid():
             message = form.cleaned_data["message"]
@@ -113,6 +114,12 @@ def send_message_view(request, user_id):
             author = get_object_or_404(Profile, user = user)
 
             conversation = Conversation.objects.filter(Q(user_1=author) | Q(user_2=author)).filter(Q(user_1=recipient) | Q(user_2=recipient)).first()
+            latest_messages = DirectMessage.objects.filter(conversation = conversation).filter(author=recipient).filter(status='UNREAD')
+
+            for m in latest_messages:
+                m.status = 'READ'
+                m.save()
+
             if not conversation:
                 conversation = Conversation.objects.create(user_1= author, user_2=recipient)
             

@@ -34,6 +34,8 @@ class AccountManager(BaseUserManager):
         user.is_staff = True
         user.is_super_user = True
         user.save(using=self._db)
+
+        profile = Profile.objects.create(user = user)
         return user
 
 
