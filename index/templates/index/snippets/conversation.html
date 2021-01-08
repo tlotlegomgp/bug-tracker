@@ -3,11 +3,19 @@
         <div class="modal-content">
             <form method="POST" action="{% url 'send_message' message.author.id %}">{% csrf_token %}
                 <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue; align-items: center;">
+                    {% if message.author != profile %}
                     <img class="rounded-circle mr-2" width="50" height="50"
                         src="{{message.author.profile_picture.url}}"
                         alt="user image" 
                         style="margin-left: 10px;"/>
                     <h5 class="modal-title" id="viewMessages">{{message.author.first_name}} {{message.author.last_name}}</h5>
+                    {% else %}
+                    <img class="rounded-circle mr-2" width="50" height="50"
+                        src="{{message.receiver.profile_picture.url}}"
+                        alt="user image" 
+                        style="margin-left: 10px;"/>
+                    <h5 class="modal-title" id="viewMessages">{{message.receiver.first_name}} {{message.receiver.last_name}}</h5>
+                    {% endif %}
                     <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

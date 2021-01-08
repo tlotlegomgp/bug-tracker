@@ -1,7 +1,6 @@
 from django.db import models
 from account.models import Profile
 
-
 # Create your models here.
 
 
@@ -28,6 +27,9 @@ class Conversation(models.Model):
 
     def __str__(self):
         return self.user_1.user.username + " " + self.user_2.user.username
+
+    def message_count(self):
+        return DirectMessage.objects.filter(conversation=self).exclude(author=self.user_1).count()
 
 
 

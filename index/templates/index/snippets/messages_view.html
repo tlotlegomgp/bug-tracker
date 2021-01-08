@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background: rgb(28, 40, 38); color: aliceblue;">
-                <h5 class="modal-title" id="viewMessages">Messages</h5>
+                <h5 class="modal-title" id="viewMessages" style="padding-left: 5px;">Your Conversations</h5>
                 <button type="button" class="close" style="color: aliceblue;" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,14 +12,28 @@
                     {% for message in direct_messages %}
                     <li class="list-group-item" style="margin: 5px; padding: 10px;">
                         <a class="d-flex align-items-center" href="#" style="text-decoration: none;" data-toggle="modal" data-target="#msg-{{message.id}}">
+                            {% if message.author != profile %}
                             <img class="rounded-circle mr-2 align-items-center" width="50" height="50"
                                 src="{{message.author.profile_picture.url}}"
-                                alt="user image" />
+                                alt="user image"
+                            />
+                            {% else %}
+                            <img class="rounded-circle mr-2 align-items-center" width="50" height="50"
+                                src="{{message.receiver.profile_picture.url}}"
+                                alt="user image"
+                            />
+                            {% endif %}
                             <div class="font-weight-bold">
                                 <div style="color: rgb(28, 40, 38);">
                                     <span>{{message.body|truncatechars:45}}</span>
                                     {% if message.author != profile %}
-                                        <span class="badge badge-success" style="position: absolute; right: 0;">{{message.conversation.directmessage_set.all.count}}</span>
+                                        {% with conv=message.conversation.slug %}
+                                        {% for key, value in message_count.items %}
+                                            {% if key == conv %}
+                                                <span class="badge badge-info" style="position: absolute; right: 0;">{{ value }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% endwith %}
                                     {% endif %}
                                 </div>
                                 <p class="small text-gray-500 mb-0">
