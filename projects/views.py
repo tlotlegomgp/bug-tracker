@@ -51,7 +51,16 @@ def projects_view(request):
     if request.GET:
         query = request.GET.get('qs', '')
         context['search'] = query
-        results = projects.filter(Q(name__icontains=query)).distinct()
+
+        if user.is_admin:
+            results = projects.filter(Q(name__icontains=query)).distinct()
+        else:
+            results = []
+            query = query.lower()
+            for project in projects:
+                if query in project.name.lower():
+                    results.append(project)
+
         projects = results
 
 

@@ -67,7 +67,7 @@ def tickets_view(request):
                 if query in ticket.title.lower() or query in ticket.status.lower() or query in ticket.class_type.lower() or query in ticket.priority.lower():
                     results.append(ticket)
 
-            tickets = results
+        tickets = results
 
     page = request.GET.get('page', 1)
     tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)
