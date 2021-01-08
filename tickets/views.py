@@ -58,8 +58,16 @@ def tickets_view(request):
     if request.GET:
         query = request.GET.get('qs', '')
         context['search'] = query
-        results = tickets.filter(Q(title__icontains=query) | Q(status__icontains=query) | Q(priority__icontains=query) | Q(class_type__icontains=query)).distinct()
-        tickets = results
+        if user.is_admin:
+            results = tickets.filter(Q(title__icontains=query) | Q(status__icontains=query) | Q(priority__icontains=query) | Q(class_type__icontains=query)).distinct()
+        else:
+            query = query.lower()
+            results = []
+            for ticket in tickets:
+                if query in ticket.title.lower() or query in ticket.status.lower() or query in ticket.class_type.lower() or query in ticket.priority.lower():
+                    results.append(ticket)
+
+            tickets = results
 
     page = request.GET.get('page', 1)
     tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)

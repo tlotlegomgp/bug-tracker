@@ -82,6 +82,12 @@
 							</h6>
 							{% for alert in alerts %}
 								{% include 'index/snippets/alert.html' %}
+							{% empty %}
+								<a class="align-items-center dropdown-item text-center">
+									<div>
+										<p><strong>No new alerts.</strong></p>
+									</div>
+								</a>
 							{% endfor %}
 							<a class="text-center dropdown-item small" style="color: rgb(28, 40, 38)" href="#"
 								data-toggle="modal" data-target="#alert-{{alert.id}}"
