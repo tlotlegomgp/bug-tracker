@@ -28,11 +28,13 @@
                                     <span>{{message.body|truncatechars:45}}</span>
                                     {% if message.author != profile %}
                                         {% with conv=message.conversation.slug %}
-                                        {% for key, value in message_count.items %}
-                                            {% if key == conv %}
-                                                <span class="badge badge-info" style="position: absolute; right: 0;">{{ value }}</span>
-                                            {% endif %}
-                                        {% endfor %}
+                                            {% for key, value in message_count.items %}
+                                                {% if key == conv and value != 0 %}
+                                                    <span class="badge" style="position: absolute; right: 0; 
+                                                        background: rgb(28, 40, 38); color: aliceblue;">{{ value }}
+                                                    </span>
+                                                {% endif %}
+                                            {% endfor %}
                                         {% endwith %}
                                     {% endif %}
                                 </div>
