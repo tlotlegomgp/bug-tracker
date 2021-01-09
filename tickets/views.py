@@ -32,7 +32,7 @@ def tickets_view(request):
             query = query.lower()
             results = []
             for ticket in tickets:
-                if query in ticket.title.lower() or query in ticket.status.lower() or query in ticket.class_type.lower() or query in ticket.priority.lower():
+                if query in {ticket.title.lower(), ticket.status.lower(), ticket.class_type.lower(), ticket.priority.lower()}:
                     results.append(ticket)
 
         tickets = results
