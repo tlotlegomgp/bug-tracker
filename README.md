@@ -1,6 +1,6 @@
 # Liquid
 
-A bug/issue tracker web-app. 
+A bug/issue tracker web-app that keeps track of reported software bugs or issues in software development projects. Helps teams collaborate and get work done easier and more efficiently. The system has a per-project role based access control for users. 
 
 ![](/repoImages/Liquid.gif)
 
