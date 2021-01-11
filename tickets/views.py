@@ -104,8 +104,12 @@ def add_ticket_view(request, slug):
 @login_required(login_url='login_page')
 def edit_ticket_view(request, slug):
     context = {}
+    user = request.user
     ticket = get_object_or_404(Ticket, slug=slug)
     ticket_assignee = get_object_or_404(TicketAssignee, ticket=ticket)
+    user_profile = get_object_or_404(Profile, user=user)
+    user_project_role = ProjectRole.objects.filter(project=ticket.project).filter(user=user_profile).first()
+
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
@@ -121,27 +125,34 @@ def edit_ticket_view(request, slug):
             ticket.class_type = class_type
             ticket.priority = priority
             ticket.save()
+            
+            if user_project_role.user_role != "Developer":
+                assignee_id = form.cleaned_data["assignee"]
+                assigned_user = get_object_or_404(Profile, id=assignee_id)
+                ticket_assignee = get_object_or_404(TicketAssignee, ticket=ticket)
 
-            assignee_id = form.cleaned_data["assignee"]
-            assigned_user = get_object_or_404(Profile, id=assignee_id)
-            ticket_assignee = get_object_or_404(TicketAssignee, ticket=ticket)
-
-            if not ticket_assignee:
-                new_ticket_assignee = TicketAssignee.objects.create(user=assigned_user, ticket=ticket)
-            else:
-                ticket_assignee.user = assigned_user
-                ticket_assignee.save()
+                if not ticket_assignee:
+                    new_ticket_assignee = TicketAssignee.objects.create(user=assigned_user, ticket=ticket)
+                else:
+                    ticket_assignee.user = assigned_user
+                    ticket_assignee.save()
 
             return redirect('tickets_page')
     # Present empty form to user
     else:
-        user = request.user
-        user_profile = get_object_or_404(Profile, user=user)
-        user_project_role = ProjectRole.objects.filter(project=ticket.project).filter(user=user_profile).first()
         context['user_project_role'] = user_project_role
         context['ticket'] = ticket
-        context['form'] = TicketForm(initial={'title': ticket.title, 'description': ticket.description,
-                                              'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority, 'assignee': ticket_assignee.user.id})
+        form = TicketForm()
+
+        if user_project_role and user_project_role.user_role == "Developer":
+            form.fields['title'].widget.attrs['readonly'] = True
+            form.fields['description'].widget.attrs['readonly'] = True
+            form.fields['assignee'].widget.attrs['readonly'] = True
+
+        form.initial = {'title': ticket.title, 'description': ticket.description,
+                                              'status': ticket.status, 'class_type': ticket.class_type, 'priority': ticket.priority, 'assignee': ticket_assignee.user.id}
+
+        context['form'] = form
 
     return render(request, "tickets/edit_ticket.html", context)
 
