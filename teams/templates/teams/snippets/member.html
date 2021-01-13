@@ -12,8 +12,6 @@
 		</a>
 	</td>
 	<td>{{member.user.email}}</td>
-	<td>{{member.projectrole_set.all.count}}</td>
-	<td>{{member.ticketassignee_set.all.count}}</td>
 	<td>{% include 'teams/snippets/user_action.html' %}</td>
 </tr>
 {% include 'teams/snippets/send_mail.html' %}
