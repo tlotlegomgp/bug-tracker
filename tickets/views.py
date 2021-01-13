@@ -121,7 +121,7 @@ def edit_ticket_view(request, slug):
             ticket.priority = form.cleaned_data['priority']
             ticket.save()
             
-            if user_project_role.user_role != "Developer":
+            if user_project_role and user_project_role.user_role != "Developer" or user.is_admin:
                 assignee_id = form.cleaned_data["assignee"]
                 assigned_user = get_object_or_404(Profile, id=assignee_id)
                 ticket_assignee = get_object_or_404(TicketAssignee, ticket=ticket)
