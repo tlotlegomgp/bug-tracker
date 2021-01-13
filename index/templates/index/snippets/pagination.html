@@ -1,0 +1,35 @@
+<div class="row align-items-center" style="padding: 10px; margin-left: 15px; margin-right: 15px;">
+	<div class="col-md-6">
+		<p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite" style="margin-top: 5x;">
+			Showing {{pages.start_index}} to {{pages.end_index}} of {{pages.paginator.count}}
+		</p>
+	</div>
+	<div class="col-md-6">
+		<nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+			<ul class="pagination">
+				{% if pages.has_previous %}
+				<li class="page-item">
+					<a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page=1" aria-label="Previous"
+						><span aria-hidden="true">«</span></a
+					>
+				</li>
+				{% endif %} {% for i in pages.paginator.page_range %} {% if pages.number == i %}
+				<li class="page-item active"><a class="page-link">{{i}}</a></li>
+				{% else %}
+				<li class="page-item">
+					<a class="page-link" href="?{% if query %}q={{query}}&{% endif %}page={{i}}">{{i}}</a>
+				</li>
+				{% endif %} {% endfor %} {% if pages.has_next %}
+				<li class="page-item">
+					<a
+						class="page-link"
+						href="?{% if query %}q={{query}}&{% endif %}page={{pages.paginator.num_pages}}"
+						aria-label="Next"
+						><span aria-hidden="true">»</span></a
+					>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
+	</div>
+</div>
