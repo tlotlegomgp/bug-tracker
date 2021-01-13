@@ -45,7 +45,7 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include 'teams/snippets/pagination.html' %}
+		{% include "index/snippets/pagination.html" with pages=users %}
 		{% elif search %}
 		<div style="padding: 20px" class="text-center">
 			<p><strong>There were no results matching your search for, {{search}}.</strong></p>

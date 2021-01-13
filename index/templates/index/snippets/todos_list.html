@@ -19,7 +19,7 @@
 					<p><strong>Good job! You have no todos.</strong></p>
 				</div>
 			{% endfor %}
-			{% include "index/snippets/todos_pagination.html" %}
+			{% include "index/snippets/pagination.html" with pages=user_todos %}
 		</ul>
 		<div class="card-header py-2">
 			<div

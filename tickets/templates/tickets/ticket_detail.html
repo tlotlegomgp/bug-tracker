@@ -169,7 +169,7 @@
 						</table>
 					</div>
 					<div style="margin-left: 20px; margin-right: 20px">
-						{% include 'tickets/snippets/comments_pagination.html' with comments=ticket_comments %}
+						{% include "index/snippets/pagination.html" with pages=ticket_comments %}
 					</div>
 					{% else %}
 					<div style="padding-top: 20px" class="text-center">

@@ -113,17 +113,12 @@ def edit_ticket_view(request, slug):
     if request.method == "POST":
         form = TicketForm(request.POST)
         if form.is_valid():
-            title = form.cleaned_data["title"]
-            status = form.cleaned_data['status']
-            class_type = form.cleaned_data['class_type']
-            priority = form.cleaned_data['priority']
-            description = form.cleaned_data["description"]
-
-            ticket.title = title
-            ticket.description = description
-            ticket.status = status
-            ticket.class_type = class_type
-            ticket.priority = priority
+            
+            ticket.title = form.cleaned_data["title"]
+            ticket.description = form.cleaned_data["description"]
+            ticket.status = form.cleaned_data['status']
+            ticket.class_type = form.cleaned_data['class_type']
+            ticket.priority = form.cleaned_data['priority']
             ticket.save()
             
             if user_project_role.user_role != "Developer":

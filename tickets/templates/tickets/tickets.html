@@ -34,7 +34,7 @@
 				</tfoot>
 			</table>
 		</div>
-		{% include "tickets/snippets/pagination.html" with tickets=user_tickets %}
+		{% include "index/snippets/pagination.html" with pages=user_tickets %}
 		{% elif search %}
 		<div style="padding: 20px" class="text-center">
 			<p><strong>There were no results matching your search for, {{search}}.</strong></p>
