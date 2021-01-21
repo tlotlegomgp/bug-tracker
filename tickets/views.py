@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.exceptions import PermissionDenied
-from index.views import get_user_tickets
+from index.views import get_user_tickets, paginate_list
 from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
 from .forms import TicketForm, TicketCommentForm, TicketAttachmentForm
 
@@ -37,16 +37,8 @@ def tickets_view(request):
 
         tickets = results
 
-    page = request.GET.get('page', 1)
-    tickets_paginator = Paginator(tickets, TICKETS_PER_PAGE)
 
-    try:
-        tickets = tickets_paginator.page(page)
-    except PageNotAnInteger:
-        tickets = tickets_paginator.page(TICKETS_PER_PAGE)
-    except EmptyPage:
-        tickets = tickets_paginator.page(tickets.num_pages)
-    context['user_tickets'] = tickets
+    context['user_tickets'] = paginate_list(tickets, TICKETS_PER_PAGE, request)
     return render(request, "tickets/tickets.html", context)
 
 
@@ -184,17 +176,7 @@ def ticket_detail_view(request, slug):
 
         comments = TicketComment.objects.filter(ticket=ticket).order_by('-created_on')
 
-        page = request.GET.get('page', 1)
-        comments_paginator = Paginator(comments, COMMENTS_PER_PAGE)
-
-        try:
-            comments = comments_paginator.page(page)
-        except PageNotAnInteger:
-            comments = comments_paginator.page(COMMENTS_PER_PAGE)
-        except EmptyPage:
-            comments = comments_paginator.page(comments_paginator.num_pages)
-
-        context['ticket_comments'] = comments
+        context['ticket_comments'] = paginate_list(comments, COMMENTS_PER_PAGE, request)
         context['ticket_developer'] = get_object_or_404(TicketAssignee, ticket=ticket).user
         context['submitter'] = ticket.created_by
         context['manager'] = ProjectRole.objects.filter(project=ticket.project).filter(user_role="Project Manager").first().user

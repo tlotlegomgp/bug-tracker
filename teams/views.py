@@ -2,11 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import formset_factory
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.http import HttpResponseRedirect
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.exceptions import PermissionDenied
 from account.models import Profile
 from index.models import DirectMessage, Conversation
+from index.views import paginate_list
 from .forms import UserForm, MessageForm
 
 # Create your views here.
@@ -25,18 +26,7 @@ def team_view(request):
         results = users.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query)).distinct()
         users = results
 
-
-    page = request.GET.get('page', 1)
-    users_paginator = Paginator(users, USERS_PER_PAGE)
-
-    try:
-        users = users_paginator.page(page)
-    except PageNotAnInteger:
-        users = users_paginator.page(USERS_PER_PAGE)
-    except EmptyPage:
-        users = users_paginator.page(users_paginator.num_pages)
-
-    context['users'] = users
+    context['users'] = paginate_list(users, USERS_PER_PAGE, request)
     context['form'] = MessageForm()
     return render(request, "teams/team.html", context)
 

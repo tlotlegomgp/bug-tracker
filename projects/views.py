@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from account.models import Profile
+from index.views import paginate_list
 from .models import Project, ProjectRole
 from .forms import ProjectForm, ProjectRolesForm
 
@@ -63,18 +63,7 @@ def projects_view(request):
 
         projects = results
 
-
-    page = request.GET.get('page', 1)
-    projects_paginator = Paginator(projects, PROJECTS_PER_PAGE)
-
-    try:
-        projects = projects_paginator.page(page)
-    except PageNotAnInteger:
-        projects = projects_paginator.page(PROJECTS_PER_PAGE)
-    except EmptyPage:
-        projects = projects_paginator.page(projects_paginator.num_pages)
-
-    context['user_projects'] = projects
+    context['user_projects'] = paginate_list(projects, PROJECTS_PER_PAGE, request)
 
     return render(request, "projects/projects.html", context)
 
@@ -129,20 +118,11 @@ def project_detail_view(request, slug):
     context['user_project_role'] = user_project_role
 
     users = ProjectRole.objects.filter(project=project).exclude(user_role="Project Manager").order_by('user__first_name')
-    page = request.GET.get('page', 1)
-    users_paginator = Paginator(users, USERS_PER_PAGE)
-
-    try:
-        users = users_paginator.page(page)
-    except PageNotAnInteger:
-        users = users_paginator.page(USERS_PER_PAGE)
-    except EmptyPage:
-        users = users_paginator.page(users_paginator.num_pages)
+    context['user_roles'] = paginate_list(users, USERS_PER_PAGE, request)
 
     tickets = project.tickets.all().order_by('-created_on')
-
     context['tickets'] = tickets
-    context['user_roles'] = users
+
     context['manager_role'] = ProjectRole.objects.filter(project=project).filter(user_role="Project Manager").first()
 
     return render(request, "projects/project_detail.html", context)
@@ -180,17 +160,7 @@ def project_roles_view(request, slug):
         form = ProjectRolesForm()
         form.fields['members'].choices = form_member_choices
 
-        page = request.GET.get('page', 1)
-        users_paginator = Paginator(project_roles, 6)
-
-        try:
-            project_roles = users_paginator.page(page)
-        except PageNotAnInteger:
-            project_roles = users_paginator.page(USERS_PER_PAGE)
-        except EmptyPage:
-            project_roles = users_paginator.page(users_paginator.num_pages)
-
-        context['user_roles'] = project_roles
+        context['user_roles'] = paginate_list(project_roles, 6, request)
 
         context['form'] = form
 

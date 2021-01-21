@@ -90,6 +90,20 @@ def get_user_tickets(user_profile):
     return tickets
 
 
+def paginate_list(items, items_per_page, request):
+    page = request.GET.get('page', 1)
+    items_paginator = Paginator(items, items_per_page)
+
+    try:
+        items = items_paginator.page(page)
+    except PageNotAnInteger:
+        items = items_paginator.page(items_per_page)
+    except EmptyPage:
+        items = items_paginator.page(items_paginator.num_pages)
+
+    return items
+
+
 # Create your views here.
 @login_required(login_url='login_page')
 def index_view(request):
@@ -149,15 +163,8 @@ def index_view(request):
         context['todos_percentage'] = todos_percentage
 
         user_todos = Todo.objects.filter(created_by=user_profile).filter(status='SCH').order_by('-created_on')
-        page = request.GET.get('page', 1)
-        todos_paginator = Paginator(user_todos, 5)
 
-        try:
-            user_todos = todos_paginator.page(page)
-        except PageNotAnInteger:
-            user_todos = todos_paginator.page(5)
-        except EmptyPage:
-            user_todos = todos_paginator.page(todos_paginator.num_pages)
+        user_todos = paginate_list(user_todos, 5, request)
 
         context['user_todos'] = user_todos
 
