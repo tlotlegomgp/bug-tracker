@@ -103,7 +103,7 @@
 				<div class="card shadow mb-3">
 					<div class="card-header py-3">
 						<p class="text-primary m-0 font-weight-bold" style="color: rgb(28, 40, 38); float: left;">Tickets</p>
-						{% if user_project_role.user_role != "Developer" or request.user.is_admin %}
+						{% if user_project_role.user_role and user_project_role.user_role != "Developer" or request.user.is_admin %}
 						<a class="btn btn-sm" role="button"
 							href="{% url 'add_ticket' project.slug %}" 
 							style="background: rgb(28, 40, 38); float: right; color: aliceblue;">

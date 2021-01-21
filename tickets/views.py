@@ -4,7 +4,6 @@ from account.models import Profile
 from projects.models import Project, ProjectRole
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.core.exceptions import PermissionDenied
 from index.views import get_user_tickets, paginate_list
 from .models import Ticket, TicketAssignee, TicketComment, TicketAttachment
