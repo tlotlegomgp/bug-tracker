@@ -27,7 +27,7 @@ class RegisterForm(forms.Form):
 
 
 class UserProfileForm(forms.Form):
-    profile_picture = forms.ImageField(widget=forms.FileInput(attrs={'style': "border-color: rgb(28, 40, 38)"}), required=False)
+    profile_picture = forms.ImageField(widget=forms.FileInput(attrs={'style': "border-color: rgb(28, 40, 38)", 'onchange': 'readURL(this)'}), required=False)
     username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "username"}), required=False)
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "first_name"}), required=False)
     last_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class': profile_form, 'name': "last_name"}), required=False)

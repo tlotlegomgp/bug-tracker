@@ -13,7 +13,8 @@
 						src="{{profile.profile_picture.url}}"
 						width="160"
 						height="160"
-						alt="user profile"
+						alt="user profile" 
+						id="id_image_display"
 					/>
 					<div class="mb-3 text-truncate d-flex">
 						{{ form.profile_picture }}
@@ -103,4 +104,16 @@
 		</div>
 	</div>
 </form>
+
+<script type="text/javascript">
+	function readURL(input){
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#id_image_display')
+				.attr('src', e.target.result)
+		};
+		reader.readAsDataURL(input.files[0]);
+	};
+</script>
+
 {% endblock %}
