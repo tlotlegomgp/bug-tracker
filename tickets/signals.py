@@ -2,7 +2,7 @@ import random
 import string
 from django.shortcuts import get_object_or_404
 from index.models import Alert
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, post_delete
 from django.utils.text import slugify
 from .models import Ticket, TicketAssignee, TicketAttachment, TicketComment
 
@@ -50,7 +50,13 @@ def ticket_attachment_post_save_receiver(sender, instance, *args, **kwargs):
         alert = Alert.objects.create(user=alert_user, note=alert_message)
 
 
+def post_delete_ticket_attachment_receiver(sender, instance, **kwargs):
+    instance.attachment.delete(False)
+
+
+
 pre_save.connect(pre_save_ticket_receiver, sender=Ticket)
 post_save.connect(ticket_post_save_receiver, sender=TicketAssignee)
 post_save.connect(ticket_comment_post_save_receiver, sender=TicketComment)
 post_save.connect(ticket_attachment_post_save_receiver, sender=TicketAttachment)
+post_delete.connect(post_delete_ticket_attachment_receiver, sender=TicketAttachment)

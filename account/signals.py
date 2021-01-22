@@ -1,7 +1,7 @@
 import random
 import string
 from django.utils.text import slugify
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save, post_save, post_delete
 from index.models import Alert, Todo
 from .models import Profile
 
@@ -25,5 +25,10 @@ def post_save_profile_receiver(sender, instance, created, **kwargs):
         todo = Todo.objects.create(created_by=alert_user, note=todo_note)
 
 
+def post_delete_profile_receiver(sender, instance, **kwargs):
+    instance.profile_picture.delete(False)
+
+
 pre_save.connect(pre_save_profile_receiver, sender=Profile)
 post_save.connect(post_save_profile_receiver, sender=Profile)
+post_delete.connect(post_delete_profile_receiver, sender=Profile)
