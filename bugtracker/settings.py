@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import django_heroku
+import dj_database_url
+from decouple import config
 from pathlib import Path
 
 
@@ -24,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_APP_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG_VALUE', ' ') == 'False'
+DEBUG = os.environ.get('DEBUG_VALUE', ' ') == 'True'
 
 ALLOWED_HOSTS = ['liquid.herokuapp.com', '127.0.0.1']
 
@@ -32,6 +35,8 @@ ALLOWED_HOSTS = ['liquid.herokuapp.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'storages',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,8 +49,6 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'tickets.apps.TicketsConfig',
     'teams',
-
-    'storages',
 ]
 
 MIDDLEWARE = [
@@ -140,16 +143,21 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_BUGTRACKER_BUCKET_NAME')
 AWS_S3_FILE_OVERWRITE = False 
 AWS_DEFAULT_ACL = None
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-AWS_S3_OBJECT_PARAMETERS = {"CacheControl":"max-age=86400"}
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.af-south-1.amazonaws.com"
 AWS_S3_REGION_NAME = 'af-south-1'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_URL= f"'https://{AWS_STORAGE_BUCKET_NAME}.s3.af-south-1.amazonaws.com/'"
+AWS_URL= f"https://{AWS_STORAGE_BUCKET_NAME}.s3.af-south-1.amazonaws.com"
 
-STATIC_URL = AWS_URL + '/static/'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = AWS_URL + '/media/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATIC_ROOT = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Email Settings
@@ -165,3 +173,6 @@ EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Liquid Team <noreply@liquidteam.com>'
+
+
+django_heroku.settings(locals())
