@@ -9,8 +9,8 @@ A bug tracker web-app that keeps track of reported software bugs or issues in so
 * AWS
 * PostgreSQL
 * Python 3.8
-* PostreSQL
 * Bootstrap 4.5
+* Heroku
 
 ### How to run locally:
 
