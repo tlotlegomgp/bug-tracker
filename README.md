@@ -6,9 +6,11 @@ A bug tracker web-app that keeps track of reported software bugs or issues in so
 
 ### Tech Stack:
 * Django 3.1.4
-* Bootstrap 4.5
+* AWS
 * PostgreSQL
 * Python 3.8
+* PostreSQL
+* Bootstrap 4.5
 
 ### How to run locally:
 
