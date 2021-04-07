@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_APP_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG_VALUE', ' ') == 'True'
 
-ALLOWED_HOSTS = ['liquid.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['liquid-tracker.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -98,6 +98,7 @@ DATABASES = {
     }
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField' 
 
 
 # Password validation
