@@ -5,7 +5,7 @@ A bug tracker web-app that keeps track of reported software bugs or issues in so
 ![](/repoImages/Liquid.gif)
 
 ### Tech Stack:
-* Django 3.1.4
+* Django 3.2
 * AWS
 * PostgreSQL
 * Python 3.8
